@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="invoice_gen_wzd" model="ir.ui.view">
+            <field name="name">invoice.gen.wzd</field>
+            <field name="model">invoice.gen</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="date_from"/>
+                                <field name="date_to"/>
+                                <field name="scheduled_date"/>
+                            </group>
+                            <group>
+                                <field name="partner_id"/>
+                                <field name="type_gen"/>
+                                <field name="uf_rate"/>
+                            </group>
+                        </group>
+                    </sheet>
+                    <footer>
+                        <button name="generate_invoices" string="Generar" type="object" class="oe_highlight" groups=""/>
+                        <button string="Cancelar" class="btn-secondary" special="cancel"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+        <record id="action_invoice_gen" model="ir.actions.act_window">
+            <field name="name">Generación de Facturas</field>
+            <field name="res_model">invoice.gen</field>
+            <field name="view_mode">form</field>
+            <field name="target">new</field>
+        </record>
+
+        <menuitem id="wizard_invoice_gen" name="Generación de Facturas" parent="account.menu_finance_receivables"
+                action="action_invoice_gen" sequence="30"/>
+    </data>
+</odoo>
