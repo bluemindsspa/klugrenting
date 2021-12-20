@@ -1,0 +1,3 @@
+14.0.0.1 - (11-11-2020) => Change the method as per newr version.
+14.0.0.2==>fixed issue When we use the "Dropshipping" the analytic account and tag is not passed.
+14.0.0.3 ==> fix the issue which is generated while enable the Replenish on Order (MTO) field under product menu
