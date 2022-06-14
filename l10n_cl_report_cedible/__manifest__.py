@@ -7,7 +7,7 @@
     "website": "https://blueminds.cl",
     "license": "AGPL-3",
     "summary": "Reporte de Facturación Electrónica para Chile.",
-    "depends": ['account', 'l10n_cl'],
+    "depends": ['account', 'l10n_cl', 'l10n_cl_edi'],
     "data": [
         'views/report_account_move.xml',
         'views/layout.xml'

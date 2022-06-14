@@ -150,6 +150,22 @@
                                 </table>
                             </div>
                         </div>
+                        <div class="row">
+                            <div name="stamp" class="col-4 text-center">
+                                <t t-if="o.l10n_cl_sii_barcode">
+                                    <t t-set="barcode_stamp" t-value="o._pdf417_barcode(o.l10n_cl_sii_barcode)"/>
+                                    <t t-if="barcode_stamp">
+                                        <img class="img-fluid" t-attf-src="data:image/*;base64,{{barcode_stamp}}"/>
+                                        <p t-att-style="'color: %s;' % o.company_id.primary_color" class="text-center small">
+                                            Timbre Electrónico SII<br />
+                                            Resolución Nº: <span t-field="o.company_id.l10n_cl_dte_resolution_number"/>
+                                            de Fecha: <span t-field="o.company_id.l10n_cl_dte_resolution_date" t-field-options='{"widget": "date"}'/>
+                                            <span name="verification_url">Verifique documento en www.sii.cl</span>
+                                        </p>
+                                    </t>
+                                </t>
+                            </div>
+                        </div>
                     </div>
                     <div class="clearfix">
                         <div class="row" style="border: 1px solid black;height:20px;font-size:15px !important;">
