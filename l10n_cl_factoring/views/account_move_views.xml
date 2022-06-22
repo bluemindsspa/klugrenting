@@ -19,8 +19,8 @@
                                 <field name='l10n_cl_dte_file_factoring'/>
                             </group>
                             <group>
-                                <label for="l10n_cl_dte_status_factoring" attrs="{'invisible': ['|', '|', ('move_type', 'not in', ['out_invoice']), ('l10n_cl_journal_point_of_sale_type', '=', False), ('country_code', '!=', 'CL')]}"/>
-                                <div attrs="{'invisible': ['|', ('l10n_cl_journal_point_of_sale_type', '=', False), ('country_code', '!=', 'CL')]}">
+                                <label for="l10n_cl_dte_status_factoring" attrs="{'invisible': ['|', '|', ('move_type', 'not in', ['out_invoice']), ('l10n_latam_manual_document_number', '=', True), ('l10n_latam_use_documents', '=', False), ('country_code', '!=', 'CL')]}"/>
+                                <div attrs="{'invisible': ['|', ('l10n_latam_manual_document_number', '=', True), ('l10n_latam_use_documents', '=', False), ('country_code', '!=', 'CL')]}">
                                     <field name='l10n_cl_dte_status_factoring' class="oe_inline"/>
                                     <button name="l10n_cl_send_dte_cesion_to_sii" type="object" attrs="{'invisible': [('l10n_cl_dte_status_factoring', '!=', 'not_sent')]}" context="{'send_immediately': True}" string="⇒ Enviar ahora al SII" class="oe_inline oe_link" groups="base.group_user"/>
                                     <button name="l10n_cl_verify_cesion_dte_status" type="object" attrs="{'invisible': [('l10n_cl_dte_status_factoring', '!=', 'ask_for_status')]}" context="{'send_immediately': True}" string="⇒ Consultar Estado" class="oe_inline oe_link" groups="base.group_user"/>
