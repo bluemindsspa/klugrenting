@@ -1,6 +1,7 @@
 from odoo import fields, models, api, _
 import base64
 import logging
+from markupsafe import Markup
 from html import unescape
 from lxml import etree
 from odoo.addons.l10n_cl_edi.models.l10n_cl_edi_util import UnexpectedXMLResponse
@@ -107,7 +108,7 @@ class AccountMove(models.Model):
             'signed_dte': signed_dte,
             'stamp': self._get_cl_current_strftime()
         })
-        dte = unescape(dte.decode('utf-8')).replace(r'&', '&amp;')
+        # dte = unescape(dte.decode('utf-8')).replace(r'&', '&amp;')
         digital_signature = self.company_id._get_digital_signature(user_id=self.env.user.id)
         _logger.info('Validando y firmando DTE Cedido')
         signed_dte = self._sign_full_xml_cesion(
@@ -127,7 +128,7 @@ class AccountMove(models.Model):
             'amounts': self._l10n_cl_get_amounts(),
             'stamp': self._get_cl_current_strftime()
         })
-        dte = unescape(dte.decode('utf-8')).replace(r'&', '&amp;')
+        # dte = unescape(dte.decode('utf-8')).replace(r'&', '&amp;')
         digital_signature = self.company_id._get_digital_signature(user_id=self.env.user.id)
         _logger.info('Validando y firmando CESION')
         signed_dte = self._sign_full_xml_cesion(
@@ -156,7 +157,7 @@ class AccountMove(models.Model):
             'cesion_dte': cesion_dte,
             'stamp': self._get_cl_current_strftime()
         })
-        dte_cesion = unescape(dte_cesion.decode('utf-8')).replace(r'&', '&amp;')
+        # dte_cesion = unescape(dte_cesion.decode('utf-8')).replace(r'&', '&amp;')
         digital_signature = self.company_id._get_digital_signature(user_id=self.env.user.id)
         _logger.info('Validando XML AEC')
         dte_cesion = self._sign_full_xml(

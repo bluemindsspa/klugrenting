@@ -2,7 +2,7 @@
 <odoo>
     <data>
         <template id="factoring_document">
-            <DTECedido xmlns="http://www.sii.cl/SiiDte" version="1.0"   >
+            <DTECedido xmlns="http://www.sii.cl/SiiDte" version="1.0">
                 <DocumentoDTECedido t-att-ID="doc_id">
                     <t t-esc="signed_dte"/>
                     <TmstFirma t-esc="stamp"/>

@@ -27,7 +27,7 @@
 
     # always loaded
     'data': [
-        'templates/dte_factoring.xml',
+        'template/dte_factoring.xml',
         'views/account_move_views.xml'
     ],
     

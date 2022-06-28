@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+# Part of Odoo. See LICENSE file for full copyright and licensing details.
 import base64
 import logging
 import re
@@ -6,6 +8,7 @@ import collections
 import urllib3
 from werkzeug.urls import url_join
 import requests
+from markupsafe import Markup
 from functools import wraps
 from html import unescape
 from lxml import etree
@@ -103,7 +106,7 @@ class L10nClEdiUtilMixin(models.AbstractModel):
             return True
         xsd_fname = validation_types[validation_type]
         try:
-            return xml_utils._check_with_xsd(xml_to_validate, xsd_fname, self.env)
+            return xml_utils._check_with_xsd(xml_to_validate, xsd_fname, self.sudo().env)
         except FileNotFoundError:
             _logger.warning(
                 _('The XSD validation files from SII has not been found, please run manually the cron: "Download XSD"'))
@@ -124,7 +127,7 @@ class L10nClEdiUtilMixin(models.AbstractModel):
             'aec': '</AEC>'
         }
         tag = tag_to_replace.get(xml_type, '</EnvioBOLETA>')
-        return message.replace(tag, sign + tag)
+        return message.replace(tag, '%s%s' % (sign, tag))
 
     def _sign_full_xml_cesion(self, message, digital_signature, uri, xml_type, is_doc_type_voucher=False):
         """
@@ -133,31 +136,34 @@ class L10nClEdiUtilMixin(models.AbstractModel):
         """
         digest_value = re.sub(r'\n\s*$', '', message, flags=re.MULTILINE)
         digest_value_tree = etree.tostring(etree.fromstring(digest_value)[0])
-        signed_info = self.env.ref('l10n_cl_edi.signed_info_template')._render({
+        if xml_type in ['doc', 'recep', 'token']:
+            signed_info_template = self.env.ref('l10n_cl_edi.signed_info_template')
+        else:
+            signed_info_template = self.env.ref('l10n_cl_edi.signed_info_template_with_xsi')
+        signed_info = signed_info_template._render({
             'uri': '#{}'.format(uri),
             'digest_value': base64.b64encode(
-                self._get_sha1_digest(etree.tostring(etree.fromstring(digest_value_tree), method='c14n'))),
+                self._get_sha1_digest(etree.tostring(etree.fromstring(digest_value_tree), method='c14n'))).decode(),
         })
-        signed_info = self._add_signed_info_attr(signed_info, xml_type)
-        signed_info_c14n = etree.tostring(etree.fromstring(signed_info), method='c14n', exclusive=False,
-                                          with_comments=False, inclusive_ns_prefixes=None).decode('utf-8')
+        signed_info_c14n = Markup(etree.tostring(etree.fromstring(signed_info), method='c14n', exclusive=False,
+                                          with_comments=False, inclusive_ns_prefixes=None).decode())
         signature = self.env.ref('l10n_cl_edi.signature_template')._render({
-            'signed_info': etree.tostring(etree.fromstring(signed_info), method='c14n', exclusive=False,
-                                          with_comments=False, inclusive_ns_prefixes=None).decode('utf-8'),
+            'signed_info': signed_info_c14n,
             'signature_value': self._sign_message(
                 signed_info_c14n.encode('utf-8'), digital_signature.private_key.encode('ascii')),
             'modulus': digital_signature._get_private_key_modulus(),
             'exponent': digital_signature._get_private_key_exponent(),
             'certificate': '\n' + textwrap.fill(digital_signature.certificate, 64),
         })
-        # We use etree tostring and fromstring to replace the line break by \n in the certificate
-        signature = etree.tostring(etree.fromstring(unescape(signature.decode('utf-8'))))
         # The validation of the signature document
         self._xml_validator(signature, 'sig')
-        full_doc = self._l10n_cl_append_sig(xml_type, signature.decode('utf-8'), digest_value)
+        full_doc = self._l10n_cl_append_sig(xml_type, signature, digest_value)
         # The validation of the full document
-        #self._xml_validator(full_doc, xml_type, is_doc_type_voucher)
-        return full_doc
+        self._xml_validator(full_doc, xml_type, is_doc_type_voucher)
+        return '{header}{full_doc}'.format(
+            header='<?xml version="1.0" encoding="ISO-8859-1" ?>' if xml_type != 'token' else '<?xml version="1.0" ?>',
+            full_doc=full_doc
+        )
 
     def _send_xml_cesion_to_sii(self, mode, company_website, company_vat, file_name, xml_message, digital_signature,
                          post='/cgi_rtc/RTC/RTCAnotEnvio.cgi'):
