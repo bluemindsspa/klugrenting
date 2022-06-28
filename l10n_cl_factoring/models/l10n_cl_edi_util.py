@@ -135,6 +135,7 @@ class L10nClEdiUtilMixin(models.AbstractModel):
         http://www.sii.cl/factura_electronica/factura_mercado/instructivo_emision.pdf
         """
         digest_value = re.sub(r'\n\s*$', '', message, flags=re.MULTILINE)
+        digest_value =  digest_value.replace('&lt;', '<').replace('&gt;', '>').replace('&#34;', '"') if '&lt;' in digest_value and '&gt;' in digest_value and '&#34' in digest_value else digest_value
         digest_value_tree = etree.tostring(etree.fromstring(digest_value)[0])
         if xml_type in ['doc', 'recep', 'token']:
             signed_info_template = self.env.ref('l10n_cl_edi.signed_info_template')
@@ -159,9 +160,9 @@ class L10nClEdiUtilMixin(models.AbstractModel):
         self._xml_validator(signature, 'sig')
         full_doc = self._l10n_cl_append_sig(xml_type, signature, digest_value)
         # The validation of the full document
-        self._xml_validator(full_doc, xml_type, is_doc_type_voucher)
+        # self._xml_validator(full_doc, xml_type, is_doc_type_voucher)
         return '{header}{full_doc}'.format(
-            header='<?xml version="1.0" encoding="ISO-8859-1" ?>' if xml_type != 'token' else '<?xml version="1.0" ?>',
+            header='<?xml version="1.0" encoding="ISO-8859-1" ?>' if xml_type == 'aec' else '',
             full_doc=full_doc
         )
 
