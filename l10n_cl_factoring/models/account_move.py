@@ -108,7 +108,6 @@ class AccountMove(models.Model):
             'signed_dte': signed_dte,
             'stamp': self._get_cl_current_strftime()
         })
-        # dte = unescape(dte.decode('utf-8')).replace(r'&', '&amp;')
         digital_signature = self.company_id._get_digital_signature(user_id=self.env.user.id)
         _logger.info('Validando y firmando DTE Cedido')
         signed_dte = self._sign_full_xml_cesion(
@@ -128,7 +127,6 @@ class AccountMove(models.Model):
             'amounts': self._l10n_cl_get_amounts(),
             'stamp': self._get_cl_current_strftime()
         })
-        # dte = unescape(dte.decode('utf-8')).replace(r'&', '&amp;')
         digital_signature = self.company_id._get_digital_signature(user_id=self.env.user.id)
         _logger.info('Validando y firmando CESION')
         signed_dte = self._sign_full_xml_cesion(
@@ -157,10 +155,9 @@ class AccountMove(models.Model):
             'cesion_dte': cesion_dte,
             'stamp': self._get_cl_current_strftime()
         })
-        # dte_cesion = unescape(dte_cesion.decode('utf-8')).replace(r'&', '&amp;')
         digital_signature = self.company_id._get_digital_signature(user_id=self.env.user.id)
         _logger.info('Validando XML AEC')
-        dte_cesion = self._sign_full_xml(
+        dte_cesion = self._sign_full_xml_cesion(
             dte_cesion, digital_signature, doc_id_number, 'aec', self.l10n_latam_document_type_id._is_doc_type_voucher())
         dte_attachment = self.env['ir.attachment'].create({
             'name': 'CES_{}_{}.xml'.format(self.l10n_latam_document_type_id.code, self.l10n_latam_document_number),
