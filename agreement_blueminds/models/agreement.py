@@ -1114,8 +1114,9 @@ class Agreement(models.Model):
             order_line = self.env['sale.order.line'].create(order_line)
             # Nota de Cobro
             init_anterior = self.inicio_fecha_alquiler - relativedelta(months=1)
-            end_anterior = self.fin_fecha_alquiler - relativedelta(months=1)
-            end_anterior = 0
+            ultimo_de_mes = calendar.monthrange(init_anterior.year, init_anterior.month)
+            end_anterior = str(init_anterior.year) + '-' + str(init_anterior.month).zfill(2) + '-' + str(ultimo_de_mes[1])
+            km_end_anterior = 0
             promedio_km = 0
             co2_e = 0
             co2_a = 0
@@ -1123,31 +1124,31 @@ class Agreement(models.Model):
                         ('vehicle_id', '=', vehicle.id),
                         ('date', '>=', init_anterior),
                         ('date', '<=', end_anterior),
-                        ('tags_ids', 'in', [2])])
+                        ('tag_ids', 'in', [2])], order='id asc')
             if odometer_anterior:
                 end = odometer_anterior[0].value
                 for mes in odometer_mes:
-                    end_anterior =abs(end - mes.value)
+                    km_end_anterior =abs(end - mes.value)
             odometer_mes = self.env['fleet.vehicle.odometer'].sudo().search([
                 ('vehicle_id', '=', vehicle.id),
                 ('date', '>=', self.inicio_fecha_alquiler),
                 ('date', '<=', self.fin_fecha_alquiler),
-                ('tags_ids', 'in', [2])])
+                ('tag_ids', 'in', [2])], order='id asc')
             if odometer_mes:
                 init = odometer_mes[0].value
                 for mes in odometer_mes:
                     total_kms =abs(init - mes.value)
                 if total_kms > 0:
                     promedio_km = total_kms / (float(line.place_contract) - 1)
-            if vehicle.co2 > 0 and end_anterior > 0:
-                co2_e = float(vehicle.co2) * end_anterior / 1000
+            if vehicle.co2 > 0 and km_end_anterior > 0:
+                co2_e = float(vehicle.co2) * km_end_anterior / 1000
             if vehicle.co2 > 0 and total_kms > 0:
                 co2_a = total_kms * float(vehicle.co2) / 1000
             nota_line = {
                 'order_id': order.id,
                 'name': line.product_principal.id,
                 'code': line.product_principal.patente,
-                'km_anterior': end_anterior,
+                'km_anterior': km_end_anterior,
                 'km_acum': total_kms,
                 'km_mes': promedio_km,
                 'mes_contract': int(line.place_contract) -1,
@@ -1161,13 +1162,13 @@ class Agreement(models.Model):
                 ('vehicle_id', '=', vehicle.id),
                 ('date', '>=', self.inicio_fecha_alquiler),
                 ('date', '<=', self.fin_fecha_alquiler),
-                ('tags_ids', 'in', [1])])
+                ('tag_ids', 'in', [1])])
             for detalle in odometer_det:
                 nota_line = {
                     'order_id': order.id,
                     'name': line.product_principal.id,
                     'date': detalle.date,
-                    'concesion': detalle.consession,
+                    'concesion': detalle.concession,
                     'description': detalle.description,
                     'category': detalle.category,
                     #'km': 1,
@@ -1179,49 +1180,52 @@ class Agreement(models.Model):
             if total_kms > line.km_mes:
                 total = total_kms - line.km_mes
                 total = total * line.price_km_adi
-            kms_line = {
-                'order_id': order.id,
-                'product_id': line.product_id.id,
-                'name': "KM'S Extra " + str(line.product_principal.patente) + " '" + str(month) + "' " + str(
-                    line.price_km_adi) + str(line.currency_id_km) + "por kilometro adicional " + str(
-                    total_kms) + "KM sobre" + str(
-                    line.km_mes),
-                'price_unit': total,
-                'tax_id': [self.tax_id.id],
-            }
-            self.env['sale.order.line'].create(kms_line)
+            if total > 0:
+                kms_line = {
+                    'order_id': order.id,
+                    'product_id': line.product_id.id,
+                    'name': "KM'S Extra " + str(line.product_principal.patente) + " '" + str(month) + "' " + str(
+                        line.price_km_adi) + str(line.currency_id_km.symbol) + " por kilometro adicional " + str(
+                        total_kms) + "KM sobre " + str(
+                        line.km_mes),
+                    'price_unit': total,
+                    'tax_id': [self.tax_id.id],
+                }
+                self.env['sale.order.line'].create(kms_line)
             # tags
             odometer_tag = self.env['fleet.vehicle.odometer'].sudo().search([
                 ('vehicle_id', '=', vehicle.id),
                 ('date', '>=', self.inicio_fecha_alquiler),
                 ('date', '<=', self.fin_fecha_alquiler),
-                ('tags_ids', 'in', [1])])
-            for tag in odometer_tag:
-                total_tags = float(total_tags) + float(tag.amount)
-            tags_line = {
-                'order_id': order.id,
-                'product_id': line.product_id.id,
-                'name': 'TAG ' + str(month) + ' ' + str(line.product_principal.patente),
-                'price_unit': total_tags,
-                'tax_id': [self.tax_id.id],
-            }
-            self.env['sale.order.line'].create(tags_line)
+                ('tag_ids', 'in', [1])])
+            if odometer_tag:
+                for tag in odometer_tag:
+                    total_tags = float(total_tags) + float(tag.amount)
+                tags_line = {
+                    'order_id': order.id,
+                    'product_id': line.product_id.id,
+                    'name': 'TAG ' + str(month) + ' ' + str(line.product_principal.patente),
+                    'price_unit': total_tags,
+                    'tax_id': [self.tax_id.id],
+                }
+                self.env['sale.order.line'].create(tags_line)
             # multas
             odometer_multas = self.env['fleet.vehicle.odometer'].sudo().search([
                 ('vehicle_id', '=', vehicle.id),
                 ('date', '>=', self.inicio_fecha_alquiler),
                 ('date', '<=', self.fin_fecha_alquiler),
-                ('tags_ids', 'in', [7])])
-            for multa in odometer_multas:
-                total_multas = float(total_multas) + float(multa.amount)
-            multas_line = {
-                'order_id': order.id,
-                'product_id': line.product_id.id,
-                'name': 'Multas ' + str(month) + ' ' + str(line.product_principal.patente),
-                'price_unit': total_multas,
-                'tax_id': [self.tax_id.id],
-            }
-            self.env['sale.order.line'].create(multas_line)
+                ('tag_ids', 'in', [7])])
+            if odometer_multas:
+                for multa in odometer_multas:
+                    total_multas = float(total_multas) + float(multa.amount)
+                multas_line = {
+                    'order_id': order.id,
+                    'product_id': line.product_id.id,
+                    'name': 'Multas ' + str(month) + ' ' + str(line.product_principal.patente),
+                    'price_unit': total_multas,
+                    'tax_id': [self.tax_id.id],
+                }
+                self.env['sale.order.line'].create(multas_line)
         return True
 
     def orden_compra(self):

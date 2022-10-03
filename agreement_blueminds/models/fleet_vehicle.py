@@ -28,15 +28,16 @@ class FleetVehicle(models.Model):
 
     @api.onchange('product_id')
     def onchange_product_id(self):
-        self.marca = self.product_id.marca
-        self.modelo = self.product_id.modelo
-        self.chasis = self.product_id.chasis
-        self.motor = self.product_id.motor
-        self.cilindrada = self.product_id.cilindrada
-        self.anio = self.product_id.anio
-        self.transmision = self.product_id.transmision
-        self.color_kg = self.product_id.color_kg
-        self.combustible = self.product_id.combustible
-        self.tipo_vehiculo = self.product_id.tipo_vehiculo
-        self.patente = self.product_id.patente
-        self.license_plate = self.product_id.patente
+        if self.product_id:
+            self.marca = self.product_id.marca
+            self.modelo = self.product_id.modelo
+            self.chasis = self.product_id.chasis
+            self.motor = self.product_id.motor
+            self.cilindrada = self.product_id.cilindrada
+            self.anio = self.product_id.anio
+            self.transmision = self.product_id.transmision
+            self.color_kg = self.product_id.color_kg
+            self.combustible = self.product_id.combustible
+            self.tipo_vehiculo = self.product_id.tipo_vehiculo
+            self.patente = self.product_id.patente
+            self.license_plate = self.product_id.patente

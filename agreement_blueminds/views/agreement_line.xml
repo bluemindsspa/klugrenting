@@ -49,7 +49,7 @@
                     </group>
                     <group name="right">
                         <field name="place_contract"/>
-                        <field name="fecha_cobro"/>
+                        <field name="fecha_cobro" invisible="1"/>
                         <label for="price"/>
                         <div class="o_row">
                             <field name="price" style="width: 50%%"/>
