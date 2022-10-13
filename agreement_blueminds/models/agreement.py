@@ -19,7 +19,7 @@ _logger = logging.getLogger(__name__)
 class Agreement(models.Model):
     _name = 'agreement'
     _description = 'Agreement'
-    _inherit = ["mail.thread", "mail.activity.mixin"]
+    _inherit = ["mail.thread", "mail.activity.mixin", "mail.render.mixin"]
     _AGREEMENT_FIELDS = ['content', 'dynamic_content']
 
     def _get_default_parties(self):
@@ -585,10 +585,11 @@ class Agreement(models.Model):
     title = fields.Char(
         string="Title",
         help="The title is displayed on the PDF." "The name is not.")
-    content = fields.Html(string="Content")
+    content = fields.Html(string="Content", render_engine='qweb', translate=True, sanitize=False)
     dynamic_content = fields.Html(
-        #compute="_compute_dynamic_content",
+        compute='_compute_dynamic_content',
         string="Dynamic Content",
+        sanitize=False,
         help="compute dynamic Content")
     company_signed_user_dos_id = fields.Many2one(
         "res.users",

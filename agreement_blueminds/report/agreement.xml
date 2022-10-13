@@ -39,7 +39,7 @@
                 <t t-foreach="docs" t-as="doc">
                     <t t-call="web.basic_layout">
                         <div class="page">
-                            <p t-field="doc.content"/>
+                            <p t-field="doc.dynamic_content"/>
                         </div>
                     </t>
                 </t>

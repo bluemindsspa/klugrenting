@@ -134,10 +134,10 @@
                         <button name="%(agreement_blueminds.partner_agreement_contract_document_preview)d" string="Vista Anticipada" type="action" class="oe_highlight"/>
                             <button name="%(partner_agreement_contract_document)d" string="Imprimir" type="action" class="oe_highlight"/>
                         <field name="content" widget="html" class="oe-bordered-editor" options="{'style-inline': true, 'codeview': true }"/>
-                        <field name="dynamic_content" invisible="1" widget="html" nolabel="1" options="{&quot;safe&quot;: True}"/>
+                        <field name="dynamic_content" invisible="0" widget="html" nolabel="1" options="{&quot;safe&quot;: True}"/>
                         <group class="oe_edit_only" invisible="1">
                             <field name="field_domain" widget="domain" nolabel="1"
-                                   options="{'model': 'agreement.recital'}" />
+                                   options="{'model': 'agreement'}" />
                             <group>
                                 <field name="default_value"/>
                                 <field name="copyvalue"/>
