@@ -32,9 +32,23 @@
                     </header>
                 </div>
 				<div class="page">
+                    <div class="row">
+                        <div class="col-8" style="font-size:18px;">
+                            <strong>ORDEN DE TRABAJO # <span t-field="o.car_repair_id.sequence" /></strong> 
+                         </div>
+                    </div>
+                    <br/>
                    <div class="row">
-                    <div class="col-8" style="font-size:18px;">
-                       <strong>ORDEN DE TRABAJO # <span t-field="o.car_repair_id.sequence" /></strong> 
+                    <div class="col-8" >
+                       <strong>Cliente</strong>
+                       <br/>
+                       Empresa: <span t-field="o.car_repair_id.partner_id.name" />
+                       <br/>
+                       RUT: <span t-field="o.car_repair_id.partner_id.vat" />
+                       <br/>
+                       Telefono: <span t-field="o.car_repair_id.partner_id.phone0" />
+                       <br/>
+                       Direccion: <span t-field="o.car_repair_id.partner_id.street" />
                     </div>
                     <div class="col-4">
                         <strong>
@@ -47,10 +61,90 @@
                         <br/>
                         Color: <span t-field="o.car_repair_id.color" />
                         <br/>
-                        Kilometraje: 
+                        Kilometraje: <span t-field="o.car_repair_id.fleet_id.odometer" />
 
 
                     </div>
+                   </div>
+                   <br/>
+                   <div class="row">
+                    <div class="col-8">
+                        <strong>Falla:</strong> <span t-field="o.car_repair_id.problem" />
+                        <br/>
+                        <strong>Estado:</strong> <span t-field="o.car_repair_id.damage" />
+
+                    </div>
+                    <div class="col-4"></div>
+                   </div>
+                   <br/>
+                   <br/>
+                   <div class="row">
+                    <table class="table">
+                        <thead class="thead-light">
+                        <tr>
+                            <th>
+                                Mano de obra
+                            </th>
+                            <th>
+                                Cantidad
+                            </th>
+                            <th>
+                                Valor
+                            </th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                            <t t-foreach="o.timesheet_ids" t-as="line">
+                                <tr>
+                                    <td>
+                                        <span t-field="line.name"/>
+                                    </td>
+                                    <td>
+                                        <span t-field="line.unit_amount"/> Hrs
+                                    </td>
+                                    <td>
+                                       $ <span t-field="line.total_cost"/>
+                                    </td>
+                                </tr>
+
+                            </t>
+                            
+                        </tbody>
+                    </table>
+                </div>
+                <div class="row">
+                    <table class="table">
+                        <thead class="thead-light">
+                        <tr>
+                            <th>
+                                Productos o repuestos
+                            </th>
+                            <th>
+                                Cantidad
+                            </th>
+                            <th>
+                                Valor
+                            </th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                            <t t-foreach="o.car_repair_estimation_ids" t-as="lines">
+                                <tr>
+                                    <td>
+                                        <span t-field="lines.product_id.name"/>
+                                    </td>
+                                    <td>
+                                        <span t-field="lines.quantity"/>
+                                    </td>
+                                    <td>
+                                       $ <span t-field="lines.price"/>
+                                    </td>
+                                </tr>
+
+                            </t>
+                            
+                        </tbody>
+                    </table>
                    </div>
                 </div>
             </t>
