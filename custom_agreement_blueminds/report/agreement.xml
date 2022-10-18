@@ -388,6 +388,37 @@
                         <strong>Personería: </strong>La personería de don MARCELO STADE TORAL para actuar en nombre y representación de KLUG SpA consta en Certificado de Estatuto Actualizado extendido por el Registro de Empresas y Sociedad del Ministerio de Economía, Fomento y Turismo de fecha 2 de Diciembre de 2019
 
                     </div>
+                    <br/>
+                    <br/>
+                    <br/>
+                    <br/>
+                    <div class="firma" style="text-align:justify; font-size:20px;">
+                        <div class="texto_firma" style="border-bottom: 1px solid #000; width:300px;">
+
+                        </div>
+                        <br/>
+                        <p style="font-weight: bold;">
+                            Marcelo Stade Toral<br/>
+                            KLUG SPA
+                        </p>
+
+                    </div>
+                    <br/>
+                    <br/>
+                    <br/>
+                    <br/>
+                    <div class="firmados" style="text-align:justify; font-size:20px;">
+                        <div class="texto_firmados" style="border-bottom: 1px solid #000; width:300px;">
+
+                        </div>
+                        <br/>
+                        <p style="font-weight: bold;">
+                            <span t-esc="doc.partner_id.name" /><br/>
+                            RUT. <span t-esc="doc.partner_id.vat" />
+                        </p>
+
+                    </div>
+
 
 
                 </t>

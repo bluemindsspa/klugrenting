@@ -11,7 +11,8 @@
         'bi_car_repair_management', 'account'
     ],
     'data': [
-        'views/car_management_view.xml'
+        'views/car_management_view.xml',
+        'report/car_diagnosys.xml'
     ],
     'auto_install': False,
     'application': False,
