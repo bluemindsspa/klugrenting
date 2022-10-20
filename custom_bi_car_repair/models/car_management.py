@@ -17,6 +17,12 @@ class InhAccountMove(models.Model):
 class InhCarDiagnosys(models.Model):
     _inherit = 'car.diagnosys'
 
+    
+    license_plate = fields.Char(string='License Plate')
+    fleet = fields.Many2one('fleet.vehicle',string='Flota')
+    brand = fields.Many2one('fleet.vehicle.model.brand', string='Marca')
+    model = fields.Many2one('fleet.vehicle.model', string='Modelo')
+    sale_order_id = fields.Many2one('sale.order')
     account_move_id = fields.Many2one('account.move')
     account_count = fields.Float(
         compute='_get_account_count', string="Quotation")
