@@ -23,6 +23,14 @@
                     <attribute name="readonly">0</attribute>
                 </xpath>
 
+                <xpath expr="//field[@name='timesheet_ids']/tree/field[@name='type_id']" position="attributes">
+                    <attribute name="required">0</attribute>
+                </xpath>
+                <xpath expr="//field[@name='timesheet_ids']/tree/field[@name='type_id']" position="attributes">
+                    <attribute name="required">0</attribute>
+                </xpath>
+
+
                 <xpath expr="//field[@name='deadline_date']" position="after">
                     <field name="sale_order_id" string="Origen"/>
                     

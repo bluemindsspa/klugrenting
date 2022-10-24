@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <data>
+        <record id="maintenance_request_inh_view" model="ir.ui.view">
+            <field name="name">maintenance.request.inh.view</field>
+            <field name="model">maintenance.request</field>
+            <field name="inherit_id" ref="maintenance.hr_equipment_request_view_form" />
+            <field name="arch" type="xml">
+                <xpath expr="//button[@name='archive_equipment_request']" position="after">
+                    <button string="Crear Factura" name="create_account" type="object" class="btn-primary" />
+                    <button name="consume_car_parts" string="Generar Albaran" type="object" class="btn-primary" />
+                </xpath>
+                <xpath expr="//field[@name='kanban_state']" position="before">
+
+                    <button type="object" name="account_move_button" class="oe_stat_button" icon="fa-usd" attrs="{'invisible': [('account_count', '=', 0)]}">
+                        <field name="account_count" widget="statinfo" string="Invoice" />
+                    </button>
+                    <button type="object" name="picking_button" class="oe_stat_button" icon="fa-truck" attrs="{'invisible': [('picking_count', '=', 0)]}" groups="base.group_user">
+                        <field name="picking_count" widget="statinfo" string="Picking" />
+                    </button>
+
+
+                </xpath>
+                <xpath expr="//field[@name='company_id']" position="after">
+                    <field name="sale_order_id" string="Origen" />
+
+                </xpath>
+                <xpath expr="//field[@name='description']" position="attributes">
+                    <attribute name="string">Falla</attribute>
+                </xpath>
+                <xpath expr="//sheet" position="inside">
+                    <notebook>
+                        <page string="Datos de auto" name="data_auto">
+                            <group>
+                                <group>
+                                    <field name="fleet" />
+                                    <field name="brand" />
+                                    <field name="model" />
+                                    <field name="license_plate" />
+                                    <field name="year" />
+                                    <field name="color" />
+                                    <field name="odometer" />
+
+                                </group>
+                                <group>
+                                    <field name="image_brand" widget="image" />
+                                </group>
+                            </group>
+                        </page>
+                        <page string="Servicios" name="services">
+                            <field name="maintenance_line_services" mode="tree,kanban">
+                                <tree string="Servicios" editable="bottom">
+                                    <field name="product_id" />
+                                    <field name="description" />
+                                    <field name="price" />
+                                    <field name="quantity" />
+
+                                </tree>
+                            </field>
+
+                        </page>
+                        <page string="Insumos" name="supplies">
+                            <field name="maintenance_line_products" mode="tree,kanban">
+                                <tree string="Insumos" editable="bottom">
+                                    <field name="product_id" />
+                                    <field name="description" />
+                                    <field name="price" />
+                                    <field name="quantity" />
+                                </tree>
+                            </field>
+
+
+                        </page>
+                        <page string="observaciones" name="data_check">
+                            <group>
+                                <group>
+                                    <field name="observations" widget="html" />
+
+
+                                </group>
+                                <group>
+                                    <group>
+                                        <field name="image_one" widget="image" />
+                                        <field name="image_two" widget="image" />
+                                        <field name="image_tree" widget="image" />
+                                        <field name="image_four" widget="image" />
+                                        <field name="image_five" widget="image" />
+                                    </group>
+
+                                </group>
+                            </group>
+                        </page>
+                    </notebook>
+                </xpath>
+
+
+            </field>
+        </record>
+
+
+    </data>
+
+
+</odoo>

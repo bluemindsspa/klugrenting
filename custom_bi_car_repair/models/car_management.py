@@ -17,7 +17,7 @@ class InhAccountMove(models.Model):
 class InhCarDiagnosys(models.Model):
     _inherit = 'car.diagnosys'
 
-    
+    timesheet_ids = fields.One2many('account.analytic.line','car_repair_timesheet_id',string="Timesheet")
     license_plate = fields.Char(string='License Plate')
     fleet = fields.Many2one('fleet.vehicle',string='Flota')
     brand = fields.Many2one('fleet.vehicle.model.brand', string='Marca')

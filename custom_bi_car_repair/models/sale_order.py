@@ -24,6 +24,13 @@ class InhSaleOrder(models.Model):
         compute='_get_worker_order_count', string="worker order")
     
     
+    @api.depends('type_sale')
+    def _compute_type_sale(self):
+        pricelist_ids = self.envp['product.pricelist'].search(['name', '=', 'Tarifa Pesos'], limit=1)
+        for record in self:
+            if record.type_sale == 'service_sale_order':
+                record.pricelist_id = pricelist_ids.id
+    
     def worker_order_button(self):
         self.ensure_one()
 
@@ -31,32 +38,56 @@ class InhSaleOrder(models.Model):
             'name': 'Sale order OT',
             'type': 'ir.actions.act_window',
             'view_mode': 'tree,form',
-            'res_model': 'car.diagnosys',
+            'res_model': 'maintenance.request',
             'domain': [('sale_order_id', '=', self.id)],
         }
     
     def _get_worker_order_count(self):
         for sale in self:
-            worker_ids = self.env['car.diagnosys'].search(
+            worker_ids = self.env['maintenance.request'].search(
                 [('sale_order_id', '=', sale.id)])
             sale.worker_order_count = len(worker_ids)
     
     def create_worker_order(self):
-        
+        maintenance_team = self.env['maintenance.team'].search(
+                [('name', '=', 'Servicio Tecnico a terceros')])
         sale_obj = self.env['sale.order'].browse(self.ids[0])
+        for record in sale_obj.order_line:
+            if record.product_id.detailed_type == 'service':
+                vals_services = {
+                    'product_id': record.product_id.id,
+                    'description': record.name,
+                    'price': record.price_unit,
+                    'quantity': record.product_uom_qty,
+                             }
+        
+                
+            if record.product_id.detailed_type == 'product':
+                 vals_products = {
+                    'product_id': record.product_id.id,
+                    'description': record.name,
+                    'price': record.price_unit,
+                    'quantity': record.product_uom_qty,
+                             }
         
         vals = {
             'name': sale_obj.name,
+            'maintenance_team_id': maintenance_team.id ,
             'partner_id': sale_obj.partner_id.id,
             'sale_order_id': sale_obj.id,
             'brand': sale_obj.brand.id,
             'model': sale_obj.model.id,
             'license_plate': sale_obj.license_plate,
-            'assigned_to': sale_obj.responsible_id.id,
+            'user_id': sale_obj.responsible_id.id,
             
             
-        }    
+        }
         
-        car_diagnosys = self.env['car.diagnosys'].create(vals)
+        
+        
+        
+        maintenance_id = self.env['maintenance.request'].create(vals)
+        maintenance_id.write({'maintenance_line_services': [(0, 0, vals_services)]})
+        maintenance_id.write({'maintenance_line_products': [(0, 0, vals_products)]})
         return True
     
