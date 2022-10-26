@@ -33,8 +33,13 @@
                 </div>
 				<div class="page">
                     <div class="row">
+                        <div class="col-6">
+                            <img t-if="o.company_id.logo" t-att-src="image_data_uri(o.company_id.logo)" style="max-height: 45px;" alt="Logo" />
+                        </div>
+                    </div>
+                    <div class="row">
                         <div class="col-8" style="font-size:18px;">
-                            <strong>ORDEN DE TRABAJO # <span t-field="o.name" /></strong> 
+                            <strong>LIQUIDACION ORDEN DE TRABAJO # <span t-field="o.name" /></strong> 
                          </div>
                     </div>
                     <br/>
@@ -65,6 +70,9 @@
                         <t t-if="o.odometer">
                             Kilometraje: <span t-field="o.odometer" />
                         </t>
+                        <br/>
+                        Fecha Solicitud<span t-field="o.request_date" />
+                        Fecha liquidación<span t-field="o.close_date" />
                         
 
 
@@ -74,10 +82,10 @@
                    <div class="row">
                     <div class="col-12">
                         <i class="fa fa-wrench" aria-hidden="true"></i>
-                        <strong>Falla:</strong> <span t-field="o.description" />
+                        <strong>Diagnóstico:</strong> <span t-field="o.description" />
                         <br/>
                         <i class="fa fa-heartbeat" aria-hidden="true"></i>
-                        <strong>Estado vehiculo:</strong> <span t-raw="o.observations"/>
+                        <strong>Observaciones:</strong> <span t-raw="o.observations"/>
 
                     </div>
                     

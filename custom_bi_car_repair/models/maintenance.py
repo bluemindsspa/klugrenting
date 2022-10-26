@@ -52,6 +52,14 @@ class InhMaintenance(models.Model):
     total_tax = fields.Float(string='Impuestos')
     total_tax_incluide = fields.Float(string='Total incluido')
     
+    
+    
+    # @api.onchange('stage_id')
+    # def _onchange_date_done(self):
+    #     if self.stage_id.name == 'Terminado':
+    #         self.date_done = datetime.now()
+        
+    
     @api.onchange('total_price_services', 'total_price_products')
     def _onchange_total_neto(self):
         for record in self:

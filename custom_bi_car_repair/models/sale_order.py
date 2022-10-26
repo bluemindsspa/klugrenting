@@ -16,6 +16,7 @@ class InhSaleOrder(models.Model):
     
     responsible_id = fields.Many2one('res.users', string='Responsable')
     type_sale = fields.Selection([('normal_sale_order', 'Presupuesto Estandar'),('service_sale_order', 'Presupuesto Servicio')], string="Tipo de presupuesto", default="normal_sale_order")
+    company_name = fields.Char(string='nombre compania', related="company_id.name")
     fleet = fields.Many2one('fleet.vehicle',string='Flota')
     brand = fields.Many2one('fleet.vehicle.model.brand', string='Marca')
     model = fields.Many2one('fleet.vehicle.model', string='Modelo')
