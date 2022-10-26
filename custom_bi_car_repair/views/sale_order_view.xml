@@ -15,13 +15,23 @@
                         <field name="worker_order_count" widget="statinfo" string="Orden trabajo" />
                     </button>
                 </xpath>
-                
-
+                <xpath expr="//field[@name='sale_order_template_id']" position="attributes">
+                    <attribute name="attrs">{'invisible': [('type_sale', '!=', 'normal_sale_order')]}</attribute>
+                </xpath>
+                <xpath expr="//field[@name='partner_invoice_id']" position="attributes">
+                    <attribute name="attrs">{'invisible': [('type_sale', '!=', 'normal_sale_order')]}</attribute>
+                </xpath>
+                <xpath expr="//field[@name='partner_shipping_id']" position="attributes">
+                    <attribute name="attrs">{'invisible': [('type_sale', '!=', 'normal_sale_order')]}</attribute>
+                </xpath>
+                <xpath expr="//page[@name='nota_cobro']" position="attributes">
+                    <attribute name="attrs">{'invisible': [('type_sale', '!=', 'normal_sale_order')]}</attribute>
+                </xpath>
 
 
                 <xpath expr="//field[@name='payment_term_id']" position="after">
                     <field name="type_sale"/>
-                    <field name="fleet" attrs="{'invisible': [('type_sale', '=', 'normal_sale_order')]}" domain="[('driver_id', '=', partner_id)]"/>
+                    <field name="fleet" attrs="{'invisible': [('type_sale', '=', 'normal_sale_order')]}"/>
                     <field name="brand" attrs="{'invisible': [('type_sale', '=', 'normal_sale_order')]}"/>
                     <field name="model" attrs="{'invisible': [('type_sale', '=', 'normal_sale_order')]}"/>
                     <field name="license_plate" attrs="{'invisible': [('type_sale', '=', 'normal_sale_order')]}"/>

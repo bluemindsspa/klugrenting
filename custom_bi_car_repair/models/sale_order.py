@@ -24,6 +24,14 @@ class InhSaleOrder(models.Model):
         compute='_get_worker_order_count', string="worker order")
     
     
+    @api.onchange('fleet')
+    def _onchange_fleet(self):
+        for record in self:
+            if record.fleet:
+                record.brand = record.fleet.model_id.brand_id
+                record.model = record.fleet.model_id
+                record.license_plate = record.fleet.license_plate
+    
     @api.depends('type_sale')
     def _compute_type_sale(self):
         pricelist_ids = self.envp['product.pricelist'].search(['name', '=', 'Tarifa Pesos'], limit=1)
@@ -89,5 +97,7 @@ class InhSaleOrder(models.Model):
         maintenance_id = self.env['maintenance.request'].create(vals)
         maintenance_id.write({'maintenance_line_services': [(0, 0, vals_services)]})
         maintenance_id.write({'maintenance_line_products': [(0, 0, vals_products)]})
+        maintenance_id._onchange_maintenance_services()
+        maintenance_id._onchange_maintenance_products()
         return True
     

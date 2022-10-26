@@ -2,14 +2,34 @@
 <odoo>
 
     <data>
+        <record id="maintenance_request_calendar_inh_view" model="ir.ui.view">
+            <field name="name">maintenance.request.calendar.inh.view</field>
+            <field name="model">maintenance.request</field>
+            <field name="inherit_id" ref="maintenance.hr_equipment_view_calendar" />
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='maintenance_type']" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </xpath>
+                <xpath expr="//field[@name='priority']" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </xpath>
+                <xpath expr="//field[@name='maintenance_type']" position="after">
+                    <field name="partner_id"/>
+                    <field name="fleet"/>
+                    
+                </xpath>
+            </field>
+        </record>
+
+
         <record id="maintenance_request_inh_view" model="ir.ui.view">
             <field name="name">maintenance.request.inh.view</field>
             <field name="model">maintenance.request</field>
             <field name="inherit_id" ref="maintenance.hr_equipment_request_view_form" />
             <field name="arch" type="xml">
                 <xpath expr="//button[@name='archive_equipment_request']" position="after">
-                    <button string="Crear Factura" name="create_account" type="object" class="btn-primary" />
-                    <button name="consume_car_parts" string="Generar Albaran" type="object" class="btn-primary" />
+                    <button string="Crear Factura" attrs="{'invisible': [('stage_id', '!=', 'Terminado')]}" name="create_account" type="object" class="btn-primary" />
+                    <button name="consume_car_parts" attrs="{'invisible': [('stage_id', '!=', 'Terminado')]}" string="Rebajar Inventario" type="object" class="btn-primary" />
                 </xpath>
                 <xpath expr="//field[@name='kanban_state']" position="before">
 
@@ -22,12 +42,27 @@
 
 
                 </xpath>
+                <xpath expr="//field[@name='request_date']" position="before">
+                    <field name="partner_id" string="Cliente" />
+                    <field name="street" string="Direccion alternativa" />
+                    
+                </xpath>
                 <xpath expr="//field[@name='company_id']" position="after">
                     <field name="sale_order_id" string="Origen" />
+                    <field name="total_neto" string="Subtotal" />
+                    <field name="total_tax" string="Iva 19%" />
+                    <field name="total_tax_incluide" string="Total" />
+
 
                 </xpath>
                 <xpath expr="//field[@name='description']" position="attributes">
                     <attribute name="string">Falla</attribute>
+                </xpath>
+                <xpath expr="//field[@name='employee_id']" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </xpath>
+                <xpath expr="//field[@name='equipment_id']" position="attributes">
+                    <attribute name="invisible">1</attribute>
                 </xpath>
                 <xpath expr="//sheet" position="inside">
                     <notebook>
@@ -58,6 +93,14 @@
 
                                 </tree>
                             </field>
+                            <group>
+                                <group>
+                                    <field name="total_price_services" string="Subtotal"/>
+                                </group>
+                                
+                                
+                            </group>
+                            
 
                         </page>
                         <page string="Insumos" name="supplies">
@@ -69,26 +112,24 @@
                                     <field name="quantity" />
                                 </tree>
                             </field>
+                            <group>
+                                <group>
+                                    <field name="total_price_products" string="Subtotal"/>
+                                </group>
+                                
+                                
+                            </group>
 
 
                         </page>
                         <page string="observaciones" name="data_check">
                             <group>
-                                <group>
+                                
                                     <field name="observations" widget="html" />
 
 
-                                </group>
-                                <group>
-                                    <group>
-                                        <field name="image_one" widget="image" />
-                                        <field name="image_two" widget="image" />
-                                        <field name="image_tree" widget="image" />
-                                        <field name="image_four" widget="image" />
-                                        <field name="image_five" widget="image" />
-                                    </group>
-
-                                </group>
+                                
+                                
                             </group>
                         </page>
                     </notebook>

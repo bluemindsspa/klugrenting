@@ -23,7 +23,7 @@
 		<template id="maintenance_template_view">
 			<t t-call="web.external_layout">
                 <t t-set="o" t-value="doc.with_context({'lang':doc.partner_id.lang})"/>
-                <div class="header" style="border: hidden;">
+                <div class="header">
                     <header>
                         <div class="col-6">
                             <img t-if="o.company_id.logo" t-att-src="image_data_uri(o.company_id.logo)" style="max-height: 45px;" alt="Logo" />
@@ -72,7 +72,7 @@
                    </div>
                    <br/>
                    <div class="row">
-                    <div class="col-8">
+                    <div class="col-12">
                         <i class="fa fa-wrench" aria-hidden="true"></i>
                         <strong>Falla:</strong> <span t-field="o.description" />
                         <br/>
@@ -80,43 +80,39 @@
                         <strong>Estado vehiculo:</strong> <span t-raw="o.observations"/>
 
                     </div>
-                    <div class="col-4"></div>
+                    
                    </div>
                    <br/>
                    <br/>
                    <div class="row">
-                    <table class="table">
-                        <thead class="thead-light">
-                        <tr>
+                    <table class="table table-borderless">
+                        <thead>
+                        <tr style="border-bottom: solid 1px;">
                             <th>
                                 Mano de obra
                             </th>
                             <th>
-                                
+  
                             </th>
                             <th>
-                                
+                                <span t-field="o.total_price_services"/>
                             </th>
                         </tr>
                         </thead>
                         <tbody>
                             <t t-foreach="o.maintenance_line_services" t-as="line">
-                                <tr style="text-align:center;">
-                                    <td>
+                                <tr style="text-align:left;">
+                                    <td style="width:25%;">
                                         <span t-field="line.description"/>
                                     </td>
-                                    <td>
-                                        <span t-field="line.quantity"/> Hrs
+                                    <td style="width:25%;">
+                                        <span t-field="line.quantity"/> 
                                     </td>
-                                    <td>
-                                       $ <span t-field="line.price"/>
+                                    <td style="width:25%;">
+                                        $ <span t-field="line.price"/>
                                     </td>
                                 </tr>
-                                <tr>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                </tr>
+                                
 
                             </t>
                             
@@ -124,28 +120,28 @@
                     </table>
                 </div>
                 <div class="row">
-                    <table class="table">
-                        <thead class="thead-light">
-                        <tr>
+                    <table class="table table-borderless">
+                        <thead>
+                        <tr style="border-bottom: solid 1px;">
                             <th>
-                                Insumos
+                                Productos
                             </th>
                             <th></th>
-                            <th></th>
+                            <th><span t-field="o.total_price_products"/></th>
                            
                             
                         </tr>
                         </thead>
                         <tbody>
                             <t t-foreach="o.maintenance_line_products" t-as="lines">
-                                <tr style="text-align:center;">
-                                    <td>
+                                <tr style="text-align:left;">
+                                    <td style="width:25%;">
                                         <span t-field="lines.description"/>
                                     </td>
-                                    <td>
+                                    <td style="width:25%;">
                                         <span t-field="lines.quantity"/>
                                     </td>
-                                    <td>
+                                    <td style="width:25%;">
                                        $ <span t-field="lines.price"/>
                                     </td>
                                 </tr>
@@ -155,6 +151,29 @@
                         </tbody>
                     </table>
                     
+                   </div>
+                   <br/>
+                   <div class="row">
+                    <table class="table table-borderless">
+                        <thead>
+                        <tr style="border-top: solid 1px;">
+                            <th>
+                                Subtotal<br/>
+                                <span t-field="o.total_neto"/>
+                            </th>
+                            <th>
+                                Iva 19% <br/>
+                                <span t-field="o.total_tax"/>
+                            </th>
+                            <th>
+                                Total <br/>
+                                <span t-field="o.total_tax_incluide"/>
+                            </th>
+                           
+                            
+                        </tr>
+                        </thead>
+                    </table>
                    </div>
                    <br/>
                    <br/>

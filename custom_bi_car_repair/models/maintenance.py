@@ -18,6 +18,7 @@ class InhMaintenance(models.Model):
     _inherit = 'maintenance.request'
 
     partner_id = fields.Many2one('res.partner', string='Cliente')
+    street = fields.Char(string='Direccion')
     fleet = fields.Many2one('fleet.vehicle', string='Flota')
     brand = fields.Many2one('fleet.vehicle.model.brand', string='Marca')
     model = fields.Many2one('fleet.vehicle.model', string='Modelo')
@@ -35,15 +36,62 @@ class InhMaintenance(models.Model):
     image_four = fields.Binary(string="imagen 4")
     image_five = fields.Binary(string="imagen 5")
     maintenance_line_products = fields.One2many(
-        'maintenance.line.products', 'sale_order_product_id')
+        'maintenance.line.products', 'maintenance_product_id')
     maintenance_line_services = fields.One2many(
-        'maintenance.line.services', 'sale_order_service_id')
+        'maintenance.line.services', 'maintenance_service_id')
     observations = fields.Text(string='Observaciones')
     odometer = fields.Integer(string='Odometro')
     account_count = fields.Integer(
         compute='_get_account_count', string="Factura")
     picking_count = fields.Integer(
         compute='_get_picking_count', string="Factura")
+    
+    total_price_products = fields.Float(string='Precio total')
+    total_price_services = fields.Float(string='Precio total')
+    total_neto = fields.Float(string='Subtotal')
+    total_tax = fields.Float(string='Impuestos')
+    total_tax_incluide = fields.Float(string='Total incluido')
+    
+    @api.onchange('total_price_services', 'total_price_products')
+    def _onchange_total_neto(self):
+        for record in self:
+            if record.total_price_products > 0 and record.total_price_services > 0:
+                record.total_neto = record.total_price_services + record.total_price_products
+                record.total_tax = record.total_neto * 0.19
+                record.total_tax_incluide = record.total_neto + record.total_tax
+
+    @api.onchange('fleet')
+    def _onchange_fleet(self):
+        for record in self:
+            if record.fleet:
+                record.brand = record.fleet.model_id.brand_id
+                record.model = record.fleet.model_id
+                record.license_plate = record.fleet.license_plate
+                record.odometer = record.fleet.odometer
+
+    @api.onchange('maintenance_line_services')
+    def _onchange_maintenance_services(self):
+        total_price = 0
+        subtotal_price_services = 0
+        if self.maintenance_line_services:
+            for record in self.maintenance_line_services:
+                total_price = record.price * record.quantity
+                subtotal_price_services += total_price 
+                self.total_price_services = subtotal_price_services
+        else:
+            self.total_price_services = 0
+            
+    @api.onchange('maintenance_line_products')
+    def _onchange_maintenance_products(self):
+        total_price = 0
+        subtotal_price_products = 0
+        if self.maintenance_line_products:
+            for record in self.maintenance_line_products:
+                total_price = record.price * record.quantity
+                subtotal_price_products += total_price 
+                self.total_price_products = subtotal_price_products
+        else:
+            self.total_price_products = 0
 
     def account_move_button(self):
         self.ensure_one()
@@ -111,6 +159,7 @@ class InhMaintenance(models.Model):
         list_invoice = []
         res = {}
         values = {}
+        values_product = {}
         maintenance_obj = self.env['maintenance.request'].browse(self.ids[0])
         car_repair_obj = self.env['car.repair']
         product_obj = self.env['product.product']
@@ -137,39 +186,37 @@ class InhMaintenance(models.Model):
         })
 
         for services_line in maintenance_obj.maintenance_line_services:
-            values['move_id'] = invoice.id
-            values['name'] = services_line.description,
-            values['product_id'] = services_line.product_id.id
-            values['account_id'] = journal_id.default_account_id.id
-            values['quantity'] = services_line.quantity
-            values['price_unit'] = services_line.price
-            values['account_id'] = services_line.product_id.categ_id.property_account_income_categ_id.id,
-            values['tax_ids'] = services_line.product_id.taxes_id.ids
+            values = {
+                'move_id': invoice.id,
+                'name': services_line.description,
+                'product_id': services_line.product_id.id,
+                'account_id': journal_id.default_account_id.id,
+                'quantity': services_line.quantity,
+                'price_unit': services_line.price,
+                'account_id': services_line.product_id.categ_id.property_account_income_categ_id.id,
+                'tax_ids': services_line.product_id.taxes_id.ids,
+            }
 
             list_invoice.append(values)
         for products_line in maintenance_obj.maintenance_line_products:
-            values['move_id'] = invoice.id
-            values['name'] = products_line.description,
-            values['product_id'] = products_line.product_id.id
-            values['account_id'] = journal_id.default_account_id.id
-            values['quantity'] = products_line.quantity
-            values['price_unit'] = products_line.price
-            values['account_id'] = products_line.product_id.categ_id.property_account_income_categ_id.id,
-            values['tax_ids'] = products_line.product_id.taxes_id.ids
+            values_product = {
+                'move_id': invoice.id,
+                'name': products_line.description,
+                'product_id': products_line.product_id.id,
+                'account_id': journal_id.default_account_id.id,
+                'quantity': products_line.quantity,
+                'price_unit': products_line.price,
+                'account_id': products_line.product_id.categ_id.property_account_income_categ_id.id,
+                'tax_ids': products_line.product_id.taxes_id.ids,
+            }
 
-            list_invoice.append(values)
+            list_invoice.append(values_product)
 
         invoice.write(
             {'invoice_line_ids': [(0, 0, values) for values in list_invoice]})
         invoice._onchange_partner_id()
         invoice._onchange_invoice_line_ids()
         invoice._move_autocomplete_invoice_lines_values()
-
-    # @api.onchange('maintenance_line_services')
-    # def onchange_maintenance_line_services(self):
-    #     for record in self.maintenance_line_services:
-    #         record.total_price += record.price
-    #         record.total_quantity += record.quantity
 
 
 class InhMaintenanceLineProducts(models.Model):
@@ -179,10 +226,9 @@ class InhMaintenanceLineProducts(models.Model):
     product_id = fields.Many2one('product.product', string='Productos')
     description = fields.Char(string='Descripción')
     price = fields.Float(string='Precio')
-    quantity = fields.Float(string='Cantidad')
-    sale_order_product_id = fields.Many2one('sale.order', string='Presupuesto')
-    total_price = fields.Float(string='Precio total')
-    total_quantity = fields.Float(string='Cantidad total')
+    quantity = fields.Float(string='Cantidad', default=1)
+    maintenance_product_id = fields.Many2one(
+        'maintenance.request', string='Presupuesto')
 
 
 class InhMaintenanceLineServices(models.Model):
@@ -193,6 +239,5 @@ class InhMaintenanceLineServices(models.Model):
     description = fields.Char(string='Descripción')
     price = fields.Float(string='Precio')
     quantity = fields.Float(string='Cantidad')
-    sale_order_service_id = fields.Many2one('sale.order', string='Presupuesto')
-    total_price = fields.Float(string='Precio total')
-    total_quantity = fields.Float(string='Cantidad total')
+    maintenance_service_id = fields.Many2one(
+        'maintenance.request', string='Presupuesto')
