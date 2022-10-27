@@ -29,8 +29,8 @@
             <field name="inherit_id" ref="maintenance.hr_equipment_request_view_form" />
             <field name="arch" type="xml">
                 <xpath expr="//button[@name='archive_equipment_request']" position="after">
-                    <button string="Crear Factura" attrs="{'invisible': [('stage_id', '!=', 'Terminado')]}" name="create_account" type="object" class="btn-primary" />
-                    <button name="consume_car_parts" attrs="{'invisible': [('stage_id', '!=', 'Terminado')]}" string="Rebajar Inventario" type="object" class="btn-primary" />
+                    <button string="Crear Factura" attrs="{'invisible': [('stage_id', '!=', 3)]}" name="create_account" type="object" class="btn-primary" />
+                    <button name="consume_car_parts" attrs="{'invisible': [('stage_id', '!=', 3)]}" string="Rebajar Inventario" type="object" class="btn-primary" />
                 </xpath>
                 <xpath expr="//field[@name='kanban_state']" position="before">
 
@@ -45,6 +45,9 @@
                 </xpath>
                 <xpath expr="//field[@name='close_date']" position="attributes">
                     <attribute name="string" >Fecha Liquidación</attribute>
+                </xpath>
+                <xpath expr="//field[@name='request_date']" position="attributes">
+                    <attribute name="string" >Fecha Creación Orden</attribute>
                 </xpath>
                 <xpath expr="//field[@name='request_date']" position="before">
                     <field name="partner_id" string="Cliente" />

@@ -35,9 +35,13 @@
                     <field name="brand" attrs="{'invisible': [('type_sale', '=', 'normal_sale_order')]}"/>
                     <field name="model" attrs="{'invisible': [('type_sale', '=', 'normal_sale_order')]}"/>
                     <field name="license_plate" attrs="{'invisible': [('type_sale', '=', 'normal_sale_order')]}"/>
+                    <field name="model_year" attrs="{'invisible': [('type_sale', '=', 'normal_sale_order')]}"/>
                     <field name="responsible_id"/>
                 </xpath>
                 <xpath expr="//button[@name='action_confirm']" position="attributes">
+                    <attribute name="attrs">{'invisible': [('type_sale', '!=', 'normal_sale_order')]}</attribute>
+                </xpath>
+                <xpath expr="//button[@name='359']" position="attributes">
                     <attribute name="attrs">{'invisible': [('type_sale', '!=', 'normal_sale_order')]}</attribute>
                 </xpath>
                 <xpath expr="//field[@name='agreement_id']" position="attributes">

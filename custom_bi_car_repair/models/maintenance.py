@@ -54,10 +54,10 @@ class InhMaintenance(models.Model):
     
     
     
-    # @api.onchange('stage_id')
-    # def _onchange_date_done(self):
-    #     if self.stage_id.name == 'Terminado':
-    #         self.date_done = datetime.now()
+    @api.onchange('partner_id')
+    def _onchange_partner_id(self):
+        if self.partner_id:
+            self.street = self.partner_id.street
         
     
     @api.onchange('total_price_services', 'total_price_products')
@@ -76,6 +76,7 @@ class InhMaintenance(models.Model):
                 record.model = record.fleet.model_id
                 record.license_plate = record.fleet.license_plate
                 record.odometer = record.fleet.odometer
+                record.year = record.fleet.model_year
 
     @api.onchange('maintenance_line_services')
     def _onchange_maintenance_services(self):
@@ -171,7 +172,8 @@ class InhMaintenance(models.Model):
         maintenance_obj = self.env['maintenance.request'].browse(self.ids[0])
         car_repair_obj = self.env['car.repair']
         product_obj = self.env['product.product']
-
+        maintenance_stage = self.env['maintenance.stage'].search([('name', '=', 'Facturado')])
+        maintenance_obj.stage_id = maintenance_stage.id
         journal_id = self.env['account.journal'].search([('type', '=', 'sale'), (
             'name', '=', 'Facturas de cliente'), ('company_id', '=', self.company_id.id)])
         type_document = self.env['l10n_latam.document.type'].search(

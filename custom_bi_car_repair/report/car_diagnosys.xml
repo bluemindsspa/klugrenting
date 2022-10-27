@@ -9,6 +9,7 @@
 				</t>
 			</t>
 		</template>
+        
         <record id="manintenance_request_report_id" model="ir.actions.report">
             <field name="name">imprimir OT</field>
             <field name="model">maintenance.request</field>
@@ -23,20 +24,8 @@
 		<template id="maintenance_template_view">
 			<t t-call="web.external_layout">
                 <t t-set="o" t-value="doc.with_context({'lang':doc.partner_id.lang})"/>
-                <div class="header">
-                    <header>
-                        <div class="col-6">
-                            <img t-if="o.company_id.logo" t-att-src="image_data_uri(o.company_id.logo)" style="max-height: 45px;" alt="Logo" />
-                        </div>
-                        
-                    </header>
-                </div>
+                
 				<div class="page">
-                    <div class="row">
-                        <div class="col-6">
-                            <img t-if="o.company_id.logo" t-att-src="image_data_uri(o.company_id.logo)" style="max-height: 45px;" alt="Logo" />
-                        </div>
-                    </div>
                     <div class="row">
                         <div class="col-8" style="font-size:18px;">
                             <strong>LIQUIDACION ORDEN DE TRABAJO # <span t-field="o.name" /></strong> 
@@ -54,6 +43,8 @@
                        Telefono: <span t-field="o.partner_id.phone0" />
                        <br/>
                        Direccion: <span t-field="o.partner_id.street" />
+                       <br/>
+                       Lugar de reparación: <span t-field="o.street" />
                     </div>
                     <div class="col-4">
 
@@ -71,8 +62,9 @@
                             Kilometraje: <span t-field="o.odometer" />
                         </t>
                         <br/>
-                        Fecha Solicitud<span t-field="o.request_date" />
-                        Fecha liquidación<span t-field="o.close_date" />
+                        Fecha Creación Orden: <span t-field="o.request_date" />
+                        <br/>
+                        Fecha Liquidación: <span t-field="o.close_date" />
                         
 
 
@@ -97,7 +89,7 @@
                         <thead>
                         <tr style="border-bottom: solid 1px;">
                             <th>
-                                Mano de obra
+                                Servicios Realizados
                             </th>
                             <th>
   
@@ -132,7 +124,7 @@
                         <thead>
                         <tr style="border-bottom: solid 1px;">
                             <th>
-                                Productos
+                                Repuestos Utilizados
                             </th>
                             <th></th>
                             <th><span t-field="o.total_price_products"/></th>

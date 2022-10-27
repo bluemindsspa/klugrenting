@@ -8,7 +8,7 @@
     'license': 'LGPL-3',
     'category': '',
     'depends': [
-        'bi_car_repair_management', 'account', 'sale', 'sale_management', 'maintenance'
+        'bi_car_repair_management', 'account', 'sale', 'sale_management', 'maintenance', 'web', 'base'
     ],
     'data': [
         "security/ir.model.access.csv",
