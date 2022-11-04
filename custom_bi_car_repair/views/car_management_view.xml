@@ -18,6 +18,29 @@
                 <xpath expr="//button[@name='create_quotation']" position="attributes">
                     <attribute name="invisible">1</attribute>
                 </xpath>
+
+                <xpath expr="//field[@name='license_plate']" position="attributes">
+                    <attribute name="readonly">0</attribute>
+                </xpath>
+
+                <xpath expr="//field[@name='timesheet_ids']/tree/field[@name='type_id']" position="attributes">
+                    <attribute name="required">0</attribute>
+                </xpath>
+                <xpath expr="//field[@name='timesheet_ids']/tree/field[@name='type_id']" position="attributes">
+                    <attribute name="required">0</attribute>
+                </xpath>
+
+
+                <xpath expr="//field[@name='deadline_date']" position="after">
+                    <field name="sale_order_id" string="Origen"/>
+                    
+
+                </xpath>
+                <xpath expr="//field[@name='fleet_id']" position="after">
+                    <field name="brand" />
+                    <field name="model" />
+
+                </xpath>
             </field>
         </record>
         

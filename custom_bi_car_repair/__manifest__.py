@@ -8,11 +8,15 @@
     'license': 'LGPL-3',
     'category': '',
     'depends': [
-        'bi_car_repair_management', 'account'
+        'bi_car_repair_management', 'account', 'sale', 'sale_management', 'maintenance', 'web', 'base'
     ],
     'data': [
-        'views/car_management_view.xml',
-        'report/car_diagnosys.xml'
+        "security/ir.model.access.csv",
+        #'views/car_management_view.xml',
+        'views/sale_order_view.xml',
+        'views/maintenance_view.xml',
+        'report/car_diagnosys.xml',
+        #'report/sale_order.xml'
     ],
     'auto_install': False,
     'application': False,
