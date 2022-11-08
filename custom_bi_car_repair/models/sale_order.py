@@ -25,6 +25,9 @@ class InhSaleOrder(models.Model):
     worker_order_count = fields.Integer(
         compute='_get_worker_order_count', string="worker order")
 
+
+    
+
     @api.onchange('fleet')
     def _onchange_fleet(self):
         for record in self:
@@ -37,7 +40,7 @@ class InhSaleOrder(models.Model):
 
     @api.depends('type_sale')
     def _compute_type_sale(self):
-        pricelist_ids = self.envp['product.pricelist'].search(
+        pricelist_ids = self.env['product.pricelist'].search(
             ['name', '=', 'Tarifa Pesos'], limit=1)
         for record in self:
             if record.type_sale == 'service_sale_order':

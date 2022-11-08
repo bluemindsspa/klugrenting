@@ -64,7 +64,7 @@ class InhMaintenance(models.Model):
     @api.onchange('total_price_services', 'total_price_products')
     def _onchange_total_neto(self):
         for record in self:
-            if record.total_price_products > 0 and record.total_price_services > 0:
+            if record.total_price_products > 0 or record.total_price_services > 0:
                 record.total_neto = record.total_price_services + record.total_price_products
                 record.total_tax = record.total_neto * 0.19
                 record.total_tax_incluide = record.total_neto + record.total_tax
@@ -201,7 +201,7 @@ class InhMaintenance(models.Model):
         for services_line in maintenance_obj.maintenance_line_services:
             values = {
                 'move_id': invoice.id,
-                'name': services_line.description,
+                'name': 'Trabajo segun ' + maintenance_obj.name,
                 'product_id': services_line.product_id.id,
                 'account_id': journal_id.default_account_id.id,
                 'quantity': services_line.quantity,
@@ -214,7 +214,7 @@ class InhMaintenance(models.Model):
         for products_line in maintenance_obj.maintenance_line_products:
             values_product = {
                 'move_id': invoice.id,
-                'name': products_line.description,
+                'name': 'Trabajo segun ' + maintenance_obj.name,
                 'product_id': products_line.product_id.id,
                 'account_id': journal_id.default_account_id.id,
                 'quantity': products_line.quantity,
