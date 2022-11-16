@@ -46,10 +46,11 @@ class FleetVehicle(models.Model):
             # fecha1 = datetime.now() - relativedelta(days=1)
             # fecha2 = datetime.now()
             url = str(config.get_param('tag_url')) + str(config.get_param('odo_user')) + '?'
+            license_plate = last_odometer.vehicle_id.license_plate[:-2] + "-" + last_odometer.vehicle_id.license_plate[4:6]
             # url = 'http://api.smartreport.cl/v2/odometro/klugrent?token=c175289b8a2fca7ce92ecf9ba6f3a6c2&patente=PYFV-13&fecha1=2022-08-31%2006:20:00&fecha2=2022-08-31%2018:30:30'
             params = {
                 'token': config.get_param('odo_token'),
-                'patente': fleet.license_plate,
+                'patente': license_plate,
                 'fecha1': str(last_odometer.date.strftime("%Y-%m-%d  %H:%M:%S")),
                 'fecha2': str(now.strftime("%Y-%m-%d %H:%M:%S"))
             }
@@ -61,8 +62,9 @@ class FleetVehicle(models.Model):
                 raise UserError('Por favor contacte con el Administrador: %s', response.text)
             dict_list = json.loads(response.text.encode('utf8'))
             if dict_list.get('status') != 0 and dict_list.get('status') != 4:
-                jamie = dict_list.get('mensaje')
-                raise UserError('Por favor revise el siguiente error: ' + str(dict_list.get('mensaje')))
+                pass
+                # jamie = dict_list.get('mensaje')
+                # raise UserError('Por favor revise el siguiente error: ' + str(dict_list.get('mensaje')))
             if dict_list.get('tag'):
                 for tag in dict_list.get('tag'):
                     vals_tag = {
@@ -109,10 +111,11 @@ class FleetVehicle(models.Model):
             # fecha1 = datetime.now() - relativedelta(days=1)
             # fecha2 = datetime.now()
             url = str(config.get_param('odo_url')) + str(config.get_param('odo_user')) + '?'
+            license_plate = last_odometer.vehicle_id.license_plate[:-2] + "-" + last_odometer.vehicle_id.license_plate[4:6]
             # url = 'http://api.smartreport.cl/v2/odometro/klugrent?token=c175289b8a2fca7ce92ecf9ba6f3a6c2&patente=PYFV-13&fecha1=2022-08-31%2006:20:00&fecha2=2022-08-31%2018:30:30'
             params = {
                 'token': config.get_param('odo_token'),
-                'patente': fleet.license_plate, # 'PYFV-59',
+                'patente': license_plate, # 'PYFV-59',
                 'fecha1': str(last_odometer.date.strftime("%Y-%m-%d  %H:%M:%S")),
                 'fecha2': str(now.strftime("%Y-%m-%d %H:%M:%S"))
             }
@@ -121,11 +124,13 @@ class FleetVehicle(models.Model):
             print(json.dumps(params, indent=4, ensure_ascii=False))
             response = requests.post(url + qstr)
             if response.status_code != 200:
-                raise UserError('Por favor contacte con el Administrador: %s', response.text)
+                pass
+                # raise UserError('Por favor contacte con el Administrador: %s', response.text)
             dict_list = json.loads(response.text.encode('utf8'))
             if dict_list.get('status') != 0:
-                jamie = dict_list.get('mensaje')
-                raise UserError('Por favor revise el siguiente error: ' + str(dict_list.get('mensaje')))
+                pass
+                # jamie = dict_list.get('mensaje')
+                # raise UserError('Por favor revise el siguiente error: ' + str(dict_list.get('mensaje')))
             ult_valor = last_odometer.value
             if dict_list.get('data'):
                 for tag in dict_list.get('data'):

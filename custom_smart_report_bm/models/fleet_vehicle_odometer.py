@@ -22,7 +22,7 @@ class FleetVehicle(models.Model):
     incidencia_line = fields.One2many(
         'fleet.vehicle.incidencia', 'vehicle_id', string='Incidencias')
 
-    def api_odometer(self):
+    def api_odometer_cron(self):
         Odometer = self.env['fleet.vehicle.odometer']
         vehicle_ids = self.env['fleet.vehicle'].search([('state_id', '=', 3)])
         for record in vehicle_ids:
@@ -30,15 +30,11 @@ class FleetVehicle(models.Model):
             last_odometer = Odometer.search([('vehicle_id', '=', record.id), ('tag_ids', 'in', [2])], order='id desc',
                                             limit=1)
             if last_odometer:
-                self.call_api_odometer(last_odometer)
-                self.call_api_tag(last_odometer)
+                self.call_api_odometer_cron(last_odometer)
+                self.call_api_tag_cron(last_odometer)
         
         
-        # Odometer = self.env['fleet.vehicle.odometer']
-        # last_odometer = Odometer.search([('vehicle_id', '=', self.id), ('tag_ids', 'in', [2])], order='id desc',
-        #                                 limit=1)
-        # self.call_api_odometer(last_odometer)
-        # self.call_api_tag(last_odometer)
+        
 
     def hide_api_odo(self):
         self.api_odo = self.company_id.api_odometer
@@ -49,7 +45,7 @@ class FleetVehicle(models.Model):
     api_odo = fields.Boolean(computed=hide_api_odo)
     api_tag = fields.Boolean(computed=hide_api_tag)
 
-    def call_api_tag(self, last_odometer):
+    def call_api_tag_cron(self, last_odometer):
         Odometer = self.env['fleet.vehicle.odometer']
         now = datetime.now()
         
@@ -114,7 +110,7 @@ class FleetVehicle(models.Model):
 
 
 
-    def call_api_odometer(self, last_odometer):
+    def call_api_odometer_cron(self, last_odometer):
         
         Odometer = self.env['fleet.vehicle.odometer']
         now = datetime.now()
@@ -151,7 +147,7 @@ class FleetVehicle(models.Model):
                 ult_valor = float(ult_valor) + float(valor)
                 vals_data = {
                             'vehicle_id': last_odometer.vehicle_id.id,
-                            'date': tag.get('fecha'),
+                            'date': datetime.strptime(str(tag.get('fecha')), '%d-%m-%Y %H:%M'),
                             'value': ult_valor,
                             'tag_ids': [2],
                 }
