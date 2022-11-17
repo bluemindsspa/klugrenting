@@ -1,0 +1,71 @@
+<?xml version='1.0' encoding='utf-8'?>
+<odoo>
+    <data>
+        <record id="subscription_agreement_view_form" model="ir.ui.view">
+            <field name="name">subscription.agreement.view.form.inherit</field>
+            <field name="model">sale.subscription</field>
+            <field name="inherit_id" ref="sale_subscription.sale_subscription_view_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//page[@id='lines']" position="inside">
+                    hola
+                </xpath>
+                
+                <!--                
+                <xpath expr="//page[@id='lines']" position="after">
+                    <page name="vehicle" string="Datos Vehiculo">
+                        <group>
+                            <group name="data_vehicle" string="Datos vehiculo">
+                                <field name="vehicle_id" string="Vehiculo"/>
+                                <field name="product_id" string="Producto"/>
+                                <field name="place_contract" string="Plazo Contrato(Meses)"/>
+                                
+                                <field name="km_mes" string="Kilometros Mensuales Contratados"/>
+                                <field name="warranty" string="Forma de Pago Garantia"/>
+                                <field name="deducible" string="Deducible"/>
+                                <field name="deducible_robo" string="Deducible Robo"/>
+                            </group>
+                            <group string="Datos vehiculo">
+                                <field name="fecha_inicio"/>
+                                <field name="fecha_fin"/>
+                                <field name="price"/>
+                                <field name="price_km_adi"/>
+                                <field name="price_instalacion"/>
+                                <field name="maintenance"/>
+                            </group>
+                            
+                        </group>
+                        
+                    </page>
+                    <page name="vehicle_entrega" string="Datos Entrega">
+                        <group>
+                            <group>
+                                <field name="km_salida"/>
+                                <field name="estanque_salida"/> 
+                            </group>
+                             
+                        </group>
+                        
+                        
+                    </page>
+                    <page name="vehicle_devolucion" string="Datos devolucion">
+                        <group>
+                            <group>
+                                <field name="km_devo"/>
+                                <field name="estanque_devo"/>
+                            </group>
+                            
+                        </group>
+                        
+                    </page>
+                </xpath> -->
+            </field>
+        </record>
+        
+       
+
+
+
+    
+    </data>
+    
+</odoo>
