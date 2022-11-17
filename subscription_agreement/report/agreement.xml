@@ -28,16 +28,22 @@
                             <br />
                             <p style="text-align:justify; font-size:20px;">
                                 En Santiago, a
-                                <span t-esc="doc.date_start.strftime('%d/%m/%Y')" />
+                                <t t-if="doc.fecha_contrato">
+                                    <span t-esc="doc.fecha_contrato.strftime('%d/%m/%Y')" />
+                                </t>
+                                <t t-else="">
+                                    <span t-esc="doc.date_start.strftime('%d/%m/%Y')" />
+                                </t>
+                                
                                 , por una parte entre Klug SpA., RUT: 77.098.135-2,
                     domiciliado en Av. Presidente Kennedy 7440 Of. 321, comuna de Vitacura, Santiago, representada Don Marcelo Stade Toral, RUT: 12.467.087-K, en adelante la “ARRENDADORA”, por una parte y por la otra,
                                 <span t-esc="doc.partner_id.name" />
                                 , cédula de identidad N°
-                                <span t-esc="doc.partner_id.vat" />
-                                , domiciliado en
-                                <span t-esc="doc.partner_id.street" />
-                                , Comuna
-                                <span t-esc="doc.partner_id.city" />
+                                <span t-esc="doc.partner_id.vat" />,
+                                Representado por <span t-esc="doc.x_studio_many2one_field_UDScD.name" />, cédula de identidad N° <span t-esc="doc.x_studio_many2one_field_UDScD.vat" /> <t t-if="doc.x_studio_replegal_2">
+                                  y  <span t-esc="doc.x_studio_replegal_2.name " />, cédula de identidad N° <span t-esc="doc.x_studio_replegal_2.vat " />
+                                </t> ambos domiciliados en <span t-esc="doc.partner_id.street" />, Comuna  <span t-esc="doc.partner_id.city" />
+                              
                                 , Santiago en adelante
                         la “ARRENDATARIA"; los comparecientes exponen, que han convenido en la celebración de un contrato de arrendamiento de vehículos
                          motorizados nuevos, el que se regirá por las estipulaciones contenidas en el presente instrumento.
@@ -190,7 +196,7 @@
 
                     </p>
                                 <p>
-                        La renta de arrendamiento regirá a partir de la entrega y plena posesión del vehículo donde se firmará un acta de entrega, hasta su restitución a entera satisfacción de la ARRENDADORA. La mora o el simple retardo del ARRENDATARIO en el pago de las rentas de arrendamiento devengadas, una vez vencido el plazo de (Plazo de Pago) del mes correspondiente, para su pago, devengará a favor de la ARRENDADORA una multa moratoria diaria correspondiente al interés máximo convencional para operaciones no reajustables en moneda nacional. Las partes tendrán 30 días para encontrar en conjunto una solución a la mora, si pasado ese plazo no se ha pagado la deuda, la ARRENDADORA tendrá derecho a terminar ipso facto y sin necesidad de declaración judicial alguna el presente Contrato de Arrendamiento, o de demandar su cumplimiento forzado, en ambos casos con indemnización de perjuicios.
+                        La renta de arrendamiento regirá a partir de la entrega y plena posesión del vehículo donde se firmará un acta de entrega, hasta su restitución a entera satisfacción de la ARRENDADORA. La mora o el simple retardo del ARRENDATARIO en el pago de las rentas de arrendamiento devengadas, una vez vencido el plazo de <span t-esc="doc.payment_term_id.name" /> del mes correspondiente, para su pago, devengará a favor de la ARRENDADORA una multa moratoria diaria correspondiente al interés máximo convencional para operaciones no reajustables en moneda nacional. Las partes tendrán 30 días para encontrar en conjunto una solución a la mora, si pasado ese plazo no se ha pagado la deuda, la ARRENDADORA tendrá derecho a terminar ipso facto y sin necesidad de declaración judicial alguna el presente Contrato de Arrendamiento, o de demandar su cumplimiento forzado, en ambos casos con indemnización de perjuicios.
 
                     </p>
                                 <p>
@@ -251,20 +257,16 @@
                                     <strong>DEDUCIBLES:</strong>
                                     <br />
                                     <li>
-                                        Por daños propios:
-                                        <span t-esc="doc.deducible" />UF
+                                        Por daños propios y a terceros:
+                                        <span t-esc="doc.deducible_propios_terceros" />UF
                                     </li>
                                     <li>
                                         Por actos maliciosos, terrorismo y huelga:
-                                        <span t-esc="doc.deducible" />UF
+                                        <span t-esc="doc.deducible_maliciosos" />UF
                                     </li>
                                     <li>
                                         Por robo de accesorios:
-                                        <span t-esc="doc.deducible" />UF
-                                    </li>
-                                    <li>
-                                        Por daños a terceros:
-                                        <span t-esc="doc.deducible" />UF
+                                        <span t-esc="doc.deducible_accesorios" />UF
                                     </li>
                                     <li>
                                         Robo o Pérdida total:

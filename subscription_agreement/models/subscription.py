@@ -22,41 +22,11 @@ class SaleSubscription(models.Model):
     
     
     
-    # product_id = fields.Many2one('product.product')
-    # vehicle_id = fields.Many2one('fleet.vehicle')
-    deducible = fields.Float('deducible')
-    deducible_robo = fields.Float('deducible robo')
-    # place_contract = fields.Integer('Plazo Contrato (Meses)')
-    # km_salida = fields.Integer('Kilometraje de Salida')
-    # km_devo = fields.Integer('Kilometraje de Devolución')
-    # km_mes = fields.Integer('Kilometros Mensuales Contratados')
-    # fecha_inicio = fields.Date('Fecha Inicio')
-    # fecha_fin = fields.Date('Fecha Final')
-    # price_km_adi = fields.Float('Precio por KM Adicional', readonly=False,
-    #     track_visibility='onchange')
-    # price = fields.Float('Precio Mensual', readonly=False,
-    #     track_visibility='onchange')
-    # price_instalacion = fields.Float('Garantia', readonly=False, track_visibility='onchange')
-    # warranty = fields.Selection(
-    #     selection=[
-    #         ('tarjeta', 'Tarjeta Bancaria'),
-    #         ('trans', 'Transferencia')],
-    #     string='Forma de Pago Garantia',
-    #     required=True)
-    # estanque_salida = fields.Selection(
-    #     selection=[
-    #         ('full', 'Lleno'),
-    #         ('3/4', '3/4'),
-    #         ('1/2', '1/2'),('1/4', '1/4')],
-    #     string='Estanque de Salida',
-    #     required=True)
-    # estanque_devo = fields.Selection(
-    #     selection=[
-    #         ('full', 'Lleno'),
-    #         ('3/4', '3/4'),
-    #         ('1/2', '1/2'),('1/4', '1/4')],
-    #     string='Estanque de Devolución',
-    #     required=False)
+    deducible_maliciosos = fields.Integer('deducible malicioso')
+    deducible_robo = fields.Integer('deducible robo')
+    deducible_propios_terceros = fields.Integer('Danos propios y a Terceros')
+    deducible_accesorios = fields.Integer('Robo accesorios')
+    fecha_contrato = fields.Date('Fecha Contrato')
     maintenance = fields.Char(string="Frecuencia de mantenimiento")
-    
+    pago_garantia = fields.Boolean(default=False) 
     
