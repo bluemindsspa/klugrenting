@@ -17,7 +17,7 @@
                         <div class="header">
                             <header>
                                 <img t-if="doc.company_id.logo" t-att-src="image_data_uri(doc.company_id.logo)" style="max-height: 65px;" alt="Logo" />
-                                <span t-esc="doc.code" style="padding-left:600px;" />
+                                <span t-esc="doc.code[0:6]" style="padding-left:600px;" />
                             </header>
 
                         </div>
@@ -28,7 +28,7 @@
                             <br />
                             <p style="text-align:justify; font-size:20px;">
                                 En Santiago, a
-                                <span t-esc="doc.date_start" />
+                                <span t-esc="doc.date_start.strftime('%d/%m/%Y')" />
                                 , por una parte entre Klug SpA., RUT: 77.098.135-2,
                     domiciliado en Av. Presidente Kennedy 7440 Of. 321, comuna de Vitacura, Santiago, representada Don Marcelo Stade Toral, RUT: 12.467.087-K, en adelante la “ARRENDADORA”, por una parte y por la otra,
                                 <span t-esc="doc.partner_id.name" />
@@ -73,7 +73,7 @@
                             <p style="text-align:justify; font-size:20px;">
                                 <ul>
                                     <span t-esc="doc.x_studio_precio_por_kilmetro_adicional" />
-                                   UF + IVA por kilometro
+                                    UF + IVA por kilometro
                                 </ul>
                             </p>
                             <p>
