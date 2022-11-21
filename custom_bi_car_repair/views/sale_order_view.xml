@@ -15,13 +15,7 @@
                         <field name="worker_order_count" widget="statinfo" string="Orden trabajo" />
                     </button>
                 </xpath>
-<<<<<<< HEAD
-                <xpath expr="//field[@name='sale_order_template_id']" position="attributes">
-                    <attribute name="attrs">{'invisible': [('type_sale', '!=', 'normal_sale_order')]}</attribute>
-                </xpath>
-=======
                 
->>>>>>> origin/klug
                 <xpath expr="//field[@name='partner_invoice_id']" position="attributes">
                     <attribute name="attrs">{'invisible': [('type_sale', '!=', 'normal_sale_order')]}</attribute>
                 </xpath>

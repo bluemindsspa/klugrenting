@@ -2,11 +2,8 @@
 <odoo>
 
     <data>
-<<<<<<< HEAD
-=======
 
         <!-- View Calendar  -->
->>>>>>> origin/klug
         <record id="maintenance_request_calendar_inh_view" model="ir.ui.view">
             <field name="name">maintenance.request.calendar.inh.view</field>
             <field name="model">maintenance.request</field>
@@ -15,42 +12,29 @@
                 <xpath expr="//field[@name='maintenance_type']" position="attributes">
                     <attribute name="invisible">1</attribute>
                 </xpath>
-<<<<<<< HEAD
-=======
                 
->>>>>>> origin/klug
                 <xpath expr="//field[@name='priority']" position="attributes">
                     <attribute name="invisible">1</attribute>
                 </xpath>
                 <xpath expr="//field[@name='maintenance_type']" position="after">
                     <field name="partner_id"/>
                     <field name="fleet"/>
-<<<<<<< HEAD
-=======
                     <field name="street"/>
->>>>>>> origin/klug
                     
                 </xpath>
                 
             </field>
         </record>
 
-<<<<<<< HEAD
-
-=======
         <!-- View Form -->
->>>>>>> origin/klug
         <record id="maintenance_request_inh_view" model="ir.ui.view">
             <field name="name">maintenance.request.inh.view</field>
             <field name="model">maintenance.request</field>
             <field name="inherit_id" ref="maintenance.hr_equipment_request_view_form" />
             <field name="arch" type="xml">
-<<<<<<< HEAD
-=======
                 <xpath expr="//field[@name='user_id']" position="attributes">
                     <attribute name="string">Técnico Responsable</attribute>
                 </xpath>
->>>>>>> origin/klug
                 <xpath expr="//button[@name='archive_equipment_request']" position="after">
                     <button string="Crear Factura" attrs="{'invisible': [('stage_id', '!=', 3)]}" name="create_account" type="object" class="btn-primary" />
                     <button name="consume_car_parts" attrs="{'invisible': [('stage_id', '!=', 3)]}" string="Rebajar Inventario" type="object" class="btn-primary" />
@@ -118,14 +102,9 @@
                                 <tree string="Servicios" editable="bottom">
                                     <field name="product_id" />
                                     <field name="description" />
-<<<<<<< HEAD
-                                    <field name="price" />
-                                    <field name="quantity" />
-=======
                                     <field name="quantity" />
                                     <field name="price" />
                                     <field name="total_subtotal_line_services" />
->>>>>>> origin/klug
 
                                 </tree>
                             </field>
@@ -144,16 +123,11 @@
                                 <tree string="Insumos" editable="bottom">
                                     <field name="product_id" />
                                     <field name="description" />
-<<<<<<< HEAD
-                                    <field name="price" />
-                                    <field name="quantity" />
-=======
                                     <field name="quantity" />
                                     <field name="price" />
                                     
                                     <field name="total_subtotal_line_product" />
                                     
->>>>>>> origin/klug
                                 </tree>
                             </field>
                             <group>

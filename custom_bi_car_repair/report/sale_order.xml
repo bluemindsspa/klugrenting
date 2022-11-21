@@ -2,7 +2,7 @@
 <odoo>
     <template id="sale_order_report_inherit" name="sale_order_report_inherit" inherit_id="studio_customization.odoo_studio_report_s_d2a0807d-7a68-4c77-b1bd-6a1196f63313">
         <xpath expr="/t/t/div/div[1]" position="after">
-            <t t-if="doc.company_id.name == 'KLUG SPA'">
+            <t t-if="doc.company_id.name == 'KLUG SPA' and doc.sale_oder_template_id.name in 'Arriendo'">
                 <div class="row">
                     <div class="col-4"><span style="font-weight: bolder;">Conductor</span></div>
                 <div class="col-4"><span style="font-weight: bolder;">RUT</span></div>
@@ -34,7 +34,22 @@
                        Direccion: <span t-field="doc.partner_id.street" />
                        <br/>
                        
-        </div>
+                     </div>
+          <div class="col-4" style="margin-left:200px;">
+            <strong>
+                          <i class="fa fa-car" aria-hidden="true"></i>
+                          Vehículo
+                        </strong>
+                        <br/>
+                        <span t-field="doc.model" /> <span t-field="doc.brand" /> <span t-field="doc.model_year" />
+                        <br/>
+                        <strong>Matricula:</strong> <span t-field="doc.license_plate" />
+                        <br/>
+                        
+                        
+                        
+                                            
+          </div>
         
         </div>
         </xpath>

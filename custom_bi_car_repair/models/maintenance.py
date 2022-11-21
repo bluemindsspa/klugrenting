@@ -49,10 +49,7 @@ class InhMaintenance(models.Model):
     total_price_products = fields.Float(string='Precio total')
     total_price_services = fields.Float(string='Precio total')
     total_neto = fields.Float(string='Subtotal')
-<<<<<<< HEAD
-=======
     
->>>>>>> origin/klug
     total_tax = fields.Float(string='Impuestos')
     total_tax_incluide = fields.Float(string='Total incluido')
     
@@ -67,11 +64,7 @@ class InhMaintenance(models.Model):
     @api.onchange('total_price_services', 'total_price_products')
     def _onchange_total_neto(self):
         for record in self:
-<<<<<<< HEAD
-            if record.total_price_products > 0 and record.total_price_services > 0:
-=======
             if record.total_price_products > 0 or record.total_price_services > 0:
->>>>>>> origin/klug
                 record.total_neto = record.total_price_services + record.total_price_products
                 record.total_tax = record.total_neto * 0.19
                 record.total_tax_incluide = record.total_neto + record.total_tax
@@ -93,10 +86,7 @@ class InhMaintenance(models.Model):
         if self.maintenance_line_services:
             for record in self.maintenance_line_services:
                 total_price = record.price * record.quantity
-<<<<<<< HEAD
-=======
                 record.total_subtotal_line_services = total_price
->>>>>>> origin/klug
                 subtotal_price_services += total_price 
                 self.total_price_services = subtotal_price_services
         else:
@@ -109,10 +99,7 @@ class InhMaintenance(models.Model):
         if self.maintenance_line_products:
             for record in self.maintenance_line_products:
                 total_price = record.price * record.quantity
-<<<<<<< HEAD
-=======
                 record.total_subtotal_line_product = total_price
->>>>>>> origin/klug
                 subtotal_price_products += total_price 
                 self.total_price_products = subtotal_price_products
         else:
@@ -156,7 +143,7 @@ class InhMaintenance(models.Model):
         }
 
     def consume_car_parts(self):
-
+        
         picking_type_id = self.env['stock.picking.type'].search([['code', '=', 'outgoing'], [
                                                                 'warehouse_id.company_id', '=', self.company_id.id]], limit=1)
 
@@ -181,6 +168,8 @@ class InhMaintenance(models.Model):
             })
 
     def create_account(self):
+        # call picking function
+        self.consume_car_parts()
         list_invoice = []
         res = {}
         values = {}
@@ -214,11 +203,7 @@ class InhMaintenance(models.Model):
         for services_line in maintenance_obj.maintenance_line_services:
             values = {
                 'move_id': invoice.id,
-<<<<<<< HEAD
-                'name': services_line.description,
-=======
                 'name': 'Trabajo segun ' + maintenance_obj.name,
->>>>>>> origin/klug
                 'product_id': services_line.product_id.id,
                 'account_id': journal_id.default_account_id.id,
                 'quantity': services_line.quantity,
@@ -231,11 +216,7 @@ class InhMaintenance(models.Model):
         for products_line in maintenance_obj.maintenance_line_products:
             values_product = {
                 'move_id': invoice.id,
-<<<<<<< HEAD
-                'name': products_line.description,
-=======
                 'name': 'Trabajo segun ' + maintenance_obj.name,
->>>>>>> origin/klug
                 'product_id': products_line.product_id.id,
                 'account_id': journal_id.default_account_id.id,
                 'quantity': products_line.quantity,
@@ -263,11 +244,8 @@ class InhMaintenanceLineProducts(models.Model):
     quantity = fields.Float(string='Cantidad', default=1)
     maintenance_product_id = fields.Many2one(
         'maintenance.request', string='Presupuesto')
-<<<<<<< HEAD
-=======
     total_subtotal_line_product = fields.Float(string='Subtotal Linea')
     
->>>>>>> origin/klug
 
 
 class InhMaintenanceLineServices(models.Model):
@@ -280,7 +258,4 @@ class InhMaintenanceLineServices(models.Model):
     quantity = fields.Float(string='Cantidad')
     maintenance_service_id = fields.Many2one(
         'maintenance.request', string='Presupuesto')
-<<<<<<< HEAD
-=======
     total_subtotal_line_services = fields.Float(string='Subtotal Linea')
->>>>>>> origin/klug
