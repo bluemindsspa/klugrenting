@@ -5,12 +5,11 @@
         <xpath expr="//div[@class='page']" position="replace">
             <div class="header">
                 <header>
-<<<<<<< HEAD
                     <img t-if="doc.company_id.logo" t-att-src="image_data_uri(doc.company_id.logo)" style="max-height: 45px;" alt="Logo" />
-=======
+
                     <img t-if="doc.company_id.logo" t-att-src="image_data_uri(doc.company_id.logo)" style="max-height: 65px;" alt="Logo" />
                     <span t-esc="doc.name[0:5]" style="padding-left:600px;"/>
->>>>>>> origin/klug
+
                 </header>
                 
             </div>

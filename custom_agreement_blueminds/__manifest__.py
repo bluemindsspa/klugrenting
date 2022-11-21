@@ -12,11 +12,9 @@
     ],
     'data': [
         'report/agreement.xml',
-<<<<<<< HEAD
-=======
+
         'report/agreement_leasing.xml',
         'report/agreement_anexo.xml',
->>>>>>> origin/klug
         'views/agreement_view.xml'
     ],
    
