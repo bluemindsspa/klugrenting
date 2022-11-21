@@ -12,10 +12,18 @@
     ],
     'data': [
         "security/ir.model.access.csv",
+<<<<<<< HEAD
         'views/car_management_view.xml',
         'views/sale_order_view.xml',
         'views/maintenance_view.xml',
         'report/car_diagnosys.xml',
+=======
+        #'views/car_management_view.xml',
+        'views/sale_order_view.xml',
+        'views/maintenance_view.xml',
+        'report/car_diagnosys.xml',
+        #'report/sale_order.xml'
+>>>>>>> origin/klug
     ],
     'auto_install': False,
     'application': False,

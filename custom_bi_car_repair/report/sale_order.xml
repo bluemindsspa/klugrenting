@@ -1,0 +1,42 @@
+<?xml version='1.0' encoding='utf-8'?>
+<odoo>
+    <template id="sale_order_report_inherit" name="sale_order_report_inherit" inherit_id="studio_customization.odoo_studio_report_s_d2a0807d-7a68-4c77-b1bd-6a1196f63313">
+        <xpath expr="/t/t/div/div[1]" position="after">
+            <t t-if="doc.company_id.name == 'KLUG SPA'">
+                <div class="row">
+                    <div class="col-4"><span style="font-weight: bolder;">Conductor</span></div>
+                <div class="col-4"><span style="font-weight: bolder;">RUT</span></div>
+                <div class="col-4"><span style="font-weight: bolder;">Licencia de Conducir</span></div>
+                </div>
+                <div class="row">
+                <div class="col-4"><span t-field="doc.x_studio_conductor"/></div>
+                <div class="col-4"><span t-field="doc.x_studio_conductor.vat"/></div>
+                <div class="col-4"><span t-field="doc.x_studio_licencia_de_conducir"/></div>
+                </div>
+            </t>
+            
+            
+          </xpath>
+          
+    </template>
+    <template id="sale_report_inherit_saleorder" name="sale_report_inherit_saleorder" inherit_id="sale.report_saleorder_document">
+        <xpath expr="//t[@t-set='address']" position="replace">
+            <div class="row">
+            <div class="col-4" >
+                       <strong><i class="fa fa-user" aria-hidden="true"></i> Cliente</strong>
+                       <br/>
+                       Empresa: <span t-field="doc.partner_id.name" />
+                       <br/>
+                       RUT: <span t-field="doc.partner_id.vat" />
+                       <br/>
+                       Telefono: <span t-field="doc.partner_id.phone0" />
+                       <br/>
+                       Direccion: <span t-field="doc.partner_id.street" />
+                       <br/>
+                       
+        </div>
+        
+        </div>
+        </xpath>
+    </template>
+</odoo>

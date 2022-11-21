@@ -25,6 +25,12 @@ class InhSaleOrder(models.Model):
     worker_order_count = fields.Integer(
         compute='_get_worker_order_count', string="worker order")
 
+<<<<<<< HEAD
+=======
+
+    
+
+>>>>>>> origin/klug
     @api.onchange('fleet')
     def _onchange_fleet(self):
         for record in self:
@@ -37,7 +43,11 @@ class InhSaleOrder(models.Model):
 
     @api.depends('type_sale')
     def _compute_type_sale(self):
+<<<<<<< HEAD
         pricelist_ids = self.envp['product.pricelist'].search(
+=======
+        pricelist_ids = self.env['product.pricelist'].search(
+>>>>>>> origin/klug
             ['name', '=', 'Tarifa Pesos'], limit=1)
         for record in self:
             if record.type_sale == 'service_sale_order':
@@ -115,4 +125,8 @@ class InhSaleOrder(models.Model):
         maintenance_id._onchange_maintenance_services()
         maintenance_id._onchange_maintenance_products()
         maintenance_id._onchange_total_neto()
+<<<<<<< HEAD
+=======
+        maintenance_id.consume_car_parts()
+>>>>>>> origin/klug
         return True

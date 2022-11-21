@@ -1,5 +1,5 @@
 {
-    'name': 'Reporte de contratos Klug',
+    'name': 'Contratos en subscripciones',
     'version': '1.0',
     'description': '',
     'summary': '',
@@ -8,21 +8,18 @@
     'license': 'LGPL-3',
     'category': '',
     'depends': [
-        'agreement_blueminds'
+        'sale_subscription', 'sale'
     ],
     'data': [
+        #'security/ir.model.access.csv',
         'report/agreement.xml',
-<<<<<<< HEAD
-=======
-        'report/agreement_leasing.xml',
-        'report/agreement_anexo.xml',
->>>>>>> origin/klug
-        'views/agreement_view.xml'
+        #'wizard/subscription_invoice.xml',
+        #'views/subscription_view.xml'
     ],
-   
+
     'auto_install': False,
     'application': False,
     'assets': {
-        
+
     }
 }
