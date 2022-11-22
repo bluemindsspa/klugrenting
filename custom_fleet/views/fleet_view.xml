@@ -1,0 +1,62 @@
+<?xml version='1.0' encoding='utf-8'?>
+<odoo>
+    <data>
+        <record id="inherit_fleet_form_view" model="ir.ui.view">
+            <field name="name">inherit.fleet.form.view</field>
+            <field name="model">fleet.vehicle</field>
+            <field name="inherit_id" ref="fleet.fleet_vehicle_view_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='mobility_card']" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </xpath>
+                <xpath expr="//field[@name='vin_sn']" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </xpath>
+                <xpath expr="//field[@name='acquisition_date']" position="after">
+                    <field name="date_delivery"/>
+                    <field name="date_return"/> 
+                    <field name="subscription"/>
+
+                    
+                </xpath>
+                <xpath expr="//field[@name='marca']" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </xpath>
+                <xpath expr="//field[@name='modelo']" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </xpath>
+                    <xpath expr="//field[@name='patente']" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                    </xpath>
+                    <xpath expr="//field[@name='combustible']" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                    </xpath>
+                    <xpath expr="//field[@name='anio']" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </xpath>
+                <xpath expr="//field[@name='tipo_vehiculo']" position="after">
+                    <field name="traccion_vehicle" string="Tracción"/>
+                    <field name="accesories_vehicle" string="Accesorios" widget="many2many_tags"/>
+                </xpath>
+            </field>
+        </record>
+
+        <record id="fleet_vehicle_inherit_view_tree" model="ir.ui.view">
+            <field name="name">fleet.vehicle.assignation.view.tree</field>
+            <field name="model">fleet.vehicle.assignation.log</field>
+            <field name="inherit_id" ref="fleet.fleet_vehicle_assignation_log_view_list"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='date_end']" position="after">
+                    <field name="date_delivery"/>
+                    <field name="date_return"/>
+                </xpath>
+                
+            </field>
+        </record>
+
+
+        <menuitem id="accesories_tags" name="Accesorios Vehiculo" sequence="100" parent="fleet.fleet_configuration"/>
+    
+    </data>
+    
+</odoo>
