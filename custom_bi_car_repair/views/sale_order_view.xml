@@ -7,7 +7,7 @@
             <field name="inherit_id" ref="sale.view_order_form"/>
             <field name="arch" type="xml">
                 <xpath expr="//button[@name='action_quotation_send']" position="after">
-                    <button name="create_worker_order" type="object" string="Crear OT" attrs="{'invisible': [('type_sale', '=', 'normal_sale_order')]}"/>
+                    <button name="create_worker_order" type="object" string="Crear OT" attrs="{'invisible': ['|',('type_sale', '=', 'normal_sale_order'),('worker_order_count', '!=', 0)]}"/>
                 </xpath>
 
                 <xpath expr="//div[@name='button_box']" position="inside">

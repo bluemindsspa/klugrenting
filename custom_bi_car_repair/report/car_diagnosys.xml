@@ -82,22 +82,20 @@
                    <br/>
                    <div class="row">
                      <div class="col-12">
-                       <t t-if="o.description">
+                         <t t-if="o.description">
                         <i class="fa fa-wrench" aria-hidden="true"></i>
                         <strong>Diagnóstico:</strong> <span t-field="o.description" />
-                        <br/>
 
                         </t>
   
-                       <t t-if="o.observations">
+                        <t t-if="o.observations">
                         <i class="fa fa-heartbeat" aria-hidden="true"></i>
                         <strong>Observaciones:</strong> <span t-raw="o.observations"/>
                       </t>
                     </div>
                     
                    </div>
-                   <br/>
-                   <br/>
+                   
                    <div class="row">
                     <table class="table table-borderless" style="max-height:14px;">
                         <thead>
@@ -105,29 +103,29 @@
                             <th>
                                 Servicios Realizados
                             </th>
-                            <th>
-  
+                            <th style="text-align:center;">
+                            Cantidad 
                             </th>
-                            <th></th>
+                            <th>Precio Unit</th>
                             <th>
-                                <span t-field="o.total_price_services"/>
+                               Total neto 
                             </th>
                         </tr>
                         </thead>
                         <tbody>
                             <t t-foreach="o.maintenance_line_services" t-as="line">
-                                <tr style="text-align:left;">
-                                    <td style="width:25%;padding:0px;">
+                                <tr>
+                                    <td style="width:45%;padding:0px;">
                                         <span t-field="line.description"/>
                                     </td>
-                                    <td style="width:25%;padding:0px;">
-                                        <span t-field="line.quantity"/> 
+                                    <td style="text-align:center;width:15%;padding:0px;">
+                                        <span t-esc="line.quantity"/> 
                                     </td>
-                                    <td style="width:25%;padding:0px;">
-                                        $ <span t-field="line.price"/>
+                                    <td style="width:20%;padding:0px;">
+                                        $ <span t-esc="int(line.price)"/>
                                     </td>
-                                    <td style="width:25%;padding:0px;">
-                                        $ <span t-field="line.total_subtotal_line_services"/>
+                                    <td style="width:20%;padding:0px;">
+                                        $ <span t-esc="int(line.total_subtotal_line_services)"/>
                                     </td>
                                 </tr>
                                 
@@ -146,7 +144,7 @@
                             </th>
                             <th></th>
                             <th></th>
-                            <th><span t-field="o.total_price_products"/></th>
+                            <th></th>
                            
                             
                         </tr>
@@ -154,17 +152,17 @@
                         <tbody>
                             <t t-foreach="o.maintenance_line_products" t-as="lines">
                                 <tr style="text-align:left;">
-                                    <td style="width:25%;padding:0px;">
+                                    <td style="width:45%;padding:0px;">
                                         <span t-field="lines.description"/>
                                     </td>
-                                    <td style="width:25%;padding:0px;">
+                                    <td style="text-align:center;width:15%;padding:0px;">
                                         <span t-field="lines.quantity"/>
                                     </td>
-                                    <td style="width:25%;padding:0px;">
-                                       $ <span t-field="lines.price"/>
+                                    <td style="width:20%;padding:0px;">
+                                       $ <span t-esc="int(lines.price)"/>
                                     </td>
-                                    <td style="width:25%;padding:0px;">
-                                      $  <span t-field="lines.total_subtotal_line_product"/>
+                                    <td style="width:20%;padding:0px;">
+                                      $  <span t-esc="int(lines.total_subtotal_line_product)"/>
                                     </td>
                                 </tr>
 
@@ -174,7 +172,6 @@
                     </table>
                     
                    </div>
-                   <br/>
                    <div class="row" style="margin-top:50px;">
                    
                     <div class="col-6"></div>
@@ -218,11 +215,13 @@
                 
                    
                 
-                </div>
+               </div>
+               <div class="footer">
+                <footer>
                 <div class="firmas" style="margin-top:50px;">
                     
                         <div class="row">
-                            <div class="firma" style="text-align:justify; font-size:12px;margin-left:50px;">
+                            <div class="firma" style="text-align:center; font-size:12px;margin-left:50px;">
                                 <div class="texto_firma" style="border-bottom: 1px solid #000; width:300px;">
         
                                 </div>
@@ -237,7 +236,7 @@
                             <br/>
                             <br/>
                             <br/>
-                            <div class="firmados" style="text-align:justify; font-size:16px;margin-left:50px;">
+                            <div class="firmados" style="text-align:center; font-size:12px;margin-left:50px;">
                                 <div class="texto_firmados" style="border-bottom: 1px solid #000; width:300px;">
         
                                 </div>
@@ -249,6 +248,9 @@
         
                             </div>
                         </div>
+                    
+                    </div>
+                </footer>
                 </div>
             </t>
         </template>
