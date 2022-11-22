@@ -29,4 +29,4 @@ class SaleSubscription(models.Model):
     fecha_contrato = fields.Date('Fecha Contrato')
     maintenance = fields.Char(string="Frecuencia de mantenimiento")
     pago_garantia = fields.Boolean(default=False) 
-    
+    vehicle_id = fields.Many2one('fleet.vehicle', sting="Vehiculo", related='x_studio_many2one_field_aHUoE')    
