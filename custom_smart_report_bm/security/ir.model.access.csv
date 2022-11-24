@@ -1,0 +1,2 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_odometer_fleet,access_odometer_fleet,model_odometer_fleet,,1,1,1,1

@@ -12,7 +12,6 @@
     ],
     'data': [
         'report/agreement.xml',
-
         'report/agreement_leasing.xml',
         'report/agreement_anexo.xml',
         'views/agreement_view.xml'

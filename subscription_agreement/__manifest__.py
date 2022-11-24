@@ -13,6 +13,8 @@
     'data': [
         #'security/ir.model.access.csv',
         'report/agreement.xml',
+        'report/agreement_delivery.xml',
+        'report/agreement_defund.xml',
         #'wizard/subscription_invoice.xml',
         #'views/subscription_view.xml'
     ],

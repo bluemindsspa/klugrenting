@@ -4,30 +4,29 @@
         <menuitem
             id="model_odometer_fleet"
             name="Consulta Auto"
-            
+            action="action_view_odometer_wizard"            
             parent="fleet.menu_root"
+            groups="fleet.fleet_group_user"
             sequence="100"/>
 
-            <record id="journal_book_generator_wizard_form" model="ir.ui.view">
+            <record id="odometer_dates_wizard_form" model="ir.ui.view">
                 <field name="name">odometer.fleet.wizard.form</field>
                 <field name="model">odometer.fleet</field>
                 <field name="arch" type="xml">
-                    <form string="Libro Diario">
+                    <form string="Consulta Odometro">
                         <group>
                             <group>
-                                <field name="date_from"/>
+                                <field name="partner_id"/>
+                                <field name="vehicle_id" domain="[('driver_id', '=', partner_id)]" />
                             </group>
-                            <group>
                             
-                                <field name="date_to"/>
-                            </group>
                         </group>
                          
                         
                         <footer>
                             <button 
-                                name="generate_journal_book_xlsx" 
-                                string="Imprimir Libro Diario" 
+                                name="call_api_odometer" 
+                                string="Consulta odometro" 
                                 type="object" 
                                 class="oe_highlight"/>
     
@@ -40,16 +39,15 @@
                 </field>
             </record>
     
-            <record id="action_view_journal_book_wizard" model="ir.actions.act_window">
-                <field name="name">Libro Dario</field>
+            <record id="action_view_odometer_wizard" model="ir.actions.act_window">
+                <field name="name">Consulta Odometro</field>
                 <field name="type">ir.actions.act_window</field>
-                <field name="res_model">journal.book.generator.wizard</field>
-                <field name="view_type">form</field>
+                <field name="res_model">odometer.fleet</field>
                 <field name="view_mode">form</field>
-                <field name="view_id" ref="journal_book_generator_wizard_form"/>
+                <field name="view_id" ref="odometer_dates_wizard_form"/>
                 <field name="target">new</field>
         
-    
+            </record>
     </data>
     
     
