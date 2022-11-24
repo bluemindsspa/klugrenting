@@ -409,6 +409,9 @@
                             <br />
                             <br />
                             <br />
+                            <br />
+                            <br />
+                            <br />
                             <div class="firma" style="text-align:justify; font-size:20px;">
 
                                 <img t-if="doc.x_studio_firma" t-att-src="image_data_uri(doc.x_studio_firma)" style="max-height: 75px;" alt="firma_klug" />
@@ -428,7 +431,7 @@
                             <div class="firmados" style="text-align:justify; font-size:20px;">
 
                                 
-                                <img t-if="doc.x_studio_firma" t-att-src="image_data_uri(doc.x_studio_firma)" style="max-height: 75px;" alt="firma_cliente" />
+                                
 
                                 <div class="texto_firmados" style="border-bottom: 1px solid #000; width:300px;"></div>
                                 <br />
