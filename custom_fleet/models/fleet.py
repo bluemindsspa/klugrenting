@@ -32,7 +32,7 @@ class InheritFleet(models.Model):
     def _get_odometer(self):
         FleetVehicalOdometer = self.env['fleet.vehicle.odometer']
         for record in self:
-            vehicle_odometer = FleetVehicalOdometer.search([('vehicle_id', '=', self.id), ('tag_ids', 'in', [2])], order='id desc',limit=1)
+            vehicle_odometer = FleetVehicalOdometer.search([('vehicle_id', '=', record.id), ('tag_ids', 'in', [2])], order='id desc',limit=1)
             if vehicle_odometer:
                 record.odometer = vehicle_odometer.value
             else:
@@ -49,12 +49,12 @@ class InheritFleet(models.Model):
                         self.date_purchase = self.purchase.date_approve
     
 
-    @api.depends()
-    def _compute_subscription(self):
-        for record in self:
-            subscription_ids = self.env['sale.subscription'].search([('vehicle_id','=', record.id)])
-            if subscription_ids:
-                record.subscription = subscription_ids.id
+    # @api.depends()
+    # def _compute_subscription(self):
+    #     for record in self:
+    #         subscription_ids = self.env['sale.subscription'].search([('vehicle_id','=', record.id)])
+    #         if subscription_ids:
+    #             record.subscription = subscription_ids.id
 
 
 
