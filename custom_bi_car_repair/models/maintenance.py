@@ -143,7 +143,7 @@ class InhMaintenance(models.Model):
         }
 
     def consume_car_parts(self):
-
+        
         picking_type_id = self.env['stock.picking.type'].search([['code', '=', 'outgoing'], [
                                                                 'warehouse_id.company_id', '=', self.company_id.id]], limit=1)
 
@@ -168,6 +168,8 @@ class InhMaintenance(models.Model):
             })
 
     def create_account(self):
+        # call picking function
+        self.consume_car_parts()
         list_invoice = []
         res = {}
         values = {}

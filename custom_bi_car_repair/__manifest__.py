@@ -16,7 +16,7 @@
         'views/sale_order_view.xml',
         'views/maintenance_view.xml',
         'report/car_diagnosys.xml',
-        #'report/sale_order.xml'
+        'report/sale_order.xml'
     ],
     'auto_install': False,
     'application': False,

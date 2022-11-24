@@ -27,7 +27,7 @@
 			<t t-call="web.external_layout">
                 <t t-set="o" t-value="doc.with_context({'lang':doc.partner_id.lang})"/>
                 
-				<div class="page">
+				<div class="page" style="margin-top:0px;">
                     <div class="row">
                         <div class="col-8" style="font-size:18px;">
                             <strong>LIQUIDACION ORDEN DE TRABAJO # <span t-field="o.name" /></strong> 
@@ -38,15 +38,15 @@
                     <div class="col-4" >
                        <strong><i class="fa fa-user" aria-hidden="true"></i> Cliente</strong>
                        <br/>
-                       Empresa: <span t-field="o.partner_id.name" />
+                       <strong>Empresa: </strong> <span t-field="o.partner_id.name" />
                        <br/>
-                       RUT: <span t-field="o.partner_id.vat" />
+                       <strong> RUT: </strong> <span t-field="o.partner_id.vat" />
                        <br/>
-                       Telefono: <span t-field="o.partner_id.phone0" />
+                       <strong> Telefono:</strong> <span t-field="o.partner_id.phone0" />
                        <br/>
-                       Direccion: <span t-field="o.partner_id.street" />
+                       <strong> Direccion:</strong> <span t-field="o.partner_id.street" />
                        <br/>
-                       Lugar de reparación: <span t-field="o.street" />
+                       <strong>Lugar de reparación:</strong> <span t-field="o.street" />
                     </div>
                     <div class="col-4" style="text-align:right;">
                         <img t-if="o.image_brand" t-att-src="image_data_uri(o.image_brand)" style="max-height: 45px;" alt="logo_brand" />
@@ -54,41 +54,48 @@
                     <div class="col-4">
                         
                         <strong>
-                            <i class="fa fa-car" aria-hidden="true"></i>    Vehículo
+                          <i class="fa fa-car" aria-hidden="true"></i>
+                          Vehículo
                         </strong>
                         <br/>
                         <span t-field="o.model" /> <span t-field="o.brand" /> <span t-field="o.year" />
                         <br/>
-                        Matricula: <span t-field="o.license_plate" />
+                        <strong>Matricula:</strong> <span t-field="o.license_plate" />
                         <br/>
-                        Color: <span t-field="o.color" />
+                        <strong> Color: </strong> <span t-field="o.color" />
                         <br/>
                         <t t-if="o.odometer">
-                            Kilometraje: <span t-field="o.odometer" />
+                          <strong> Kilometraje: </strong> <span t-field="o.odometer" />
                         </t>
                         <br/>
-                        Fecha Creación Orden: <span t-field="o.request_date" />
-                        <br/>
-                        Fecha Liquidación: <span t-esc="o.close_date.strftime('%d/%m/%Y')"/>
-                        
-
-
+                        <strong> Fecha Creación Orden: </strong> <span t-field="o.request_date" />
+						            <br/>
+            						<t t-if="o.close_date">
+                          <strong>Fecha Liquidación: </strong> <span t-esc="o.close_date.strftime('%d/%m/%Y')"/>
+                      </t>
+                      <br/>
+                      <t t-if="o.user_id">
+                        <strong> Técnico Asignado: </strong> <span t-esc="o.user_id.name"/>
+                      </t>
                     </div>
                    </div>
                    <br/>
                    <div class="row">
-                    <div class="col-12">
+                     <div class="col-12">
+                         <t t-if="o.description">
                         <i class="fa fa-wrench" aria-hidden="true"></i>
                         <strong>Diagnóstico:</strong> <span t-field="o.description" />
-                        <br/>
+
+                        </t>
+  
+                        <t t-if="o.observations">
                         <i class="fa fa-heartbeat" aria-hidden="true"></i>
                         <strong>Observaciones:</strong> <span t-raw="o.observations"/>
-
+                      </t>
                     </div>
                     
                    </div>
-                   <br/>
-                   <br/>
+                   
                    <div class="row">
                     <table class="table table-borderless" style="max-height:14px;">
                         <thead>
@@ -96,29 +103,29 @@
                             <th>
                                 Servicios Realizados
                             </th>
-                            <th>
-  
+                            <th style="text-align:center;">
+                            Cantidad 
                             </th>
-                            <th></th>
+                            <th>Precio Unit</th>
                             <th>
-                                <span t-field="o.total_price_services"/>
+                               Total neto 
                             </th>
                         </tr>
                         </thead>
                         <tbody>
                             <t t-foreach="o.maintenance_line_services" t-as="line">
-                                <tr style="text-align:left;">
-                                    <td style="width:25%;padding:0px;">
+                                <tr>
+                                    <td style="width:45%;padding:0px;">
                                         <span t-field="line.description"/>
                                     </td>
-                                    <td style="width:25%;padding:0px;">
-                                        <span t-field="line.quantity"/> 
+                                    <td style="text-align:center;width:15%;padding:0px;">
+                                        <span t-esc="line.quantity"/> 
                                     </td>
-                                    <td style="width:25%;padding:0px;">
-                                        $ <span t-field="line.price"/>
+                                    <td style="width:20%;padding:0px;">
+                                        $ <span t-esc="int(line.price)"/>
                                     </td>
-                                    <td style="width:25%;padding:0px;">
-                                        $ <span t-field="line.total_subtotal_line_services"/>
+                                    <td style="width:20%;padding:0px;">
+                                        $ <span t-esc="int(line.total_subtotal_line_services)"/>
                                     </td>
                                 </tr>
                                 
@@ -137,7 +144,7 @@
                             </th>
                             <th></th>
                             <th></th>
-                            <th><span t-field="o.total_price_products"/></th>
+                            <th></th>
                            
                             
                         </tr>
@@ -145,17 +152,17 @@
                         <tbody>
                             <t t-foreach="o.maintenance_line_products" t-as="lines">
                                 <tr style="text-align:left;">
-                                    <td style="width:25%;padding:0px;">
+                                    <td style="width:45%;padding:0px;">
                                         <span t-field="lines.description"/>
                                     </td>
-                                    <td style="width:25%;padding:0px;">
+                                    <td style="text-align:center;width:15%;padding:0px;">
                                         <span t-field="lines.quantity"/>
                                     </td>
-                                    <td style="width:25%;padding:0px;">
-                                       $ <span t-field="lines.price"/>
+                                    <td style="width:20%;padding:0px;">
+                                       $ <span t-esc="int(lines.price)"/>
                                     </td>
-                                    <td style="width:25%;padding:0px;">
-                                      $  <span t-field="lines.total_subtotal_line_product"/>
+                                    <td style="width:20%;padding:0px;">
+                                      $  <span t-esc="int(lines.total_subtotal_line_product)"/>
                                     </td>
                                 </tr>
 
@@ -165,8 +172,7 @@
                     </table>
                     
                    </div>
-                   <br/>
-                   <div class="row">
+                   <div class="row" style="margin-top:50px;">
                    
                     <div class="col-6"></div>
                    <div class="col-6" style="text-align:right;">
@@ -209,11 +215,13 @@
                 
                    
                 
-                </div>
-                <div class="footer">
-                    <footer>
+               </div>
+               <div class="footer">
+                <footer>
+                <div class="firmas" style="margin-top:50px;">
+                    
                         <div class="row">
-                            <div class="firma" style="text-align:justify; font-size:16px;margin-left:50px;">
+                            <div class="firma" style="text-align:center; font-size:12px;margin-left:50px;">
                                 <div class="texto_firma" style="border-bottom: 1px solid #000; width:300px;">
         
                                 </div>
@@ -228,7 +236,7 @@
                             <br/>
                             <br/>
                             <br/>
-                            <div class="firmados" style="text-align:justify; font-size:16px;margin-left:50px;">
+                            <div class="firmados" style="text-align:center; font-size:12px;margin-left:50px;">
                                 <div class="texto_firmados" style="border-bottom: 1px solid #000; width:300px;">
         
                                 </div>
@@ -240,7 +248,9 @@
         
                             </div>
                         </div>
-                       </footer>
+                    
+                    </div>
+                </footer>
                 </div>
             </t>
         </template>
