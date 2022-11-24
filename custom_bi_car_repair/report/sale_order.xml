@@ -20,7 +20,7 @@
           
     </template>
     <template id="sale_report_inherit_saleorder" name="sale_report_inherit_saleorder" inherit_id="sale.report_saleorder_document">
-        <xpath expr="//t[@t-set='address']" position="replace">
+        <xpath expr="//t/t/t" position="replace">
             <div class="row">
             <div class="col-4" >
                        <strong><i class="fa fa-user" aria-hidden="true"></i> Cliente</strong>
