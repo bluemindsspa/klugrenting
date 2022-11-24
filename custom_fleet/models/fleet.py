@@ -9,7 +9,7 @@ class InheritFleet(models.Model):
     
     date_delivery = fields.Date(string="Fecha entrega de Vehiculo", related='subscription.date_start')
     date_return = fields.Date(string="Fecha devolucion de Vehiculo", related='subscription.date')
-    subscription = fields.Many2one('sale.subscription',string='subscripcion activa', compute='_compute_subscription')
+    subscription = fields.Many2one('sale.subscription',string='subscripcion activa')
     traccion_vehicle = fields.Selection([('4x4', '4x4'),('4x2', '4x2'),('AWD', 'AWD')])
     accesories_vehicle = fields.Many2many('accesories.tags', string='Accesorios de Vehiculo', store=True)
     purchase = fields.Many2one('purchase.order', string="Orden de compra")
