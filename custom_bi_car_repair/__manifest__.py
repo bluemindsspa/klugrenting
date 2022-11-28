@@ -1,5 +1,4 @@
-{
-    'name': 'Herencia modulo de reparacion de autos',
+{   'name': 'Herencia modulo de reparacion de autos',
     'version': '1.0',
     'description': '',
     'summary': '',

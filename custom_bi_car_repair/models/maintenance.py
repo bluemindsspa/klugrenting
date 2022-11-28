@@ -53,8 +53,13 @@ class InhMaintenance(models.Model):
     total_tax = fields.Float(string='Impuestos')
     total_tax_incluide = fields.Float(string='Total incluido')
     
-    
-    
+    @api.onchange('user_id')
+    def _onchange_user_id(self):
+        if self.user_id:
+            self.stage_id = 5
+
+
+
     @api.onchange('partner_id')
     def _onchange_partner_id(self):
         if self.partner_id:

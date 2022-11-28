@@ -63,9 +63,9 @@
                 </xpath>
                 <xpath expr="//field[@name='company_id']" position="after">
                     <field name="sale_order_id" string="Origen" />
-                    <field name="total_neto" string="Subtotal" />
-                    <field name="total_tax" string="Iva 19%" />
-                    <field name="total_tax_incluide" string="Total" />
+                    <field name="total_neto" string="Subtotal" widget='integer' options="{'currency_field': 'currency_id'}" />
+                    <field name="total_tax" string="Iva 19%" widget='integer' options="{'currency_field': 'currency_id'}" />
+                    <field name="total_tax_incluide" string="Total" widget='integer' options="{'currency_field': 'currency_id'}" />
 
 
                 </xpath>
@@ -103,8 +103,8 @@
                                     <field name="product_id" />
                                     <field name="description" />
                                     <field name="quantity" />
-                                    <field name="price" />
-                                    <field name="total_subtotal_line_services" />
+                                    <field name="price" widget="integer" />
+                                    <field name="total_subtotal_line_services" widget="integer" />
 
                                 </tree>
                             </field>
@@ -124,15 +124,15 @@
                                     <field name="product_id" />
                                     <field name="description" />
                                     <field name="quantity" />
-                                    <field name="price" />
+                                    <field name="price" widget="integer" />
                                     
-                                    <field name="total_subtotal_line_product" />
+                                    <field name="total_subtotal_line_product" widget="integer" />
                                     
                                 </tree>
                             </field>
                             <group>
                                 <group>
-                                    <field name="total_price_products" string="Subtotal"/>
+                                    <field name="total_price_products" string="Subtotal" widget="integer"/>
                                 </group>
                                 
                                 

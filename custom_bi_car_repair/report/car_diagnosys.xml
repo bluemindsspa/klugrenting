@@ -121,11 +121,13 @@
                                     <td style="text-align:center;width:15%;padding:0px;">
                                         <span t-esc="line.quantity"/> 
                                     </td>
-                                    <td style="width:20%;padding:0px;">
-                                        $ <span t-esc="int(line.price)"/>
+                                    <td style="width:20%;padding:0px;">                                     
+
+                                      $ <t t-esc="'{0:,.0f}'.format(int(line['price'])).replace(',', '.')" />
+
                                     </td>
                                     <td style="width:20%;padding:0px;">
-                                        $ <span t-esc="int(line.total_subtotal_line_services)"/>
+                                       $ <t t-esc="'{0:,.0f}'.format(int(line['total_subtotal_line_services'])).replace(',', '.')" />
                                     </td>
                                 </tr>
                                 
@@ -159,10 +161,10 @@
                                         <span t-field="lines.quantity"/>
                                     </td>
                                     <td style="width:20%;padding:0px;">
-                                       $ <span t-esc="int(lines.price)"/>
+                                       $ <t t-esc="'{0:,.0f}'.format(int(lines['price'])).replace(',', '.')"/>
                                     </td>
                                     <td style="width:20%;padding:0px;">
-                                      $  <span t-esc="int(lines.total_subtotal_line_product)"/>
+                                      $  <t t-esc="'{0:,.0f}'.format(int(lines['total_subtotal_line_product'])).replace(',', '.')"/>
                                     </td>
                                 </tr>
 
@@ -182,7 +184,7 @@
                                 Subtotal
                             </td>
                             <td style="padding:0px;">
-                                $ <span t-field="o.total_neto"/>
+                                $ <t t-esc="'{0:,.0f}'.format(int(o['total_neto'])).replace(',', '.')"/>
                             </td>
                         </tr>
                         <tr>
@@ -190,13 +192,13 @@
                                 IVA 19%
                             </td>
                             <td style="padding:0px;">
-                                $ <span t-field="o.total_tax"/>
+                                $ <t t-esc="'{0:,.0f}'.format(int(o['total_tax'])).replace(',', '.')"/>
                             </td>
                         </tr>
                         <tr>
                             <td style="padding:0px;">Total:</td>
                             <td style="padding:0px;">
-                               <strong>$ <span t-field="o.total_tax_incluide"/>
+                               <strong>$ <t t-esc="'{0:,.0f}'.format(int(o['total_tax_incluide'])).replace(',', '.')"/>
                             </strong>
                             </td>
                         </tr>
