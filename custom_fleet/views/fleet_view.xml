@@ -13,8 +13,14 @@
                     <attribute name="invisible">1</attribute>
                 </xpath>
                 <xpath expr="//field[@name='acquisition_date']" position="after">
-                    <field name="date_delivery"/>
-                    <field name="date_return"/> 
+                  <field name="date_delivery"/>
+                  <field name="date_return" string="Fecha Devolución"/>
+                  <field name="date_expect_refund_subs" string="Fecha Esperada"/>
+                    
+                    <!-- <div class="o_row"> -->
+                    <!--     <span>Fecha Devolución</span><field name="date_return" class="oe_inline" string="Fecha de devolución"/><span>Esperada:</span> -->
+                    <!--     <field name='date_expect_refund_subs' string="Fecha esperada" readonly="1"/> -->
+                    <!-- </div> -->
                     <field name="subscription"/>
 
                     
