@@ -29,4 +29,23 @@ class SaleSubscription(models.Model):
     fecha_contrato = fields.Date('Fecha Contrato')
     maintenance = fields.Char(string="Frecuencia de mantenimiento")
     pago_garantia = fields.Boolean(default=False) 
-    vehicle_id = fields.Many2one('fleet.vehicle', sting="Vehiculo", related='x_studio_many2one_field_aHUoE')    
+    vehicle_id = fields.Many2one('fleet.vehicle', sting="Vehiculo", related='x_studio_many2one_field_aHUoE')
+    date_expect_refund = fields.Date(string="Fecha esperada de devolucion")
+
+
+    def set_close(self):
+        today = fields.Date.from_string(fields.Date.context_today(self))
+        search = self.env['sale.subscription.stage'].search
+        for sub in self:
+            stage = search([('category', '=', 'closed'), ('sequence', '>=', sub.stage_id.sequence)], limit=1)
+            if not stage:
+                stage = search([('category', '=', 'closed')], limit=1)
+            values = {'stage_id': stage.id, 'to_renew': False}
+            if sub.recurring_rule_boundary == 'unlimited' or not sub.date or today < sub.date:
+                values['date_expect_refund'] = sub.date
+                values['date'] = today
+            sub.write(values)
+        return True
+
+            
+                
