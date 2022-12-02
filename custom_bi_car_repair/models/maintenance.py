@@ -2,11 +2,14 @@
 # Part of BrowseInfo. See LICENSE file for full copyright and licensing details.
 
 import time
+import logging
 from datetime import datetime
 from datetime import date, datetime
 from odoo.exceptions import Warning, UserError
 from odoo import models, fields, exceptions, api, SUPERUSER_ID, _, tools
+from uuid import uuid4
 
+_logger = logging.getLogger(__name__)
 
 class InhAccountMove(models.Model):
     _inherit = 'account.move'
@@ -15,8 +18,10 @@ class InhAccountMove(models.Model):
 
 
 class InhMaintenance(models.Model):
-    _inherit = 'maintenance.request'
+    _inherit = ['maintenance.request']
 
+    # portal 
+    uuid = fields.Char('Account UUID', default=lambda self: str(uuid4()), copy=False, required=True)
     partner_id = fields.Many2one('res.partner', string='Cliente')
     street = fields.Char(string='Direccion')
     fleet = fields.Many2one('fleet.vehicle', string='Flota')
@@ -52,6 +57,47 @@ class InhMaintenance(models.Model):
     
     total_tax = fields.Float(string='Impuestos')
     total_tax_incluide = fields.Float(string='Total incluido')
+    maintenance_count = fields.Integer(compute='_compute_maintenance_count')
+    
+    
+    def _compute_maintenance_count(self):
+        maintenance_data = self.env['maintenance.request'].read_group(domain=[('partner_id', 'in', self.ids), ('stage_id', '!=', False)],
+                                                                     fields=['partner_id'],
+                                                                     groupby=['partner_id'])
+        mapped_data = dict([(m['partner_id'][0], m['partner_id_count']) for m in maintenance_data])
+        for maintenances in self:
+            maintenances.maintenance_count = mapped_data.get(maintenances.id, 0)
+
+    
+    
+    def _init_column(self, column_name):
+        # to avoid generating a single default uuid when installing the module,
+        # we need to set the default row by row for this column
+        if column_name == "uuid":
+            _logger.debug("Table '%s': setting default value of new column %s to unique values for each row",
+                          self._table, column_name)
+            self.env.cr.execute("SELECT id FROM %s WHERE uuid IS NULL" % self._table)
+            acc_ids = self.env.cr.dictfetchall()
+            query_list = [{'id': acc_id['id'], 'uuid': str(uuid4())} for acc_id in acc_ids]
+            query = 'UPDATE ' + self._table + ' SET uuid = %(uuid)s WHERE id = %(id)s;'
+            self.env.cr._obj.executemany(query, query_list)
+
+        
+    
+    def _compute_access_url(self):
+        for record in self:
+            record.access_url = '/my/contracts/{}'.format(record.id)
+
+    def action_preview(self):
+        """Invoked when 'Preview' button in contract form view is clicked."""
+        self.ensure_one()
+        return {
+            'type': 'ir.actions.act_url',
+            'target': 'self',
+            'url': self.get_portal_url(),
+        }
+    
+    
     
     @api.onchange('user_id')
     def _onchange_user_id(self):

@@ -80,21 +80,7 @@
                     </div>
                    </div>
                    <br/>
-                   <div class="row">
-                     <div class="col-12">
-                         <t t-if="o.description">
-                        <i class="fa fa-wrench" aria-hidden="true"></i>
-                        <strong>Diagnóstico:</strong> <span t-field="o.description" />
-
-                        </t>
-  
-                        <t t-if="o.observations">
-                        <i class="fa fa-heartbeat" aria-hidden="true"></i>
-                        <strong>Observaciones:</strong> <span t-raw="o.observations"/>
-                      </t>
-                    </div>
-                    
-                   </div>
+                   
                    
                    <div class="row">
                     <table class="table table-borderless" style="max-height:14px;">
@@ -211,15 +197,28 @@
                             
                         
                    </div>
-                   <br/>
-                   <br/>
-                   
-                
+
+              
                    
                 
                </div>
                <div class="footer">
                 <footer>
+                    <div class="row">
+                        <div class="col-12">
+                            <t t-if="o.description">
+                           <i class="fa fa-wrench" aria-hidden="true"></i>
+                           <strong>Diagnóstico:</strong> <span t-field="o.description" />
+   
+                           </t>
+     
+                           <t t-if="o.observations">
+                           <i class="fa fa-heartbeat" aria-hidden="true"></i>
+                           <strong>Observaciones:</strong> <span t-raw="o.observations"/>
+                         </t>
+                       </div>
+                       
+                      </div>
                 <div class="firmas" style="margin-top:50px;">
                     
                         <div class="row">

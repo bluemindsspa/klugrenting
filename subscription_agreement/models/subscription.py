@@ -32,7 +32,6 @@ class SaleSubscription(models.Model):
     vehicle_id = fields.Many2one('fleet.vehicle', sting="Vehiculo", related='x_studio_many2one_field_aHUoE')
     date_expect_refund = fields.Date(string="Fecha esperada de devolucion")
 
-
     def set_close(self):
         today = fields.Date.from_string(fields.Date.context_today(self))
         search = self.env['sale.subscription.stage'].search
