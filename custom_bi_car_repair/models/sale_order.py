@@ -24,7 +24,8 @@ class InhSaleOrder(models.Model):
     license_plate = fields.Char(string='Patente')
     worker_order_count = fields.Integer(
         compute='_get_worker_order_count', string="worker order")
-
+    description = fields.Char(string='Diagnostico')
+    
 
     
 
@@ -70,6 +71,7 @@ class InhSaleOrder(models.Model):
         sale_obj.state = 'sale'
         vals = {
             'name': sale_obj.name,
+            'description': sale_obj.description,
             'maintenance_team_id': maintenance_team.id,
             'partner_id': sale_obj.partner_id.id,
             'street': sale_obj.partner_id.street,

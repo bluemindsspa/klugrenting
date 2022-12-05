@@ -8,7 +8,7 @@
     'license': 'LGPL-3',
     'category': '',
     'depends': [
-        'sale_subscription', 'sale'
+        'sale_subscription', 'sale', 'portal'
     ],
     'data': [
         #'security/ir.model.access.csv',
@@ -16,7 +16,9 @@
         'report/agreement_delivery.xml',
         'report/agreement_defund.xml',
         #'wizard/subscription_invoice.xml',
-        #'views/subscription_view.xml'
+        'views/portal_agreement.xml',
+        'views/subscription_view.xml'
+
     ],
 
     'auto_install': False,
