@@ -12,7 +12,8 @@
     ],
     'data': [
         'security/ir.model.access.csv',        
-        'views/fleet_view.xml'
+        'views/fleet_view.xml',
+        'views/portal_view.xml'
     ],
 
     'auto_install': False,

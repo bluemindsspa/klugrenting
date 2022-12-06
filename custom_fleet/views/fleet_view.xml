@@ -13,11 +13,48 @@
                     <attribute name="invisible">1</attribute>
                 </xpath>
                 <xpath expr="//field[@name='acquisition_date']" position="after">
-                    <field name="date_delivery"/>
-                    <field name="date_return"/> 
+                  <field name="date_delivery"/>
+                  <field name="date_return" string="Fecha Devolución"/>
+                  <field name="date_expect_refund_subs" string="Fecha Esperada"/>
+                    
+                    <!-- <div class="o_row"> -->
+                    <!--     <span>Fecha Devolución</span><field name="date_return" class="oe_inline" string="Fecha de devolución"/><span>Esperada:</span> -->
+                    <!--     <field name='date_expect_refund_subs' string="Fecha esperada" readonly="1"/> -->
+                    <!-- </div> -->
                     <field name="subscription"/>
 
                     
+                </xpath>
+
+                <xpath expr="//field[@name='horsepower_tax']" position="replace">
+    
+                    <field name="purchase" string="Orden de compra"/>
+                    <field name="date_purchase" string="Fecha de OC"/>
+                    <field name="purchase_price_total" string="Total compra"/>
+                    
+                    
+                  </xpath>
+
+                <xpath expr="//field[@name='first_contract_date']" position="after">
+                    <field name="account_move" string="Factura de de venta"/>
+                    <field name="date_account" string="Fecha de factura"/>
+                    <field name="account_price_total" string="Total Factura"/>
+                    <field name="margin_total" string="Margen"/>
+                </xpath>
+                <!-- <xpath expr="//field[@name='x_studio_comprador']" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </xpath> -->
+                <xpath expr="//field[@name='first_contract_date']" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </xpath>
+                <xpath expr="//field[@name='car_value']" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </xpath>
+                <xpath expr="//field[@name='net_car_value']" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </xpath>
+                <xpath expr="//field[@name='residual_value']" position="attributes">
+                    <attribute name="invisible">1</attribute>
                 </xpath>
                 <xpath expr="//field[@name='model_year']" position="attributes">
                     <attribute name="invisible">1</attribute>
