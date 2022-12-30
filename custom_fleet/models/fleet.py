@@ -28,6 +28,13 @@ class InheritFleet(models.Model):
     margin_total = fields.Monetary(string="Margen")
     purchase_price_total = fields.Monetary(string="Precio de compra")
     fleet_counter = fields.Integer(compute='_compute_fleet_count')
+    
+    attach_1 = fields.Binary()
+    attach_1_fname = fields.Char()
+    attach_2 = fields.Binary()
+    attach_2_fname = fields.Char()
+    attach_3 = fields.Binary()
+    attach_3_fname = fields.Char()  
 
     def _compute_fleet_count(self):
         fleet_data = self.env['fleet.vehicle'].read_group(domain=[('drive_id', 'in', self.ids), ('state_id', '!=', False)],
