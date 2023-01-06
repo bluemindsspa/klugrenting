@@ -165,17 +165,28 @@
                                                     </t>
                                                     </td>
                                                     <td>
+                                                        <t t-if="fleet.attach_1">
+                                                            <a t-attf-href="#{ fleet.id }/download/1">
+                                                               Soap , 
+                                                            </a>
+                                                        </t>
+                                                        <t t-if="fleet.attach_2">
+                                                            <a t-attf-href='#{ fleet.id }/download/2'>
+                                                                Permiso de circulacion ,
+                                                            </a>
+                                                        </t>
+                                                        <t t-if="fleet.attach_3">
+                                                            <a t-attf-href='#{ fleet.id }/download/3'>
+                                                                Homologado
+                                                            </a>
+                                                        </t>
+                                                        <t t-else="">
+                                                            No tiene documentos
+                                                        </t>
                                                         
-                                                        
-                                                        <a t-attf-href="#{ fleet.id }/download/1">
-                                                            Documento 1 , 
-                                                        </a>
-                                                        <a t-attf-href='#{ fleet.id }/download/2'>
-                                                            Documento 2 ,
-                                                        </a>
-                                                        <a t-attf-href='#{ fleet.id }/download/3'>
-                                                            Documento 3
-                                                        </a>
+                                                       
+                                                       
+                                                       
                                                         <!-- <span t-esc="fleet.attach_1" string="Documento 1" />
                                                         <span t-esc="fleet.attach_1_fname" string="Documento 1" invisible="1"/>
                                                         <span t-esc="fleet.attach_2" string="Documento 2" />

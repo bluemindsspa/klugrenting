@@ -124,7 +124,7 @@ class FleetPortal(portal.CustomerPortal):
             fleet_sudo, access_token, **kw)
         if fleet_sudo.attach_1:
             data = io.BytesIO(base64.standard_b64decode(fleet_sudo.attach_1))
-            return http.send_file(data, filename='documento1.pdf', as_attachment=True)
+            return http.send_file(data, filename='soap.pdf', as_attachment=True)
         
 
         else:
@@ -145,7 +145,7 @@ class FleetPortal(portal.CustomerPortal):
             fleet_sudo, access_token, **kw)
         if fleet_sudo.attach_2:
             data2=io.BytesIO(base64.standard_b64decode(fleet_sudo.attach_2))
-            return http.send_file(data2, filename = 'documento2.pdf', as_attachment = True)
+            return http.send_file(data2, filename = 'permiso_circulacion.pdf', as_attachment = True)
             
         else:
             return request.not_found()
@@ -165,7 +165,7 @@ class FleetPortal(portal.CustomerPortal):
             fleet_sudo, access_token, **kw)
         if fleet_sudo.attach_3:
             data3=io.BytesIO(base64.standard_b64decode(fleet_sudo.attach_3))
-            return http.send_file(data3, filename = 'documento3.pdf', as_attachment = True)
+            return http.send_file(data3, filename = 'homologado.pdf', as_attachment = True)
             
         else:
             return request.not_found()
