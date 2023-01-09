@@ -98,6 +98,18 @@ class InhMaintenance(models.Model):
         }
     
     
+    @api.onchange('stage_id')
+    def _onchange_stage_id(self):
+        if self.stage_id == 6:
+            pickings = self.env['stock.picking'].search('origin', '=', self.name)
+            for record in pickings:
+                if not record.state != ['done','cancel']:
+                    if record.state == 'draft':
+                        record.action_confirm()
+            
+    
+    
+    
     
     @api.onchange('user_id')
     def _onchange_user_id(self):
@@ -206,13 +218,13 @@ class InhMaintenance(models.Model):
             'location_dest_id': picking_type_id.default_location_dest_id.id,
             'origin': self.name,
         })
-        for estitmate in self.maintenance_line_products:
+        for estimate in self.maintenance_line_products:
             move = self.env['stock.move'].create({
                 'picking_id': picking.id,
-                'name': estitmate.product_id.name,
-                'product_uom': estitmate.product_id.uom_id.id,
-                'product_id': estitmate.product_id.id,
-                'product_uom_qty': estitmate.quantity,
+                'name': estimate.product_id.name,
+                'product_uom': estimate.product_id.uom_id.id,
+                'product_id': estimate.product_id.id,
+                'product_uom_qty': estimate.quantity,
                 'location_id': picking_type_id.default_location_src_id.id,
                 'location_dest_id': picking_type_id.default_location_dest_id.id,
                 'origin': self.name,
@@ -254,7 +266,7 @@ class InhMaintenance(models.Model):
         for services_line in maintenance_obj.maintenance_line_services:
             values = {
                 'move_id': invoice.id,
-                'name': 'Trabajo segun ' + maintenance_obj.name,
+                'name': 'Trabajo segun ' + maintenance_obj.name + ' ' + services_line.description,
                 'product_id': services_line.product_id.id,
                 'account_id': journal_id.default_account_id.id,
                 'quantity': services_line.quantity,
@@ -267,7 +279,7 @@ class InhMaintenance(models.Model):
         for products_line in maintenance_obj.maintenance_line_products:
             values_product = {
                 'move_id': invoice.id,
-                'name': 'Trabajo segun ' + maintenance_obj.name,
+                'name': 'Trabajo segun '+ maintenance_obj.name + ' ' + products_line.description,
                 'product_id': products_line.product_id.id,
                 'account_id': journal_id.default_account_id.id,
                 'quantity': products_line.quantity,
