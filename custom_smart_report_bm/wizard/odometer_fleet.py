@@ -13,8 +13,7 @@ from urllib.request import urlretrieve
 from urllib.parse import urlencode
 from odoo import api, fields, models, _
 from odoo.exceptions import UserError
-from datetime import datetime, timedelta, date
-from calendar import monthrange
+from datetime import datetime
 from io import BytesIO
 import base64
 import xlwt
@@ -25,62 +24,104 @@ class FleetVehicleOdometer(models.TransientModel):
     _name = 'odometer.fleet'
 
     vehicle_id = fields.Many2one('fleet.vehicle')
-    partner_id = fields.Many2one('res.partner')
+
+    date_start = fields.Datetime('Fecha inicio')
+    date_end = fields.Datetime('Fecha Final')
+
     
 
-    def call_api_odometer(self):
-        today = date.today()
+    def export_api_tag(self, last_odometer):
+        Odometer = self.env['fleet.vehicle.odometer']
+        last_odometer = Odometer.search([('vehicle_id', '=', self.vehicle_id.id), ('tag_ids', 'in', [2])], order='id desc',
+                                        limit=1)
+        
+        workbook = xlwt.Workbook(encoding='utf-8')
+        sheet = workbook.add_sheet('TAG')
+        today = datetime.now().date()
+        center = xlwt.easyxf('align: horiz centre')
+        file_name = 'Extracto bancario' + str(today)
+        sheet.write(0, 0, 'Auto', center)
+        sheet.write(0, 1, 'Fecha de consulta', center)
+        sheet.write(0, 2, 'Valor', center)
+        sheet.write(0, 3, 'Tipo de Consulta', center)
+
+        line = 0
+
         Odometer = self.env['fleet.vehicle.odometer']
         now = datetime.now()
-        days_months = monthrange(now.year, now.month)[1] + 1
-        
-        
-        for i in range(1,days_months):
-            last_odometer = Odometer.search(
-            [('vehicle_id', '=', self.vehicle_id.id), ('tag_ids', 'in', [2])], order='id desc',limit=1)
-        
-            self.export_odometer_dates(last_odometer,i)
 
-    def export_odometer_dates(self, last_odometer,i):
-        Odometer = self.env['fleet.vehicle.odometer']
         config = self.env['ir.config_parameter'].sudo()
         if not config.get_param('api_odometer'):
             raise UserError(
                 'Operacion no permitida, contacte al Administrador para activar API TAG y Multas.')
-
-        date_start = last_odometer.date + timedelta(i + 1)
-        date_end = date_start + timedelta(1)
-
-        url = str(config.get_param('odo_url')) + \
-            str(config.get_param('odo_user')) + '?'
-        license_plate = self.vehicle_id.license_plate[:-2] + "-" + self.vehicle_id.license_plate[4:6]
+        # fecha1 = datetime.now() - relativedelta(days=1)
+        # fecha2 = datetime.now()
+        url = str(config.get_param('tag_url')) + \
+                  str(config.get_param('odo_user')) + '?'
+        # url = 'http://api.smartreport.cl/v2/odometro/klugrent?token=c175289b8a2fca7ce92ecf9ba6f3a6c2&patente=PYFV-13&fecha1=2022-08-31%2006:20:00&fecha2=2022-08-31%2018:30:30'
         params = {
             'token': config.get_param('odo_token'),
-            'patente': license_plate,  # 'PYFV-59',
-            'fecha1': str(date_start.strftime("%Y-%m-%d  %H:%M:%S")),
-            'fecha2': str(date_end.strftime("%Y-%m-%d %H:%M:%S"))
+            'patente': last_odometer.vehicle_id.license_plate,
+            'fecha1': str(self.date_start.strftime("%Y-%m-%d  %H:%M:%S")),
+            'fecha2': str(self.date_end.strftime("%Y-%m-%d %H:%M:%S"))
         }
         metodo = []
         qstr = urlencode(params)
         print(json.dumps(params, indent=4, ensure_ascii=False))
-        response = requests.post(url + qstr)
+        response = requests.post(url+qstr)
         if response.status_code != 200:
-            pass
-
+            raise UserError(
+                'Por favor contacte con el Administrador: %s', response.text)
         dict_list = json.loads(response.text.encode('utf8'))
-        if dict_list.get('status') != 0:
+        if dict_list.get('status') != 0 and dict_list.get('status') != 4:
             pass
-
-        ult_valor = last_odometer.value
-        if dict_list.get('data'):
-            for tag in dict_list.get('data'):
-                valor = float(tag.get('odometro')) / 1000
-                ult_valor +=  float(valor)
-            
-                vals_data = {
-                    'vehicle_id': self.vehicle_id.id,
-                    'date': tag.get('fecha'),
-                    'value': ult_valor,
-                    'tag_ids': [2],
+            # jamie = dict_list.get('mensaje')
+            # raise UserError('Por favor revise el siguiente error: ' + str(dict_list.get('mensaje')))
+        if dict_list.get('tag'):
+            for tag in dict_list.get('tag'):
+                vals_tag = {
+                            'vehicle_id': self.id,
+                            'date': datetime.strptime(str(tag.get('fecha')), '%d-%m-%Y %H:%M'),
+                            'tag_ids': [1],
+                            'amount': tag.get('tarifa'),
+                            'concession': tag.get('concesion'),
+                            'description': tag.get('description'),
+                            'category': tag.get('categoria'),
                 }
-                Odometer.create(vals_data)
+                # Odometer.create(vals_tag)
+        if dict_list.get('multa'):
+            for tag in dict_list.get('multa'):
+                vals_multa = {
+                            'vehicle_id': self.id,
+                            'date': datetime.strptime(str(tag.get('fecha')), '%d-%m-%Y %H:%M'),
+                            'tag_ids': [7],
+                            'amount': tag.get('tarifa'),
+                            'description': tag.get('via'),
+                            'category': tag.get('tipo_multa'),
+                }
+                # Odometer.create(vals_multa)
+
+        for record in vals_tag:
+
+            line += 1
+            sheet.write(line, 0, record.vehicle_id.name)
+        fp = BytesIO()
+        workbook.save(fp)
+        fp.seek(0)
+        data = fp.read()
+        fp.close()
+        data_b64 = base64.encodestring(data)
+        doc = self.env['ir.attachment'].create({
+            'name': '%s.xls' % (file_name),
+            'datas': data_b64,
+            'store_fname': '%s.xls' % (file_name),
+            'type': 'url'
+        })
+        return {
+            'type': "ir.actions.act_url",
+            'url': "web/content/?model=ir.attachment&id=" + str(
+                doc.id) + "&filename_field=name&field=datas&download=true&filename=" + str(doc.name),
+            'target': "current",
+        }
+
+

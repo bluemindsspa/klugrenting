@@ -8,11 +8,12 @@
     'license': 'LGPL-3',
     'category': '',
     'depends': [
-        'fleet', 'base', 'sale_subscription', 'purchase', 'account'
+        'fleet', 'base', 'sale_subscription', 'purchase', 'account', 'theme_prime'
     ],
     'data': [
         'security/ir.model.access.csv',        
-        'views/fleet_view.xml'
+        'views/fleet_view.xml',
+        'views/portal_view.xml'
     ],
 
     'auto_install': False,

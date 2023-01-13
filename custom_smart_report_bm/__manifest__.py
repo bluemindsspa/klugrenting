@@ -14,8 +14,7 @@
     'summary': 'API de smart report con cron para que tome los valores automaticamente',
     'depends': ['base', 'fleet', 'agreement_blueminds', 'smart_report_bm'],
     'data': [
-            'security/ir.model.access.csv',
-            'wizard/odometer_fleet.xml',           
+           
             'views/fleet_vehicle_odometer_view.xml',
            
     ],

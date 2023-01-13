@@ -11,11 +11,13 @@
                     <page string="Datos Vehículo" name="Data_vehicle">
                         <group>
                             <group>
+                                <field name="estado"/>
                                 <field name="marca"/>
                                 <field name="modelo"/>
                                 <field name="chasis"/>
                                 <field name="motor"/>
                                 <field name="cilindrada"/>
+                                <field name="kilometraje"/>
                                 <field name="anio"/>
                             </group>
                             <group>

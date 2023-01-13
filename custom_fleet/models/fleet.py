@@ -27,7 +27,28 @@ class InheritFleet(models.Model):
     purchase_price_total = fields.Monetary(string="Total compra")
     margin_total = fields.Monetary(string="Margen")
     purchase_price_total = fields.Monetary(string="Precio de compra")
+    fleet_counter = fields.Integer(compute='_compute_fleet_count')
+    
+    attach_1 = fields.Binary()
+    attach_1_fname = fields.Char()
+    attach_2 = fields.Binary()
+    attach_2_fname = fields.Char()
+    attach_3 = fields.Binary()
+    attach_3_fname = fields.Char()  
 
+    def _compute_fleet_count(self):
+        fleet_data = self.env['fleet.vehicle'].read_group(domain=[('drive_id', 'in', self.ids), ('state_id', '!=', False)],
+                                                                     fields=['drive_id'],
+                                                                     groupby=['drive_id'])
+        mapped_data = dict([(m['driver_id]'][0], m['partner_id_count']) for m in fleet_data])
+        for fleets in self:
+            fleets.fleet_counter = mapped_data.get(fleets.id, 0)
+
+    
+
+         
+
+    
    # Funcion que permite buscar la factura de venta asociada al vehiculo y extraer informacion
     @api.depends()
     def _compute_account(self):

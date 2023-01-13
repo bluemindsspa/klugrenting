@@ -79,6 +79,15 @@
                     <field name="traccion_vehicle" string="Tracción"/>
                     <field name="accesories_vehicle" string="Accesorios" widget="many2many_tags"/>
                 </xpath>
+                <xpath expr="//field[@name='patente']" position="after">
+                    <field name="attach_1" string="SOAP" widget="binary"/>
+                    <field name="attach_1_fname" string="SOAP" invisible="1"/>
+                    <field name="attach_2" string="Permiso de Circulacion"/>
+                    <field name="attach_2_fname" string="Permiso de Circulacion" invisible="1"/>
+                    <field name="attach_3" string="Homologado"/>
+                    <field name="attach_3_fname" string="Homologado" invisible="1"/>
+                    
+                </xpath>
             </field>
         </record>
 

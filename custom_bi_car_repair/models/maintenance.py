@@ -15,6 +15,22 @@ class InhAccountMove(models.Model):
     _inherit = 'account.move'
 
     maintenance_id = fields.Many2one('maintenance.request', string='OT')
+    
+    
+    def action_post(self):
+        res = super(InhAccountMove, self).action_post()
+        picking_ids = self.env['stock.picking'].search([('origin', '=', self.maintenance_id.name)])
+            
+        if picking_ids.state not in ['done','cancel']:
+                    
+            picking_ids.action_assign()
+            picking_ids.action_set_quantities_to_reservation()
+            picking_ids.button_validate()
+            
+            
+        
+        return res
+        
 
 
 class InhMaintenance(models.Model):
@@ -44,6 +60,8 @@ class InhMaintenance(models.Model):
         'maintenance.line.products', 'maintenance_product_id')
     maintenance_line_services = fields.One2many(
         'maintenance.line.services', 'maintenance_service_id')
+    maintenance_line_checklist = fields.One2many(
+        'maintenance.line.checklist', 'maintenance_id')
     observations = fields.Text(string='Observaciones')
     odometer = fields.Integer(string='Odometro')
     account_count = fields.Integer(
@@ -98,14 +116,16 @@ class InhMaintenance(models.Model):
         }
     
     
-    @api.onchange('stage_id')
-    def _onchange_stage_id(self):
-        if self.stage_id == 6:
-            pickings = self.env['stock.picking'].search('origin', '=', self.name)
-            for record in pickings:
-                if not record.state != ['done','cancel']:
-                    if record.state == 'draft':
-                        record.action_confirm()
+    # @api.onchange('stage_id')
+    # def _onchange_stage_id(self):
+        
+    #     account_ids = self.env['account.move'].search('maintenance_id', '=', self.id)
+    #     if account_ids.state == 'posted':
+    #         picking_ids = self.env['stock.picking'].search('origin', '=', self.name)
+            
+    #         if picking_ids.state not in ['done','cancel']:
+                    
+    #             picking_ids.action_assign()
             
     
     
@@ -322,3 +342,14 @@ class InhMaintenanceLineServices(models.Model):
     maintenance_service_id = fields.Many2one(
         'maintenance.request', string='Presupuesto')
     total_subtotal_line_services = fields.Float(string='Subtotal Linea')
+
+
+class InhMaintenanceChecklist(models.Model):
+
+    _name = 'maintenance.line.checklist'
+
+    check = fields.Boolean(string='Check', default=False)
+    activity = fields.Char(string='Actividad')
+    date = fields.Date(string='Fecha')
+    maintenance_id = fields.Many2one(
+        'maintenance.request', string='Presupuesto')

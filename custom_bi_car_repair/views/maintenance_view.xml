@@ -140,6 +140,20 @@
 
 
                         </page>
+                        <page string="Checklist" name="checklist">
+                            <field name="maintenance_line_checklist" mode="tree,kanban">
+                                <tree string="Checklist" editable="bottom">
+                                    <field name="check" />
+                                    <field name="activity" />
+                                    <field name="date" />
+                                    
+                                    
+                                </tree>
+                            </field>
+                            
+
+
+                        </page>
                         <page string="Observaciones" name="data_check">
                             <group>
                                 

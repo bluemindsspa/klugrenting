@@ -1,0 +1,132 @@
+<?xml version='1.0' encoding='utf-8'?>
+<odoo>
+    <data>
+
+        <record id="financial_table_tree" model="ir.ui.view">
+            <field name="name">Creditos</field>
+            <field name="model">financial.management</field>
+            <field name="arch" type="xml">
+                <tree string="Tabla de Amortizaciones">
+                    <field name="entidad_general"/>
+                    <field name="entidad"/>
+                    <field name="tipo"/>
+                    <field name="inicio_credito"/>
+                    <field name="vencimiento_credito"/>
+                    <field name="cuota"/>
+                    <field name="cuotas_totales"/>
+                    <field name="estado_de_pago"/>
+                </tree>
+            </field>
+
+        </record>
+        <record id="financial_table_form" model="ir.ui.view">
+            <field name="name">financial_management.view.form</field>
+            <field name="model">financial.management</field>
+            <field name="arch" type="xml">
+                <form string="Formulario de amortizacion">
+                    <header>                                            
+                        <field name="estado_de_pago" widget="statusbar" clickable="True"></field>                                        
+                      </header>  
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="entidad_general"/>
+                                <field name="entidad"/>
+                                <field name="tipo"/>
+                            </group>
+                            <group>
+                                <field name="inicio_credito"/>
+                                <field name="vencimiento_credito"/>
+                            </group>
+                        </group>
+                        <group>
+                            <group>
+                                <field name="cae" string="CAE"/>
+                                <field name="comision_credito"/>
+                                <field name="monto_seguro"/>
+                                <field name="valor_inversion" string="Monto Otorgado"/>
+                                <field name="costo_total_credito"/>
+                                
+                            </group>
+                            <group>
+                                <field name="garantia"/>
+                                <field name="cuota"/>
+                                <field name="cuotas_totales"/>
+                            </group>
+                        </group>
+                        <notebook>
+                            <page string="Tabla de Amortizacion" name="financial_lines">
+                                <field name="financial_lines_id" mode="tree,kanban">
+                                    <tree string="Lineas" editable="bottom">
+                                        <field name="account_id" string="id de cuota" />
+                                        <field name="fecha_pago" string="Fecha de pago" />
+                                        <field name="fecha_vencimiento_pago" string="Fecha de vencimiento" />
+                                        <field name="pagado" string="pagado"/>
+                                        <field name="capital" string="Capital"/>
+                                        <field name="interes" string="Interes" />
+                                        <field name="valor_cuota" string="Valor Cuota" />
+                                        <field name="saldo_capital" string="Saldo Capital"/>
+                                        
+    
+                                    </tree>
+                                </field>
+                                <!-- <group>
+                                    <group>
+                                        <field name="total_price_services" string="Subtotal"/>
+                                    </group>
+                                    
+                                    
+                                </group> -->
+                                
+    
+                            </page>
+                            <page string="Notas" name="notas">
+                                <field name="notas" widget="html"/>
+                            </page>
+                        </notebook>
+                       
+                        
+                    </sheet>
+                </form>
+            </field>
+        </record>
+        <record id="action_financial_table" model="ir.actions.act_window">
+            <field name="name">Credito</field>
+            <field name="res_model">financial.management</field>
+            <field name="view_mode">tree,form</field>
+            <field name="view_id" ref="financial_table_tree" />
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">
+                    Crea tu primer formulario
+                </p>
+            </field>
+        </record>
+
+        
+
+
+
+        <menuitem id="main_menu_financial_manager" name="Inversiones" />
+        <menuitem id="formulario_financiero_menus"
+            name="Creditos e inversiones"
+            parent="main_menu_financial_manager"
+            sequence="1"/>
+
+
+        
+        <menuitem
+            id="formulario_financiero_menu"
+            name="Creditos"
+            action="action_financial_table"
+            groups="base.group_user"
+            parent="main_menu_financial_manager"
+            sequence="1" />
+
+            
+
+
+       
+
+    </data>
+
+</odoo>

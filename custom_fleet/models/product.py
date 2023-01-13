@@ -11,4 +11,4 @@ class InheritProduct(models.Model):
     accesories_vehicle = fields.Many2many('accesories.tags', string='Accesorios de Vehiculo', store=True)
 
 
- 
+

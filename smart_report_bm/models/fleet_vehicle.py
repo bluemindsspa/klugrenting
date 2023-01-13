@@ -25,7 +25,7 @@ class FleetVehicle(models.Model):
         last_odometer = Odometer.search([('vehicle_id', '=', self.id), ('tag_ids', 'in', [2])], order='id desc',
                                         limit=1)
         self.call_api_odometer(last_odometer)
-        # self.call_api_tag(last_odometer)
+        self.call_api_tag(last_odometer)
 
     def hide_api_odo(self):
         self.api_odo = self.company_id.api_odometer
