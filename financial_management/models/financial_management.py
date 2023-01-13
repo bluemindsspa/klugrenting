@@ -50,12 +50,14 @@ class FinancialManagement(models.Model):
             if self.entidad:
                 total_credito = 0
                 total_inversion = 0
+                
                 #self.id_credito = self.entidad.name
                 account_move_ids = self.env['account.move'].search([('partner_id', '=', self.entidad.id),('journal_id', '=', 18)], order='invoice_date asc')
                 for acc in account_move_ids:
                     vals = {}
                     credito = 0
                     interes = 0
+                    self.cuotas_totales = len(self.financial_lines_id) + 1
                     
                     
                         
@@ -67,7 +69,9 @@ class FinancialManagement(models.Model):
                             interes += line.price_unit
                         
                     total_credito += credito + interes
-                    total_inversion += credito        
+                    total_inversion += credito
+                    
+                         
                     self.write({'financial_lines_id': [(0,0,{
                         'financial_id': self.id,
                         'account_id': acc.id,
@@ -77,13 +81,24 @@ class FinancialManagement(models.Model):
                         'interes': interes,
                         'pagado': True if acc.payment_state == 'paid' else False,
                         'valor_cuota': credito + interes,
+                        'saldo_capital': total_credito
                     })]})
-                    
+                
                 self.costo_total_credito = total_credito
+                self.count_saldo_capital()
+                
                 
                 
                             
-                        
+    def count_saldo_capital(self):
+        
+        for record in self.financial_lines_id:
+            prueba = self.costo_total_credito 
+            record.saldo_capital -= prueba
+            if record.pagado:
+                self.cuota += len(record)
+            
+            
                         
     
     

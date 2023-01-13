@@ -12,7 +12,8 @@
     ],
     'data': [
         'security/ir.model.access.csv',
-        'views/financial_view.xml'
+        'views/financial_view.xml',
+        'report/report_financial.xml',
     ],
 
     'auto_install': False,

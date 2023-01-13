@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<odoo>
+	<data>
+        <template id="financial_template_view_temp_id">
+			<t t-call="web.html_container">
+				<t t-foreach="docs" t-as="doc">
+					<t t-call="financial_management.financial_template_view" />
+				</t>
+			</t>
+		</template>
+        
+        <record id="financial_management_report_id" model="ir.actions.report">
+            <field name="name">informe inversion</field>
+            <field name="model">financial.management</field>
+            <field name="report_type">qweb-pdf</field>
+            <field name="report_name">financial_management.financial_template_view_temp_id</field>
+            <field name="report_file">financial_management.financial_template_view_temp_id</field>
+            <field name="binding_type">report</field>
+            <field name="binding_model_id" ref="model_financial_management"/>
+
+        </record>
+
+        
+
+		<template id="financial_template_view">
+			<t t-call="web.external_layout">
+                <t t-set="o" t-value="doc.with_context({'lang':doc.entidad.lang})"/>
+                
+				<div class="page" style="margin-top:0px;">
+                    <div class="row">
+                        <div class="col-8" style="font-size:18px;">
+                            <strong>Inversion # <span t-field="o.entidad.ref"/></strong> 
+                         </div>
+                    </div>
+                    <br/>
+                   <div class="row">
+                    <div class="col-4">
+                       <strong><i class="fa fa-user" aria-hidden="true"/> Cliente</strong>
+                       <br/>
+                       <strong>Empresa: </strong> <span t-field="o.entidad.name"/>
+                       <br/>
+                       <strong> RUT: </strong> <span t-field="o.entidad.vat"/>
+                      
+                    </div>
+                    </div>
+                   
+                   
+                   <div class="row">
+                    <table class="table table-borderless" style="max-height:14px;">
+                        <thead>
+                        <tr style="border-bottom: solid 1px;max-height:14px;">
+                            <th>
+                                Cuota
+                            </th>
+                            <th>
+                                Fecha de pago
+                            </th>
+                            <th>
+                                Fecha vencimiento
+                            </th>
+                            <th>
+                                Estado
+                            </th>
+                            <th>
+                                Capital
+                            </th>
+                            <th>
+                                Intereses
+                            </th>
+                            <th>
+                                Valor Cuota
+                            </th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                            <t t-foreach="o.financial_lines_id" t-as="line">
+                                <td>
+                                    <span t-field="line.account_id.ref"/>
+                                </td>
+                                <td>
+                                    <span t-field="line.fecha_pago"/>
+                                </td>
+                                <td>
+                                    <span t-field="line.fecha_vencimiento_pago"/>
+                                </td>
+                                <td>
+                                    <span t-field="line.pagado"/>
+                                </td>
+                                <td>
+                                    <span t-field="line.capital"/>
+                                </td>
+                                <td>
+                                    <span t-field="line.interes"/>
+                                </td>
+                                <td>
+                                    <span t-field="line.valor_cuota"/>
+                                </td>
+                                
+
+                            </t>
+                            
+                        </tbody>
+                    </table>
+                </div>
+                
+                </div>
+            </t>
+        </template>
+    </data>
+</odoo>
