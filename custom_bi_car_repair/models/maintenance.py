@@ -15,6 +15,22 @@ class InhAccountMove(models.Model):
     _inherit = 'account.move'
 
     maintenance_id = fields.Many2one('maintenance.request', string='OT')
+    
+    
+    def action_post(self):
+        res = super(InhAccountMove, self).action_post()
+        picking_ids = self.env['stock.picking'].search([('origin', '=', self.maintenance_id.name)])
+            
+        if picking_ids.state not in ['done','cancel']:
+                    
+            picking_ids.action_assign()
+            picking_ids.action_set_quantities_to_reservation()
+            picking_ids.button_validate()
+            
+            
+        
+        return res
+        
 
 
 class InhMaintenance(models.Model):
@@ -44,6 +60,8 @@ class InhMaintenance(models.Model):
         'maintenance.line.products', 'maintenance_product_id')
     maintenance_line_services = fields.One2many(
         'maintenance.line.services', 'maintenance_service_id')
+    maintenance_line_checklist = fields.One2many(
+        'maintenance.line.checklist', 'maintenance_id')
     observations = fields.Text(string='Observaciones')
     odometer = fields.Integer(string='Odometro')
     account_count = fields.Integer(
@@ -96,6 +114,20 @@ class InhMaintenance(models.Model):
             'target': 'self',
             'url': self.get_portal_url(),
         }
+    
+    
+    # @api.onchange('stage_id')
+    # def _onchange_stage_id(self):
+        
+    #     account_ids = self.env['account.move'].search('maintenance_id', '=', self.id)
+    #     if account_ids.state == 'posted':
+    #         picking_ids = self.env['stock.picking'].search('origin', '=', self.name)
+            
+    #         if picking_ids.state not in ['done','cancel']:
+                    
+    #             picking_ids.action_assign()
+            
+    
     
     
     
@@ -206,13 +238,13 @@ class InhMaintenance(models.Model):
             'location_dest_id': picking_type_id.default_location_dest_id.id,
             'origin': self.name,
         })
-        for estitmate in self.maintenance_line_products:
+        for estimate in self.maintenance_line_products:
             move = self.env['stock.move'].create({
                 'picking_id': picking.id,
-                'name': estitmate.product_id.name,
-                'product_uom': estitmate.product_id.uom_id.id,
-                'product_id': estitmate.product_id.id,
-                'product_uom_qty': estitmate.quantity,
+                'name': estimate.product_id.name,
+                'product_uom': estimate.product_id.uom_id.id,
+                'product_id': estimate.product_id.id,
+                'product_uom_qty': estimate.quantity,
                 'location_id': picking_type_id.default_location_src_id.id,
                 'location_dest_id': picking_type_id.default_location_dest_id.id,
                 'origin': self.name,
@@ -254,7 +286,7 @@ class InhMaintenance(models.Model):
         for services_line in maintenance_obj.maintenance_line_services:
             values = {
                 'move_id': invoice.id,
-                'name': 'Trabajo segun ' + maintenance_obj.name,
+                'name': 'Trabajo segun ' + maintenance_obj.name + ' ' + services_line.description,
                 'product_id': services_line.product_id.id,
                 'account_id': journal_id.default_account_id.id,
                 'quantity': services_line.quantity,
@@ -267,7 +299,7 @@ class InhMaintenance(models.Model):
         for products_line in maintenance_obj.maintenance_line_products:
             values_product = {
                 'move_id': invoice.id,
-                'name': 'Trabajo segun ' + maintenance_obj.name,
+                'name': 'Trabajo segun '+ maintenance_obj.name + ' ' + products_line.description,
                 'product_id': products_line.product_id.id,
                 'account_id': journal_id.default_account_id.id,
                 'quantity': products_line.quantity,
@@ -310,3 +342,14 @@ class InhMaintenanceLineServices(models.Model):
     maintenance_service_id = fields.Many2one(
         'maintenance.request', string='Presupuesto')
     total_subtotal_line_services = fields.Float(string='Subtotal Linea')
+
+
+class InhMaintenanceChecklist(models.Model):
+
+    _name = 'maintenance.line.checklist'
+
+    check = fields.Boolean(string='Check', default=False)
+    activity = fields.Char(string='Actividad')
+    date = fields.Date(string='Fecha')
+    maintenance_id = fields.Many2one(
+        'maintenance.request', string='Presupuesto')

@@ -30,45 +30,45 @@
 				<div class="page" style="margin-top:0px;">
                     <div class="row">
                         <div class="col-8" style="font-size:18px;">
-                            <strong>LIQUIDACION ORDEN DE TRABAJO # <span t-field="o.name" /></strong> 
+                            <strong>LIQUIDACION ORDEN DE TRABAJO # <span t-field="o.name"/></strong> 
                          </div>
                     </div>
                     <br/>
                    <div class="row">
-                    <div class="col-4" >
-                       <strong><i class="fa fa-user" aria-hidden="true"></i> Cliente</strong>
+                    <div class="col-4">
+                       <strong><i class="fa fa-user" aria-hidden="true"/> Cliente</strong>
                        <br/>
-                       <strong>Empresa: </strong> <span t-field="o.partner_id.name" />
+                       <strong>Empresa: </strong> <span t-field="o.partner_id.name"/>
                        <br/>
-                       <strong> RUT: </strong> <span t-field="o.partner_id.vat" />
+                       <strong> RUT: </strong> <span t-field="o.partner_id.vat"/>
                        <br/>
-                       <strong> Telefono:</strong> <span t-field="o.partner_id.phone0" />
+                       <strong> Telefono:</strong> <span t-field="o.partner_id.phone0"/>
                        <br/>
-                       <strong> Direccion:</strong> <span t-field="o.partner_id.street" />
+                       <strong> Direccion:</strong> <span t-field="o.partner_id.street"/>
                        <br/>
-                       <strong>Lugar de reparación:</strong> <span t-field="o.street" />
+                       <strong>Lugar de reparación:</strong> <span t-field="o.street"/>
                     </div>
                     <div class="col-4" style="text-align:right;">
-                        <img t-if="o.image_brand" t-att-src="image_data_uri(o.image_brand)" style="max-height: 45px;" alt="logo_brand" />
+                        <img t-if="o.image_brand" t-att-src="image_data_uri(o.image_brand)" style="max-height: 45px;" alt="logo_brand"/>
                     </div>
                     <div class="col-4">
                         
                         <strong>
-                          <i class="fa fa-car" aria-hidden="true"></i>
+                          <i class="fa fa-car" aria-hidden="true"/>
                           Vehículo
                         </strong>
                         <br/>
-                        <span t-field="o.model" /> <span t-field="o.brand" /> <span t-field="o.year" />
+                        <span t-field="o.model"/> <span t-field="o.brand"/> <span t-field="o.year"/>
                         <br/>
-                        <strong>Matricula:</strong> <span t-field="o.license_plate" />
+                        <strong>Matricula:</strong> <span t-field="o.license_plate"/>
                         <br/>
-                        <strong> Color: </strong> <span t-field="o.color" />
+                        <strong> Color: </strong> <span t-field="o.color"/>
                         <br/>
                         <t t-if="o.odometer">
-                          <strong> Kilometraje: </strong> <span t-field="o.odometer" />
+                          <strong> Kilometraje: </strong> <span t-field="o.odometer"/>
                         </t>
                         <br/>
-                        <strong> Fecha Creación Orden: </strong> <span t-field="o.request_date" />
+                        <strong> Fecha Creación Orden: </strong> <span t-field="o.request_date"/>
 						            <br/>
             						<t t-if="o.close_date">
                           <strong>Fecha Liquidación: </strong> <span t-esc="o.close_date.strftime('%d/%m/%Y')"/>
@@ -109,11 +109,11 @@
                                     </td>
                                     <td style="width:20%;padding:0px;">                                     
 
-                                      $ <t t-esc="'{0:,.0f}'.format(int(line['price'])).replace(',', '.')" />
+                                      $ <t t-esc="'{0:,.0f}'.format(int(line['price'])).replace(',', '.')"/>
 
                                     </td>
                                     <td style="width:20%;padding:0px;">
-                                       $ <t t-esc="'{0:,.0f}'.format(int(line['total_subtotal_line_services'])).replace(',', '.')" />
+                                       $ <t t-esc="'{0:,.0f}'.format(int(line['total_subtotal_line_services'])).replace(',', '.')"/>
                                     </td>
                                 </tr>
                                 
@@ -130,9 +130,9 @@
                             <th>
                                 Repuestos Utilizados
                             </th>
-                            <th></th>
-                            <th></th>
-                            <th></th>
+                            <th/>
+                            <th/>
+                            <th/>
                            
                             
                         </tr>
@@ -162,7 +162,7 @@
                    </div>
                    <div class="row" style="margin-top:50px;">
                    
-                    <div class="col-6"></div>
+                    <div class="col-6"/>
                    <div class="col-6" style="text-align:right;">
                     <table class="table table-borderless">
                         <tr>
@@ -202,23 +202,38 @@
                    
                 
                </div>
-               <div class="footer">
-                <footer>
-                    <div class="row">
+               <div class="row" style="page-break-after: always;">
                         <div class="col-12">
                             <t t-if="o.description">
-                           <i class="fa fa-wrench" aria-hidden="true"></i>
-                           <strong>Diagnóstico:</strong> <span t-field="o.description" />
+                           <i class="fa fa-wrench" aria-hidden="true"/>
+                           <strong>Diagnóstico:</strong> <span t-field="o.description"/>
    
                            </t>
      
                            <t t-if="o.observations">
-                           <i class="fa fa-heartbeat" aria-hidden="true"></i>
+                           <i class="fa fa-heartbeat" aria-hidden="true"/>
                            <strong>Observaciones:</strong> <span t-raw="o.observations"/>
                          </t>
                        </div>
                        
                       </div>
+               <div class="footer">
+                <footer>
+                    <!--<div class="row" style="page-break-after: always;">-->
+                    <!--    <div class="col-12">-->
+                    <!--        <t t-if="o.description">-->
+                    <!--       <i class="fa fa-wrench" aria-hidden="true"/>-->
+                    <!--       <strong>Diagnóstico:</strong> <span t-field="o.description"/>-->
+   
+                    <!--       </t>-->
+     
+                    <!--       <t t-if="o.observations">-->
+                    <!--       <i class="fa fa-heartbeat" aria-hidden="true"/>-->
+                    <!--       <strong>Observaciones:</strong> <span t-raw="o.observations"/>-->
+                    <!--     </t>-->
+                    <!--   </div>-->
+                       
+                    <!--  </div>-->
                 <div class="firmas" style="margin-top:50px;">
                     
                         <div class="row">
@@ -228,7 +243,7 @@
                                 </div>
                                 <br/>
                                 <p style="font-weight: bold;">
-                                    <span t-esc="o.user_id.name" /><br/>
+                                    <span t-esc="o.user_id.name"/><br/>
                                     KLUG SERVICIOS SPA
                                 </p>
         
@@ -243,8 +258,8 @@
                                 </div>
                                 <br/>
                                 <p style="font-weight: bold;">
-                                    <span t-esc="o.partner_id.name" /><br/>
-                                    RUT. <span t-esc="o.partner_id.vat" />
+                                    <span t-esc="o.partner_id.name"/><br/>
+                                    RUT. <span t-esc="o.partner_id.vat"/>
                                 </p>
         
                             </div>

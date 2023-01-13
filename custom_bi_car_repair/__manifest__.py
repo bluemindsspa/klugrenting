@@ -16,6 +16,7 @@
         'views/maintenance_view.xml',
         'views/maintenance_portal_template.xml',
         'report/car_diagnosys.xml',
+        'report/maintenance_checklist.xml',
         'report/sale_order.xml'
     ],
     'auto_install': False,

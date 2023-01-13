@@ -70,7 +70,7 @@ class InhSaleOrder(models.Model):
         sale_obj = self.env['sale.order'].browse(self.ids[0])
         sale_obj.state = 'sale'
         vals = {
-            'name': sale_obj.name,
+            'name': 'OT'+ sale_obj.name[1:],
             'description': sale_obj.description,
             'maintenance_team_id': maintenance_team.id,
             'partner_id': sale_obj.partner_id.id,
