@@ -74,7 +74,7 @@
                         </tr>
                         </thead>
                         <tbody>
-                            <t t-foreach="o.financial_lines_id" t-as="line">
+                            <tr t-foreach="o.financial_lines_id" t-as="line">
                                 <td>
                                     <span t-field="line.account_id.ref"/>
                                 </td>
@@ -98,7 +98,7 @@
                                 </td>
                                 
 
-                            </t>
+                            </tr>
                             
                         </tbody>
                     </table>
