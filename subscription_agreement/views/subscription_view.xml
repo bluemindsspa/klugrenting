@@ -12,6 +12,30 @@
                 <xpath expr="//field[@name='recurring_next_date']" position="after">
                    <field name="pago_garantia" string="Garantia Pagada"/>
                 </xpath>
+                <xpath expr="//page[@id='other_info']" position="after">
+                    <page string="Contrato" id="contract">
+                        <group>
+                          <group>
+                            
+                            <field name="attach_1_fname" invisible="1"/>
+                            <field name="attach_1" string="Contrato" filename="attach_1_fname"/>
+                            <field name="attach_2_fname" invisible="1"/>
+                            <field name="attach_2" string="Anexo A" filename="attach_2_fname"/>
+                            
+                            
+                            <field name="attach_3" string="Anexo B"  filename="attach_3_fname"/>
+                            <field name="attach_3_fname" invisible="1"/>
+                            <field name="attach_4" string="Anexo C" filename="attach_4_fname"/>
+                            <field name="attach_4_fname" invisible="1"/>
+                            <field name="attach_5" string="Acta de entrega" filename="attach_5_fname"/>
+                            <field name="attach_5_fname" invisible="1"/>
+                            <field name="attach_6" string="Acta de devolución" filename="attach_6_fname"/>
+                            <field name="attach_6_fname" invisible="1"/>
+                            
+                          </group>
+                        </group>
+                      </page>
+                </xpath>
             </field>
         </record>
         

@@ -31,6 +31,19 @@ class SaleSubscription(models.Model):
     pago_garantia = fields.Boolean(default=False) 
     vehicle_id = fields.Many2one('fleet.vehicle', sting="Vehiculo", related='x_studio_many2one_field_aHUoE')
     date_expect_refund = fields.Date(string="Fecha esperada de devolucion")
+    attach_1 = fields.Binary()
+    attach_1_fname = fields.Char()
+    attach_2 = fields.Binary()
+    attach_2_fname = fields.Char()
+    attach_3 = fields.Binary()
+    attach_3_fname = fields.Char() 
+    attach_4 = fields.Binary()
+    attach_4_fname = fields.Char() 
+    attach_5 = fields.Binary()
+    attach_5_fname = fields.Char() 
+    attach_6 = fields.Binary()
+    attach_6_fname = fields.Char() 
+   
 
     def set_close(self):
         today = fields.Date.from_string(fields.Date.context_today(self))
