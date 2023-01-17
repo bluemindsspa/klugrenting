@@ -120,5 +120,5 @@ class InhSaleOrder(models.Model):
         maintenance_id._onchange_maintenance_services()
         maintenance_id._onchange_maintenance_products()
         maintenance_id._onchange_total_neto()
-        maintenance_id.consume_car_parts()
+        
         return True
