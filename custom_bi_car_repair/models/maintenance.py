@@ -19,7 +19,8 @@ class InhAccountMove(models.Model):
     
     def action_post(self):
         res = super(InhAccountMove, self).action_post()
-        if self.company_id.id == 3:
+        if self.company_id.id == 3 and self.journal_id.id == 43 and self.l10n_latam_document_type_id.code == '33':
+
             picking_ids = self.env['stock.picking'].search([('origin', '=', self.maintenance_id.name)])
                 
             if picking_ids.state not in ['done','cancel']:
