@@ -254,7 +254,8 @@ class InhMaintenance(models.Model):
 
     def create_account(self):
         # call picking function
-        self.consume_car_parts()
+        
+        #self.consume_car_parts()
         list_invoice = []
         res = {}
         values = {}
