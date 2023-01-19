@@ -1,4 +1,4 @@
-# © 2022 (Jamie Escalante <jescalante@blueminds.cl>)
+# © 2022 (Daniel Fernandez <daniel@klugrenting.com>)
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
 from odoo import api, models, tools, fields, _
@@ -10,9 +10,11 @@ import json
 class FinancialManagement(models.Model):
     _name = 'financial.management'
 
-    entidad_general = fields.Many2one('res.partner', 'Entidad')
+
+    name = fields.Char('id')
+    entidad_general = fields.Many2one('res.partner', string='Entidad')
     entidad = fields.Many2one('res.partner', 'id de credito')
-    tipo = fields.Char()
+    tipo = fields.Many2one('type.credit', string='Tipo de Credito')
     cuota = fields.Integer()
     cuotas_totales = fields.Integer()
     inicio_credito = fields.Datetime()
@@ -25,21 +27,24 @@ class FinancialManagement(models.Model):
 
     monto_seguro = fields.Integer()
     comision_credito = fields.Integer()
-    valor_inversion = fields.Integer(compute='_compute_valor_inversion')
+    valor_inversion = fields.Integer()
     costo_total_credito = fields.Integer()
     cae = fields.Float()  # percentage formula del cae
 
     notas = fields.Text()  # anotar cosas
-
+    ultima_fecha_pago = fields.Datetime()
+    ultimo_pago = fields.Integer()
+    total_pagados = fields.Integer()
+    plazo_inversion = fields.Char()
     financial_lines_id = fields.One2many(
         'financial.management.line', 'financial_id')
 
-    @api.depends()
-    def _compute_valor_inversion(self):
-        if self.monto_seguro or self.comision_credito:
-            self.valor_inversion = self.costo_total_credito - self.monto_seguro - self.comision_credito
-        else:
-            self.valor_inversion = self.costo_total_credito
+    # @api.depends()
+    # def _compute_valor_inversion(self):
+    #     if self.monto_seguro or self.comision_credito:
+    #         self.valor_inversion = self.costo_total_credito - self.monto_seguro - self.comision_credito
+    #     else:
+    #         self.valor_inversion = self.costo_total_credito
 
        
             
@@ -50,6 +55,10 @@ class FinancialManagement(models.Model):
         for record in self:
             self.write({'financial_lines_id': [(6, 0, [])]})
             if self.entidad:
+                self.name = self.entidad.ref
+                self.comision_credito = self.entidad.comision_credito
+                self.monto_seguro = self.entidad.monto_seguro
+                self.entidad_general = self.entidad.entidad_bancaria
                 total_credito = 0
                 total_inversion = 0
                 accounts = []
@@ -88,27 +97,34 @@ class FinancialManagement(models.Model):
                         'interes': interes,
                         'pagado': True if acc.payment_state == 'paid' else False,
                         'valor_cuota': credito + interes,
-                        'saldo_capital': total_credito
+                        'saldo_capital': total_inversion
                     })]})
 
                 
                 self.costo_total_credito = total_credito
+                self.valor_inversion = self.costo_total_credito - self.monto_seguro - self.comision_credito
                 self.count_saldo_capital()
 
     def count_saldo_capital(self):
         self.cuota = 0
         for record in self.financial_lines_id:
-            prueba = self.costo_total_credito
+            prueba = self.valor_inversion
             record.saldo_capital -= prueba
-            if record.pagado:
-                self.cuota += len(record)
+            
 
     
 
     def cron_change_values(self):
+        
         credits_ids = self.env['financial.management.line'].search([])
         for record in credits_ids:
+            
             record.pagado = True if record.account_id.payment_state == 'paid' else False
+            if record.pagado:
+                record.financial_id.cuota += len(record)
+                record.financial_id.ultima_fecha_pago = record.fecha_pago
+                record.financial_id.ultimo_pago = record.capital
+                record.financial_id.total_pagados += record.capital
 
 
 class FinancialManagement(models.Model):
@@ -126,3 +142,10 @@ class FinancialManagement(models.Model):
     comision_bancaria = fields.Integer()
     valor_cuota = fields.Integer()  # suma de los dos valores anteriores
     saldo_capital = fields.Integer()
+
+
+
+class FinancialManagementType(models.Model):
+    _name = 'type.credit'
+
+    name = fields.Char(string='Tipo de credito')

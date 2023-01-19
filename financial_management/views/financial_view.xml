@@ -18,11 +18,14 @@
             <field name="model">financial.management</field>
             <field name="arch" type="xml">
                 <tree string="Tabla de Amortizaciones">
+                    <field name="name"/>
                     <field name="entidad_general"/>
                     <field name="entidad"/>
                     <field name="tipo"/>
                     <field name="inicio_credito"/>
                     <field name="vencimiento_credito"/>
+                    <field name="valor_inversion" string="Monto otorgado"/>
+                    <field name="costo_total_credito" string="Monto total Credito"/>
                     <field name="cuota"/>
                     <field name="cuotas_totales"/>
                     <field name="estado_de_pago"/>
@@ -39,6 +42,7 @@
                         <field name="estado_de_pago" widget="statusbar" clickable="True"></field>                                        
                       </header>  
                     <sheet>
+                    <h3><field name="name"/></h3>
                         <group>
                             <group>
                                 <field name="entidad_general"/>
@@ -63,6 +67,10 @@
                                 <field name="garantia"/>
                                 <field name="cuota"/>
                                 <field name="cuotas_totales"/>
+                                <field name="ultima_fecha_pago"/>
+                                <field name="ultimo_pago"/>
+                                <field name="total_pagados"/>
+                                <field name="plazo_inversion"/>
                             </group>
                         </group>
                         <notebook>
@@ -75,7 +83,7 @@
                                         <field name="pagado" string="pagado"/>
                                         <field name="capital" string="Capital"/>
                                         <field name="interes" string="Interes" />
-                                        <field name="comision_bancaria" string="Comision" />
+                                        <!-- <field name="comision_bancaria" string="Comision" /> -->
                                         <field name="valor_cuota" string="Valor Cuota" />
                                         <field name="saldo_capital" string="Saldo Capital"/>
                                         

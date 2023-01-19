@@ -29,82 +29,105 @@
                 
 				<div class="page" style="margin-top:0px;">
                     <div class="row">
-                        <div class="col-8" style="font-size:18px;">
-                            <strong>Inversion # <span t-field="o.entidad.ref"/></strong> 
-                         </div>
-                    </div>
-                    <br/>
-                   <div class="row">
-                    <div class="col-4">
-                       <strong><i class="fa fa-user" aria-hidden="true"/> Cliente</strong>
-                       <br/>
-                       <strong>Empresa: </strong> <span t-field="o.entidad.name"/>
-                       <br/>
-                       <strong> RUT: </strong> <span t-field="o.entidad.vat"/>
-                      
-                    </div>
-                    </div>
-                   
-                   
-                   <div class="row">
-                    <table class="table table-borderless" style="max-height:14px;">
-                        <thead>
-                        <tr style="border-bottom: solid 1px;max-height:14px;">
-                            <th>
-                                Cuota
-                            </th>
-                            <th>
-                                Fecha de pago
-                            </th>
-                            <th>
-                                Fecha vencimiento
-                            </th>
-                            <th>
-                                Estado
-                            </th>
-                            <th>
-                                Capital
-                            </th>
-                            <th>
-                                Intereses
-                            </th>
-                            <th>
-                                Valor Cuota
-                            </th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                            <tr t-foreach="o.financial_lines_id" t-as="line">
-                                <td>
-                                    <span t-field="line.account_id.ref"/>
-                                </td>
-                                <td>
-                                    <span t-field="line.fecha_pago"/>
-                                </td>
-                                <td>
-                                    <span t-field="line.fecha_vencimiento_pago"/>
-                                </td>
-                                <td>
-                                    <span t-field="line.pagado"/>
-                                </td>
-                                <td>
-                                    <span t-field="line.capital"/>
-                                </td>
-                                <td>
-                                    <span t-field="line.interes"/>
-                                </td>
-                                <td>
-                                    <span t-field="line.valor_cuota"/>
-                                </td>
-                                
+                    <table class="table">
+                        <tr>
+                            <td>
+                                Inversionista
+                            </td>
+                            <td>
+                                <span t-field="o.entidad_general"/>
+                            </td>
 
-                            </tr>
-                            
-                        </tbody>
+                        </tr>
+                        <tr>
+                            <td>
+                                Fecha
+                            </td>
+                            <td>
+                                <span t-esc="context_timestamp(datetime.datetime.now()).strftime('%d-%m-%Y')"/>
+                                
+                            </td>
+
+                        </tr>
+                        <tr>
+                            <td>
+                                # Inversión
+                            </td>
+                            <td>
+                                <span t-esc="o.name"/>
+                                
+                            </td>
+
+                        </tr>
+                        <tr>
+                            <td>
+                                Valor total inversión
+                            </td>
+                            <td>
+                                <span t-esc="o.valor_inversion"/>
+                                
+                            </td>
+
+                        </tr>
+                        <tr>
+                            <td>
+                                Número del Flujo de Invesión
+                            </td>
+                            <td>
+                                <span t-esc="o.cuota"/>
+                                
+                            </td>
+
+                        </tr>
+                        <tr>
+                            <td>
+                                Valor del Flujo de Invesión
+                            </td>
+                            <td>
+                                <span t-esc="o.ultimo_pago"/>
+                                
+                            </td>
+
+                        </tr>
+                        <tr>
+                            <td>
+                                Flujos Totales Pagados
+                            </td>
+                            <td>
+                                <span t-esc="o.total_pagados"/>
+                                
+                            </td>
+
+                        </tr>
+                        <tr>
+                            <td>
+                                Garantia
+                            </td>
+                            <td>
+                                <span t-esc="o.garantia"/>
+                                
+                            </td>
+
+                        </tr>
+                        <tr>
+                            <td>
+                                Plazo Inversión
+                            </td>
+                            <td>
+                                <span t-esc="o.plazo_inversion"/>
+                                
+                            </td>
+
+                        </tr>
+
                     </table>
-                </div>
-                
-                </div>
+                    </div>
+                    </div>
+
+                        
+                   
+                   
+                  
             </t>
         </template>
     </data>

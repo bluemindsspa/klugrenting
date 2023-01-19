@@ -1,1 +1,1 @@
-from . import financial_management
+from . import financial_management, res_partner
