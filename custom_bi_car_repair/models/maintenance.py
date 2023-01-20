@@ -17,21 +17,21 @@ class InhAccountMove(models.Model):
     maintenance_id = fields.Many2one('maintenance.request', string='OT')
     
     
-    def action_post(self):
-        res = super(InhAccountMove, self).action_post()
-        if self.company_id.id == 3 and self.journal_id.id == 43 and self.l10n_latam_document_type_id.code == '33':
+    # def action_post(self):
+    #     res = super(InhAccountMove, self).action_post()
+    #     if self.company_id.id == 3 and self.journal_id.id == 43 and self.l10n_latam_document_type_id.code == '33':
 
-            picking_ids = self.env['stock.picking'].search([('origin', '=', self.maintenance_id.name)])
+    #         picking_ids = self.env['stock.picking'].search([('origin', '=', self.maintenance_id.name)])
                 
-            if picking_ids.state not in ['done','cancel']:
+    #         if picking_ids.state not in ['done','cancel']:
                         
-                picking_ids.action_assign()
-                picking_ids.action_set_quantities_to_reservation()
-                picking_ids.button_validate()
+    #             picking_ids.action_assign()
+    #             picking_ids.action_set_quantities_to_reservation()
+    #             picking_ids.button_validate()
                 
                 
         
-        return res
+    #     return res
         
 
 
