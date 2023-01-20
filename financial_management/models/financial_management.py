@@ -27,6 +27,8 @@ class FinancialManagement(models.Model):
 
     monto_seguro = fields.Integer()
     comision_credito = fields.Integer()
+    notaria = fields.Integer()
+    impuestos = fields.Integer()
     valor_inversion = fields.Integer()
     costo_total_credito = fields.Integer()
     cae = fields.Float()  # percentage formula del cae
@@ -36,6 +38,7 @@ class FinancialManagement(models.Model):
     ultimo_pago = fields.Integer()
     total_pagados = fields.Integer()
     plazo_inversion = fields.Char()
+    saldo_capital_actual = fields.Integer()
     financial_lines_id = fields.One2many(
         'financial.management.line', 'financial_id')
 
@@ -55,9 +58,7 @@ class FinancialManagement(models.Model):
         for record in self:
             self.write({'financial_lines_id': [(6, 0, [])]})
             if self.entidad:
-                self.name = self.entidad.ref
-                self.comision_credito = self.entidad.comision_credito
-                self.monto_seguro = self.entidad.monto_seguro
+                
                 self.entidad_general = self.entidad.entidad_bancaria
                 total_credito = 0
                 total_inversion = 0
@@ -102,29 +103,51 @@ class FinancialManagement(models.Model):
 
                 
                 self.costo_total_credito = total_credito
-                self.valor_inversion = self.costo_total_credito - self.monto_seguro - self.comision_credito
-                self.count_saldo_capital()
+                
+                #self.count_saldo_capital()
 
     def count_saldo_capital(self):
-        self.cuota = 0
+        
+        self.valor_inversion = self.costo_total_credito - self.monto_seguro - self.comision_credito - self.impuestos - self.notaria
         for record in self.financial_lines_id:
             prueba = self.valor_inversion
+            
             record.saldo_capital -= prueba
             
-
     
-
     def cron_change_values(self):
         
-        credits_ids = self.env['financial.management.line'].search([])
+        credits_ids = self.env['financial.management'].search([])
+        
         for record in credits_ids:
+            record.cuota = 0
+            for line in record.financial_lines_id:
+                line.pagado = True if line.account_id.payment_state == 'paid' else False
+                if line.pagado:
+                    record.cuota += len(line)
+                    
+                    record.ultima_fecha_pago = line.fecha_pago
+                    record.ultimo_pago = line.capital
+                    record.total_pagados += line.capital
+                    record.saldo_capital_actual = line.saldo_capital
+    
+
+    # def cron_change_values(self):
+        
+    #     credits_ids = self.env['financial.management.line'].search([])
+        
+    #     for record in credits_ids:
             
-            record.pagado = True if record.account_id.payment_state == 'paid' else False
-            if record.pagado:
-                record.financial_id.cuota += len(record)
-                record.financial_id.ultima_fecha_pago = record.fecha_pago
-                record.financial_id.ultimo_pago = record.capital
-                record.financial_id.total_pagados += record.capital
+    #         record.pagado = True if record.account_id.payment_state == 'paid' else False
+    #         if record.pagado:
+                
+                
+    #             record.financial_id.ultima_fecha_pago = record.fecha_pago
+    #             record.financial_id.ultimo_pago = record.capital
+    #             record.financial_id.total_pagados += record.capital
+    #             record.financial_id.saldo_capital_actual = record.saldo_capital
+            
+            
 
 
 class FinancialManagement(models.Model):

@@ -12,8 +12,7 @@
                         <group name="data" string="Datos Credito">
                             <group>
                                 <field name="entidad_bancaria" string="banco"/>
-                                <field name="comision_credito" string="Comisión Credito"/>
-                                <field name="monto_seguro" string="Monto Seguro"/>
+                                
                             </group>
                         </group>
 

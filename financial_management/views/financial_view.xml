@@ -2,7 +2,7 @@
 <odoo>
     <data>
         <record model="ir.cron" id="financial_management_cron">
-        <field name="name">Inversiones: Actualiza valores de cuotas</field>
+        <field name="name">Inversionistas: Actualiza valores de cuotas</field>
         <field name="model_id" ref="model_financial_management"/>
         <field name="state">code</field>
         <field name="code">model.cron_change_values()</field>
@@ -14,13 +14,13 @@
 
 
         <record id="financial_table_tree" model="ir.ui.view">
-            <field name="name">Creditos</field>
+            <field name="name">Inversiones</field>
             <field name="model">financial.management</field>
             <field name="arch" type="xml">
-                <tree string="Tabla de Amortizaciones">
+                <tree string="Inversiones">
                     <field name="name"/>
                     <field name="entidad_general"/>
-                    <field name="entidad"/>
+                    <!-- <field name="entidad"/> -->
                     <field name="tipo"/>
                     <field name="inicio_credito"/>
                     <field name="vencimiento_credito"/>
@@ -37,7 +37,7 @@
             <field name="name">financial_management.view.form</field>
             <field name="model">financial.management</field>
             <field name="arch" type="xml">
-                <form string="Formulario de amortizacion">
+                <form string="Formulario de Creditos/Inversiones">
                     <header>                                            
                         <field name="estado_de_pago" widget="statusbar" clickable="True"></field>                                        
                       </header>  
@@ -50,8 +50,8 @@
                                 <field name="tipo"/>
                             </group>
                             <group>
-                                <field name="inicio_credito"/>
-                                <field name="vencimiento_credito"/>
+                                <field name="inicio_credito" string="Inicio Crédito"/>
+                                <field name="vencimiento_credito" string="Fin del Crédito"/>
                             </group>
                         </group>
                         <group>
@@ -59,8 +59,11 @@
                                 <field name="cae" string="CAE"/>
                                 <field name="comision_credito"/>
                                 <field name="monto_seguro"/>
+                                <field name="notaria"/>
+                                <field name="impuestos"/>
                                 <field name="valor_inversion" string="Monto Otorgado"/>
                                 <field name="costo_total_credito"/>
+                                <button name="count_saldo_capital" string="Calcular inversion" type="object" />
                                 
                             </group>
                             <group>
@@ -70,11 +73,12 @@
                                 <field name="ultima_fecha_pago"/>
                                 <field name="ultimo_pago"/>
                                 <field name="total_pagados"/>
+                                <field name="saldo_capital_actual"/>
                                 <field name="plazo_inversion"/>
                             </group>
                         </group>
                         <notebook>
-                            <page string="Tabla de Amortizacion" name="financial_lines">
+                            <page string="Lineas de Amortizacion" name="financial_lines">
                                 <field name="financial_lines_id" mode="tree,kanban">
                                     <tree string="Lineas" editable="bottom">
                                         <field name="account_id" string="id de cuota" />
@@ -111,7 +115,7 @@
             </field>
         </record>
         <record id="action_financial_table" model="ir.actions.act_window">
-            <field name="name">Credito</field>
+            <field name="name">Inversionistas</field>
             <field name="res_model">financial.management</field>
             <field name="view_mode">tree,form</field>
             <field name="view_id" ref="financial_table_tree" />
@@ -126,9 +130,9 @@
 
 
 
-        <menuitem id="main_menu_financial_manager" name="Inversiones" />
+        <menuitem id="main_menu_financial_manager" name="Inversionistas" />
         <menuitem id="formulario_financiero_menus"
-            name="Creditos e inversiones"
+            name="Inversiones"
             parent="main_menu_financial_manager"
             sequence="1"/>
 
@@ -136,7 +140,7 @@
         
         <menuitem
             id="formulario_financiero_menu"
-            name="Creditos"
+            name="Inversiones"
             action="action_financial_table"
             groups="base.group_user"
             parent="main_menu_financial_manager"

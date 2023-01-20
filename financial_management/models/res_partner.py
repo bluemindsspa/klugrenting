@@ -10,8 +10,7 @@ import json
 class ResPartner(models.Model):
     _inherit = 'res.partner'
 
-    comision_credito = fields.Integer(default=0)
-    monto_seguro = fields.Integer(default=0)
+    
     entidad_bancaria = fields.Many2one(comodel_name='res.partner', string='Entidad Bancaria')
 
 

@@ -11,7 +11,7 @@
 		</template>
         
         <record id="financial_management_report_id" model="ir.actions.report">
-            <field name="name">informe inversion</field>
+            <field name="name">informe inversionistas</field>
             <field name="model">financial.management</field>
             <field name="report_type">qweb-pdf</field>
             <field name="report_name">financial_management.financial_template_view_temp_id</field>
@@ -61,19 +61,21 @@
                         </tr>
                         <tr>
                             <td>
-                                Valor total inversión
+                                Capital invertido
                             </td>
                             <td>
-                                <span t-esc="o.valor_inversion"/>
+                            <span t-esc="'{0:,.0f}'.format(int(o['valor_inversion'])).replace(',', '.')"/>
+                                
                                 
                             </td>
 
                         </tr>
                         <tr>
                             <td>
-                                Número del Flujo de Invesión
+                                Cuotas Pagadas
                             </td>
                             <td>
+                                
                                 <span t-esc="o.cuota"/>
                                 
                             </td>
@@ -81,27 +83,29 @@
                         </tr>
                         <tr>
                             <td>
-                                Valor del Flujo de Invesión
+                                Monto de la cuota
                             </td>
                             <td>
-                                <span t-esc="o.ultimo_pago"/>
+                            <span t-esc="'{0:,.0f}'.format(int(o['ultimo_pago'])).replace(',', '.')"/>
+                               
                                 
                             </td>
 
                         </tr>
                         <tr>
                             <td>
-                                Flujos Totales Pagados
+                                Monto total de cuotas pagados
                             </td>
                             <td>
-                                <span t-esc="o.total_pagados"/>
+                                <span t-esc="'{0:,.0f}'.format(int(o['total_pagados'])).replace(',', '.')"/>
+                                
                                 
                             </td>
 
                         </tr>
                         <tr>
                             <td>
-                                Garantia
+                                Garantía
                             </td>
                             <td>
                                 <span t-esc="o.garantia"/>
