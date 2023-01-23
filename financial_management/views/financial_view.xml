@@ -21,18 +21,60 @@
                     <field name="name"/>
                     <field name="entidad_general"/>
                     <!-- <field name="entidad"/> -->
-                    <field name="tipo"/>
-                    <field name="inicio_credito"/>
-                    <field name="vencimiento_credito"/>
-                    <field name="valor_inversion" string="Monto otorgado"/>
-                    <field name="costo_total_credito" string="Monto total Credito"/>
+                    <field name="tipo" string="Tipo Crédito"/>
+                    <field name="inicio_credito" string="Inicio Crédito" widget="date"/>
+                    <field name="vencimiento_credito" string="Inicio Crédito" widget="date"/>
+                    <field name="ultimo_pago" string="Valor cuota"/>
+                    <field name="saldo_capital_actual" string="Saldo capital"/>
                     <field name="cuota"/>
                     <field name="cuotas_totales"/>
-                    <field name="estado_de_pago"/>
+                    <field name="estado_de_pago" string="Estado"/>
+                    <field name="compania" string="Compañia"/>
                 </tree>
             </field>
-
         </record>
+        <record id="financial_management_view_kanban" model="ir.ui.view">
+            <field name="name">financial_management.view.kanban</field>
+            <field name="model">financial.management</field>
+            <field name="arch" type="xml">
+                <kanban default_group_by="estado_de_pago" sample="1">
+                    <templates>
+                        <t t-name="kanban-box">
+                        <div t-attf-class="oe_kanban_global_click">
+                         <div class="oe_kanban_content">
+                           <div class="o_kanban_record_top">
+                                <div class="oe_kanban_top_left">
+                                    <b class="o_kanban_record_title"><field name="name"/></b>
+                                </div>
+                                
+                            </div>
+                            <div class="o_kanban_record_body">
+                                    <span name="entidad_general" t-if="record.entidad_general"><field name="entidad_general"/><br/></span>
+                                    <span class="cuota" t-if="record.cuota"> Cuota: <field name="cuota"/>/<field name="cuotas_totales"/><br/></span>
+                                    <span class="ultimo_pago" t-if="record.ultimo_pago"> Ultimo pago: <field name="ultimo_pago"/><br/><br/></span>
+                                    <span class="compania" t-if="record.compania"><field name="compania"/><br/></span>
+                                    
+                                </div>
+                                <div class="o_kanban_record_bottom">
+                                    <div class="oe_kanban_bottom_left">
+                                        
+                                        <field name="activity_ids" widget="kanban_activity"/>
+                                        
+                                    </div>
+                                    <div class="oe_kanban_bottom_right">
+                                    <span>Saldo insoluto: <field name="saldo_capital_actual"/></span>
+                                </div>
+                                </div>
+                            
+                        </div>
+                        </div>
+                        </t>
+                    </templates>
+                </kanban>
+            </field>
+        </record>
+
+        
         <record id="financial_table_form" model="ir.ui.view">
             <field name="name">financial_management.view.form</field>
             <field name="model">financial.management</field>
@@ -45,13 +87,15 @@
                     <h3><field name="name"/></h3>
                         <group>
                             <group>
-                                <field name="entidad_general"/>
                                 <field name="entidad"/>
-                                <field name="tipo"/>
+                                <field name="entidad_general"/>
+                                
+                                <field name="tipo" string="Tipo Crédito"/>
+                                <field name="compania"/>
                             </group>
                             <group>
-                                <field name="inicio_credito" string="Inicio Crédito"/>
-                                <field name="vencimiento_credito" string="Fin del Crédito"/>
+                                <field name="inicio_credito" string="Inicio Crédito" widget="date"/>
+                                <field name="vencimiento_credito" string="Fin Crédito" widget="date"/>
                             </group>
                         </group>
                         <group>
@@ -63,14 +107,15 @@
                                 <field name="impuestos"/>
                                 <field name="valor_inversion" string="Monto Otorgado"/>
                                 <field name="costo_total_credito"/>
-                                <button name="count_saldo_capital" string="Calcular inversion" type="object" />
+                                <field name="hide_boolean" invisible="1"/>
+                                <button name="count_saldo_capital" string="Calcular inversion" type="object" attrs="{'invisible': [('hide_boolean', '=', True)]}"/>
                                 
                             </group>
                             <group>
                                 <field name="garantia"/>
                                 <field name="cuota"/>
                                 <field name="cuotas_totales"/>
-                                <field name="ultima_fecha_pago"/>
+                                <field name="ultima_fecha_pago" widget="date"/>
                                 <field name="ultimo_pago"/>
                                 <field name="total_pagados"/>
                                 <field name="saldo_capital_actual"/>
@@ -82,8 +127,8 @@
                                 <field name="financial_lines_id" mode="tree,kanban">
                                     <tree string="Lineas" editable="bottom">
                                         <field name="account_id" string="id de cuota" />
-                                        <field name="fecha_pago" string="Fecha de pago" />
-                                        <field name="fecha_vencimiento_pago" string="Fecha de vencimiento" />
+                                        <field name="fecha_pago" string="Fecha de pago" widget="date"/>
+                                        <field name="fecha_vencimiento_pago" string="Fecha de vencimiento" widget="date"/>
                                         <field name="pagado" string="pagado"/>
                                         <field name="capital" string="Capital"/>
                                         <field name="interes" string="Interes" />
@@ -111,13 +156,18 @@
                        
                         
                     </sheet>
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids"/>
+                        <field name="activity_ids"/>
+                        <field name="message_ids"/>
+                    </div>
                 </form>
             </field>
         </record>
         <record id="action_financial_table" model="ir.actions.act_window">
             <field name="name">Inversionistas</field>
             <field name="res_model">financial.management</field>
-            <field name="view_mode">tree,form</field>
+            <field name="view_mode">kanban,tree,form</field>
             <field name="view_id" ref="financial_table_tree" />
             <field name="help" type="html">
                 <p class="o_view_nocontent_smiling_face">

@@ -9,6 +9,7 @@ import json
 
 class FinancialManagement(models.Model):
     _name = 'financial.management'
+    _inherit = ['mail.thread','mail.activity.mixin']
 
 
     name = fields.Char('id')
@@ -19,10 +20,11 @@ class FinancialManagement(models.Model):
     cuotas_totales = fields.Integer()
     inicio_credito = fields.Datetime()
     vencimiento_credito = fields.Datetime()
+    compania = fields.Many2one('res.company')
 
     garantia = fields.Char()
     estado_de_pago = fields.Selection(
-        [('Vigente', 'Vigente'), ('Pagado', 'pagado')], default='Vigente', string='Estado de Pago')
+        [('nuevo', 'Nuevo'),('vigente', 'Vigente'), ('terminado', 'Terminado')], default='vigente', string='Estado de Pago')
     tasa_de_interes = fields.Float()  # formulario
 
     monto_seguro = fields.Integer()
@@ -32,6 +34,7 @@ class FinancialManagement(models.Model):
     valor_inversion = fields.Integer()
     costo_total_credito = fields.Integer()
     cae = fields.Float()  # percentage formula del cae
+    hide_boolean = fields.Boolean(default=False)
 
     notas = fields.Text()  # anotar cosas
     ultima_fecha_pago = fields.Datetime()
@@ -113,7 +116,9 @@ class FinancialManagement(models.Model):
             prueba = self.valor_inversion
             
             record.saldo_capital -= prueba
-            
+            record.saldo_capital = abs (record.saldo_capital)
+            self.cron_change_values()
+        self.hide_boolean = True
     
     def cron_change_values(self):
         
@@ -129,7 +134,9 @@ class FinancialManagement(models.Model):
                     record.ultima_fecha_pago = line.fecha_pago
                     record.ultimo_pago = line.capital
                     record.total_pagados += line.capital
-                    record.saldo_capital_actual = line.saldo_capital
+                    record.saldo_capital_actual = abs(line.saldo_capital)
+            if record.cuota == record.cuotas_totales:
+                record.estado_de_pago = 'terminado'
     
 
     # def cron_change_values(self):
