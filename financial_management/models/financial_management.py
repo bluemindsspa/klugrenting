@@ -100,8 +100,8 @@ class FinancialManagement(models.Model):
                         'capital': credito,
                         'interes': interes,
                         'pagado': True if acc.payment_state == 'paid' else False,
-                        'valor_cuota': credito + interes,
-                        'saldo_capital': total_inversion
+                        'valor_cuota': credito + interes
+                        # 'saldo_capital': total_inversion
                     })]})
 
                 
@@ -112,12 +112,12 @@ class FinancialManagement(models.Model):
     def count_saldo_capital(self):
         
         self.valor_inversion = self.costo_total_credito - self.monto_seguro - self.comision_credito - self.impuestos - self.notaria
-        for record in self.financial_lines_id:
-            prueba = self.valor_inversion
+        # for record in self.financial_lines_id:
+        #     prueba = self.valor_inversion
             
-            record.saldo_capital -= prueba
-            record.saldo_capital = abs (record.saldo_capital)
-            self.cron_change_values()
+            # record.saldo_capital -= prueba
+            # record.saldo_capital = abs (record.saldo_capital)
+        self.cron_change_values()
         self.hide_boolean = True
     
     def cron_change_values(self):
