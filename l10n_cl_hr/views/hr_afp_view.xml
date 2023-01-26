@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+	<data>
+		<record id="hr_afp_form" model="ir.ui.view">
+			<field name="name">hr.afp.form</field>
+			<field name="model">hr.afp</field>
+			<field name="arch" type="xml">
+				<form string="AFP">
+					<sheet>
+						<div class="oe_title">
+							<label for="name" string="FONDOS DE PENSION" />
+							<h1>
+								<field name="name" />
+							</h1>
+						</div>
+						<group>
+							<group>
+								<field name="codigo" string="Codigo" />
+								<field name="rut" string="RUT" />
+							</group>
+							<group>
+								<field name="rate" />
+								<field name="sis" />
+								<field name="independiente" />
+							</group>
+						</group>
+					</sheet>
+				</form>
+			</field>
+		</record>
+
+		
+		<record model="ir.actions.act_window" id="hr_afp_action">
+			<field name="name">Fondos de Pensión</field>
+			<field name="res_model">hr.afp</field>
+			<field name="view_mode">tree,form</field>
+		</record>
+
+		<menuitem id="hr_afp_menu" parent="hr_payroll.menu_hr_payroll_contracts_configuration"
+			action="hr_afp_action" sequence="14" />
+	</data>
+</odoo>

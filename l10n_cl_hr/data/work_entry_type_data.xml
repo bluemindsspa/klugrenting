@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="work_entry_type_attendance_eff_100" model="hr.work.entry.type">
+            <field name="name">Dias de trabajo efectivos</field>
+            <field name="color">0</field>
+            <field name="code">EFF100</field>
+        </record>
+
+
+    </data>
+</odoo>

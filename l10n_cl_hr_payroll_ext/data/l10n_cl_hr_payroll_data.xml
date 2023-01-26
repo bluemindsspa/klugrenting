@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+
+       <!-- Salary Rules -->
+
+
+        <record id="hr_rule_46" model="hr.salary.rule">
+            <field name="struct_id" ref="l10n_cl_hr.hr_struct_cl"/>
+            <field name="name">BONO CUMPLIMIENTO DE META</field>
+            <field name="sequence" eval="3"/>
+            <field name="code">CUMP_META</field>
+            <field name="category_id" ref="l10n_cl_hr.IMPONIBLE"/>
+            <field name="condition_select">python</field>
+            <field name="condition_python">result = contract.cumplimiento_meta > 0</field>
+            <field name="amount_select">code</field>
+            <field name="amount_python_compute">result = contract.cumplimiento_meta</field>
+        </record>
+
+        <record id="hr_rule_47" model="hr.salary.rule">
+            <field name="struct_id" ref="l10n_cl_hr.hr_struct_cl"/>
+            <field name="name">BONO EVALUACION DESEMPENO</field>
+            <field name="sequence" eval="4"/>
+            <field name="code">EVAL_DESEMP</field>
+            <field name="category_id" ref="l10n_cl_hr.IMPONIBLE"/>
+            <field name="condition_select">python</field>
+            <field name="condition_python">result = contract.evaluacion_desemp > 0</field>
+            <field name="amount_select">code</field>
+            <field name="amount_python_compute">result = contract.evaluacion_desemp</field>
+        </record>
+
+
+
+    </data>
+</odoo>

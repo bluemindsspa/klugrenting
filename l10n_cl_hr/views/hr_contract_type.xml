@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="utf-8"?>						
+<odoo>						
+    <data noupdate="1">
+
+       Contract Types
+        <record id="hr_contract_type_not_defined" model="hr.contract.type">
+            <field name="name">Plazo Indefinido</field>
+            <field name="codigo">1</field>
+        </record>
+
+        <record id="hr_contract_type_fixed" model="hr.contract.type">
+            <field name="name">Plazo Fijo</field>
+            <field name="codigo">7</field>
+        </record>
+
+        <record id="hr_contract_type_more_eleven" model="hr.contract.type">
+            <field name="name">Indefinido 11 anos o mas</field>
+            <field name="codigo">1</field>
+        </record>
+
+        <record id="hr_contract_type_enterprice_wage" model="hr.contract.type">
+            <field name="name">Sueldo Empresarial</field>
+            <field name="codigo">1</field>
+        </record> 
+
+        <!--RAZON TERMINO DE CONTRATO -->
+
+        <record id="hr_causal3" model="hr.termination.reason.contract">
+            <field name="name">ART. 159 N°1: MUTUO ACUERDO DE LAS PARTES</field>
+            <field name="codigo">3</field>
+        </record>
+
+        <record id="hr_causal4" model="hr.termination.reason.contract">
+            <field name="name">ART. 159 N°2: RENUNCIA DEL TRABAJADOR</field>
+            <field name="codigo">4</field>
+        </record>
+
+        <record id="hr_causal5" model="hr.termination.reason.contract">
+            <field name="name">ART. 159 N°3: MUERTE DEL TRABAJADOR</field>
+            <field name="codigo">5</field>
+        </record>
+
+        <record id="hr_causal6" model="hr.termination.reason.contract">
+            <field name="name">ART. 159 N°4: VENCIMIENTO DEL PLAZO CONVENIDO</field>
+            <field name="codigo">6</field>
+        </record> 
+
+        <record id="hr_causal7" model="hr.termination.reason.contract">
+            <field name="name">ART. 159 N°5: CONCLUSIÓN DEL TRABAJO O SERVICIO</field>
+            <field name="codigo">7</field>
+        </record>
+
+        <record id="hr_causal8" model="hr.termination.reason.contract">
+            <field name="name">ART. 159 N°6: CASO FORTUITO O FUERZA MAYOR</field>
+            <field name="codigo">8</field>
+        </record>
+
+        <record id="hr_causal24" model="hr.termination.reason.contract">
+            <field name="name">ART. 160 N°1 LETRA A): FALTA DE PROBIDAD</field>
+            <field name="codigo">24</field>
+        </record>
+
+        <record id="hr_causal25" model="hr.termination.reason.contract">
+            <field name="name">ART. 160 N°1 LETRA B): CONDUCTAS DE ACOSO SEXUAL</field>
+            <field name="codigo">25</field>
+        </record> 
+
+        <record id="hr_causal26" model="hr.termination.reason.contract">
+            <field name="name">ART. 160 N°1 LETRA C): VÍAS DE HECHO</field>
+            <field name="codigo">26</field>
+        </record>
+
+        <record id="hr_causal27" model="hr.termination.reason.contract">
+            <field name="name">ART. 160 N°1 LETRA D): INJURIAS</field>
+            <field name="codigo">27</field>
+        </record>
+
+        <record id="hr_causal28" model="hr.termination.reason.contract">
+            <field name="name">ART. 160 N°1 LETRA E): CONDUCTA INMORAL</field>
+            <field name="codigo">28</field>
+        </record>
+
+        <record id="hr_causal29" model="hr.termination.reason.contract">
+            <field name="name">ART. 160 N°1 LETRA F): CONDUCTAS DE ACOSO LABORAL</field>
+            <field name="codigo">29</field>
+        </record> 
+
+        <record id="hr_causal11" model="hr.termination.reason.contract">
+            <field name="name">ART. 160 N°2: NEGOCIACIONES PROHIBIDAS POR ESCRITO</field>
+            <field name="codigo">11</field>
+        </record>
+
+        <record id="hr_causal12" model="hr.termination.reason.contract">
+            <field name="name">ART. 160 N°3: NO CONCURRENCIA A LAS LABORES</field>
+            <field name="codigo">12</field>
+        </record>
+
+        <record id="hr_causal13" model="hr.termination.reason.contract">
+            <field name="name">ART. 160 N°4: ABANDONO DEL TRABAJO</field>
+            <field name="codigo">13</field>
+        </record>
+
+        <record id="hr_causal14" model="hr.termination.reason.contract">
+            <field name="name">ART. 160 N°5: ACTOS, OMISIONES O IMPRUDENCIAS TEMERARIAS</field>
+            <field name="codigo">14</field>
+        </record>
+
+        <record id="hr_causal15" model="hr.termination.reason.contract">
+            <field name="name">ART. 160 N°6: PERJUICIO MATERIAL CAUSADO INTENCIONALMENTE</field>
+            <field name="codigo">15</field>
+        </record> 
+
+        <record id="hr_causal16" model="hr.termination.reason.contract">
+            <field name="name">ART. 160 N°7: INCUMPLIMIENTO GRAVE DE LAS OBLIGACIONES</field>
+            <field name="codigo">16</field>
+        </record>
+
+        <record id="hr_causal18" model="hr.termination.reason.contract">
+            <field name="name">ART. 161 INCISO PRIMERO: NECESIDADES DE LA EMPRESA</field>
+            <field name="codigo">18</field>
+        </record>
+
+        <record id="hr_causal19" model="hr.termination.reason.contract">
+            <field name="name">ART. 161 INCISO SEGUNDO: DESAHUCIO ESCRITO DEL EMPLEADOR</field>
+            <field name="codigo">19</field>
+        </record>
+
+        <record id="hr_causal20" model="hr.termination.reason.contract">
+            <field name="name">ART. 163 BIS: PROCEDIMIENTO CONCURSAL DE LIQUIDACIÓN</field>
+            <field name="codigo">20</field>
+        </record>
+
+
+    </data>						
+</odoo>						

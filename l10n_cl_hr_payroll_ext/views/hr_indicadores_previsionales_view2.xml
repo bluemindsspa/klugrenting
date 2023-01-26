@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+	 <record id="hr_contract_chile_viewext" model="ir.ui.view">	
+            <field name="name">hr.contract.chile.viewext</field>	
+            <field name="model">hr.contract</field>	
+            <field name="inherit_id" ref="hr_contract.hr_contract_view_form"/>	
+            <field name="arch" type="xml">
+                <xpath expr="//group[@name='salary_and_advantages']" position="after">
+                    <group col="3" string="Valores Modificables">
+                        <field name="hr_discount"/>
+                	    <field name="cumplimiento_meta"/>
+                		<field name="evaluacion_desemp"/>
+                		<field name="comisiones"/>
+                		<field name="horas_extras" string="Horas extras 50%"/>
+                		<field name="prestamo" string="Horas extras 100%"/>
+                        <field name="retencion_judicial"/>
+                        <field name="variante1"/>
+                        <field name="variante2"/>
+                        <field name="variante3"/>
+                        <field name="variante4"/>
+                        <field name="variante5"/>
+                        <field name="variante6"/>
+                        <field name="variante7"/>
+                        <field name="variante9"/>
+                        <field name="variante10"/>
+                        <field name="variante11"/>
+                        <field name="variante12"/>
+                        <field name="variante8"/>
+                    </group>
+                </xpath>
+                <xpath expr="//field[@name='date_start']" position="after">
+                    <field name="antiguedad" string="Años de Antiguedad"/>
+                </xpath> 
+                
+            </field>	
+     </record>
+
+     <record id="hr_employee_view_form" model="ir.ui.view">
+        <field name="name">hr.employee.view.form</field>
+        <field name="model">hr.employee</field>
+        <field name="inherit_id" ref="hr.view_employee_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='birthday']" position="after">
+                 <field name="age" string="Edad"/>
+            </xpath>
+        </field>
+    </record> 
+
+</odoo>
+
