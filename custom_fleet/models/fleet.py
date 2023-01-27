@@ -47,7 +47,15 @@ class InheritFleet(models.Model):
     
 
          
-
+    @api.onchange('product_id')
+    def _onchange_purchase(self):
+        if self.product_id:
+            purchase_partner_id = self.env['purchase.order.line'].search([('product_id', '=', self.product_id.id)])
+            if purchase_partner_id:
+                    self.purchase = purchase_partner_id.order_id.id
+                    if self.purchase:
+                        self.date_purchase = self.purchase.date_approve
+                        self.purchase_price_total = purchase_partner_id.order_id.amount_total
     
    # Funcion que permite buscar la factura de venta asociada al vehiculo y extraer informacion
     @api.depends()
@@ -61,19 +69,15 @@ class InheritFleet(models.Model):
         for record in self:
             if record.state_id.name == 'Vendido':
                 account_move_id = self.env['account.move'].search([('partner_id', '=', record.driver_id.id),('state', '=', 'posted'),('move_type', '=', 'out_invoice')]) 
-                purchase_partner_id = self.env['purchase.order.line'].search([('product_id', '=', self.product_id.id)])
+                
                 for line in account_move_id.invoice_line_ids.filtered(lambda w: w.product_id.id == record.product_id.id):
                     
                         record.account_move = line.move_id.id
                         record.date_account = line.move_id.invoice_date
                         record.account_price_total = line.move_id.amount_total
-                if purchase_partner_id:
-                    record.purchase = purchase_partner_id.order_id.id
-                    if record.purchase:
-                        record.date_purchase = purchase_partner_id.order_id.date_approve
-                        record.purchase_price_total = purchase_partner_id.order_id.amount_total
+                
                         
-            if record.purchase_price_total and record.account_price_total:
+            if self.purchase_price_total and record.account_price_total:
                 record.margin_total = record.account_price_total - record.purchase_price_total
                 
             
