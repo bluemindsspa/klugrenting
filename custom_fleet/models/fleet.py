@@ -68,10 +68,10 @@ class InheritFleet(models.Model):
         
         for record in self:
             if record.state_id.name == 'Vendido':
-                account_move_id = self.env['account.move'].search([('partner_id', '=', record.driver_id.id),('state', '=', 'posted'),('move_type', '=', 'out_invoice')]) 
+                account_move_id = self.env['account.move'].search([('state', '=', 'posted'),('move_type', '=', 'out_invoice')]) 
                 
                 for line in account_move_id.invoice_line_ids.filtered(lambda w: w.product_id.id == record.product_id.id):
-                    
+                    if line.price_unit > 3000000:   
                         record.account_move = line.move_id.id
                         record.date_account = line.move_id.invoice_date
                         record.account_price_total = line.move_id.amount_total
@@ -102,7 +102,8 @@ class InheritFleet(models.Model):
         for record in self:
             subscription_ids = self.env['sale.subscription'].search(
                 [('vehicle_id', '=', record.id)])
-            if subscription_ids:
+            if subscription_ids and record.driver_id == subscription_ids.partner_id:
+
                 record.subscription = subscription_ids.id
                 record.date_expect_refund_subs = subscription_ids.date_expect_refund
             else:
