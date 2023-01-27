@@ -24,7 +24,7 @@ class FinancialManagement(models.Model):
 
     garantia = fields.Char()
     estado_de_pago = fields.Selection(
-        [('nuevo', 'Nuevo'),('vigente', 'Vigente'), ('terminado', 'Terminado')], default='vigente', string='Estado de Pago')
+        [('nuevo', 'Nuevo'),('vigente', 'Vigente'), ('terminado', 'Terminado')], default='vigente', string='Estado')
     tasa_de_interes = fields.Float()  # formulario
 
     monto_seguro = fields.Integer()
@@ -139,20 +139,7 @@ class FinancialManagement(models.Model):
                 record.estado_de_pago = 'terminado'
     
 
-    # def cron_change_values(self):
-        
-    #     credits_ids = self.env['financial.management.line'].search([])
-        
-    #     for record in credits_ids:
-            
-    #         record.pagado = True if record.account_id.payment_state == 'paid' else False
-    #         if record.pagado:
-                
-                
-    #             record.financial_id.ultima_fecha_pago = record.fecha_pago
-    #             record.financial_id.ultimo_pago = record.capital
-    #             record.financial_id.total_pagados += record.capital
-    #             record.financial_id.saldo_capital_actual = record.saldo_capital
+
             
             
 
