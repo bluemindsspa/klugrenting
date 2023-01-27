@@ -43,18 +43,33 @@ class SaleOrder(models.Model):
         })
 
         for line in sale_order_obj.order_line:
-            values = {
-                'move_id': invoice.id,
-                'name': line.name,
-                'product_id': 746 if line.product_id.categ_id.name == 'Vehículo' else line.product_id.id,
-                # 'account_id': journal_id.default_account_id.id,
-                'quantity': line.product_uom_qty,
-                'price_unit': line.price_unit,
-                'account_id': line.product_id.categ_id.property_account_income_categ_id.id,
-                'tax_ids': line.product_id.taxes_id.ids,
-            }
+            if not line.display_type:
+                values = {
+                    'move_id': invoice.id,
+                    'name': line.name, 
+                    'product_id': 8 if line.product_id.categ_id.name == 'Vehículo' else line.product_id.id,
+                    # 'account_id': journal_id.default_account_id.id,
+                    'quantity': line.product_uom_qty,
+                    'price_unit': line.price_unit,
+                    'account_id': line.product_id.categ_id.property_account_income_categ_id.id,
+                    'tax_ids': line.product_id.taxes_id.ids,
+                }
 
-            list_invoice.append(values)
+                list_invoice.append(values)
+            if line.display_type == 'line_section':
+                values ={
+                'display_type': 'line_section',
+                'name': line.name,
+                
+                }
+                list_invoice.append(values)
+            if line.display_type == 'line_note':
+                values ={
+                'display_type': 'line_note',
+                'name': line.name,
+                
+                }
+                list_invoice.append(values)
         
 
         invoice.write(
