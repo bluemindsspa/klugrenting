@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<odoo>
+	<data>
+        <template id="financial_template_view_temp_id">
+			<t t-call="web.html_container">
+				<t t-foreach="docs" t-as="doc">
+					<t t-call="financial_management.financial_template_view" />
+				</t>
+			</t>
+		</template>
+        
+        <record id="financial_management_report_id" model="ir.actions.report">
+            <field name="name">informe inversionistas</field>
+            <field name="model">financial.management</field>
+            <field name="report_type">qweb-pdf</field>
+            <field name="report_name">financial_management.financial_template_view_temp_id</field>
+            <field name="report_file">financial_management.financial_template_view_temp_id</field>
+            <field name="binding_type">report</field>
+            <field name="binding_model_id" ref="model_financial_management"/>
+
+        </record>
+
+        
+
+		<template id="financial_template_view">
+			<t t-call="web.external_layout">
+                <t t-set="o" t-value="doc.with_context({'lang':doc.entidad.lang})"/>
+                
+				<div class="page" style="margin-top:0px;">
+                    <div class="row">
+                    <table class="table">
+                        <tr>
+                            <td>
+                                Inversionista
+                            </td>
+                            <td>
+                                <span t-field="o.entidad_general"/>
+                            </td>
+
+                        </tr>
+                        <tr>
+                            <td>
+                                Fecha
+                            </td>
+                            <td>
+                                <span t-esc="context_timestamp(datetime.datetime.now()).strftime('%d-%m-%Y')"/>
+                                
+                            </td>
+
+                        </tr>
+                        <tr>
+                            <td>
+                                # Inversión
+                            </td>
+                            <td>
+                                <span t-esc="o.name"/>
+                                
+                            </td>
+
+                        </tr>
+                        <tr>
+                            <td>
+                                Capital invertido
+                            </td>
+                            <td>
+                            <span t-esc="'{0:,.0f}'.format(int(o['valor_inversion'])).replace(',', '.')"/>
+                                
+                                
+                            </td>
+
+                        </tr>
+                        <tr>
+                            <td>
+                                Cuotas Pagadas
+                            </td>
+                            <td>
+                                
+                                <span t-esc="o.cuota"/>
+                                
+                            </td>
+
+                        </tr>
+                        <tr>
+                            <td>
+                                Monto de la cuota
+                            </td>
+                            <td>
+                            <span t-esc="'{0:,.0f}'.format(int(o['ultimo_pago'])).replace(',', '.')"/>
+                               
+                                
+                            </td>
+
+                        </tr>
+                        <tr>
+                            <td>
+                                Monto total de cuotas pagados
+                            </td>
+                            <td>
+                                <span t-esc="'{0:,.0f}'.format(int(o['total_pagados'])).replace(',', '.')"/>
+                                
+                                
+                            </td>
+
+                        </tr>
+                        <tr>
+                            <td>
+                                Garantía
+                            </td>
+                            <td>
+                                <span t-esc="o.garantia"/>
+                                
+                            </td>
+
+                        </tr>
+                        <tr>
+                            <td>
+                                Plazo Inversión
+                            </td>
+                            <td>
+                                <span t-esc="o.plazo_inversion"/>
+                                
+                            </td>
+
+                        </tr>
+
+                    </table>
+                    </div>
+                    </div>
+
+                        
+                   
+                   
+                  
+            </t>
+        </template>
+    </data>
+</odoo>
