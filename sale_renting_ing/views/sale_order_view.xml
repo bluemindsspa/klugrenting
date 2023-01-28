@@ -10,6 +10,12 @@
                 <xpath expr="//button[@name='359']" position="after">
                     <button name="create_account" string="Factura Alquiler" type="object" class="btn-primary" attrs="{'invisible': [('is_rental_order', '=', False)]}"/>/>
                 </xpath>
+                <xpath expr="//field[@name='sale_order_template_id']" position="after">
+                    <field name="attach_1" string="Recibo entrega" widget="binary"/>
+                    <field name="attach_1_fname" string="Recibo de entrega" invisible="1"/>
+
+                </xpath>
+
             </field>
         </record>
         

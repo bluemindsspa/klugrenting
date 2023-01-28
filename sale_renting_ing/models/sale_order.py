@@ -10,6 +10,20 @@ import json
 class SaleOrder(models.Model):
     _inherit = 'sale.order'
     
+
+    attach_1 = fields.Binary()
+    attach_1_fname = fields.Char()
+
+
+
+
+    # @api.onchange('attach_1')
+    # def _onchange_attach(self):
+    #     if self.attach_1:
+    #         msg = 'test'
+    #         title = 'test1'
+    #         self.message_post(body="Test Message",  message_type="notification", subtype="mail.mt_comment", partner_ids=[1] )
+    #         self.message_post(body=msg, subject=title, message_type='comment',subtype_xmlid='mail.mt_comment',partner_ids=self.partner_id.ids, mail_post_autofollow=True)
     
     
     def create_account(self):

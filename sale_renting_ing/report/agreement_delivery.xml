@@ -1,0 +1,180 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <report
+        id="sale_renting_order"
+        model="sale.order"
+        string="Acta de Entrega"
+        name="sale_renting_ing.sale_renting_delivery_new_inh"
+        file="sale_renting_ing.sale_renting_delivery_new_inh"
+        report_type="qweb-pdf" />
+
+
+    <template id="sale_renting_delivery_new_inh">
+        <t t-name="sale_renting_ing.report_document_delivery">
+            <t t-call="web.html_container">
+                <t t-foreach="docs" t-as="doc">
+                    <t t-call="web.external_layout">
+                        <div class="page">
+                            <div class="row">
+                                <div class="col-12">
+                                    <h4>
+                                        RECIBO DE ENTREGA:
+                                        <span t-esc="doc.name" />
+                                    </h4>
+                                </div>
+                            </div>
+                            <br/>
+                            <br/>
+                            <div class="row">
+                                <div class="col-4">
+                                    <strong>
+                                        <i class="fa fa-user" aria-hidden="true"></i>
+                                        Cliente
+                                    </strong>
+                                    <br />
+                                    Empresa:
+                                    <span t-field="doc.partner_id.name" />
+                                    <br />
+                                    RUT:
+                                    <span t-field="doc.partner_id.vat" />
+                                    <br />
+                                    Telefono:
+                                    <span t-field="doc.partner_id.phone0" />
+                                    <br />
+                                    Direccion:
+                                    <span t-field="doc.partner_id.street" />
+                                    <br />
+
+                                </div>
+                                <div class="col-4" style="margin-left:200px;">
+                                    <!-- <t t-if="doc.vehicle_id">
+                                        <strong>
+                                            <i class="fa fa-car" aria-hidden="true"></i>
+                                            Vehículo
+                                        </strong>
+                                        <br />
+                                        <span t-field="doc.vehicle_id.name" />
+                                        <span t-field="doc.vehicle_id.brand_id.name" />
+                                        <span t-field="doc.vehicle_id.model_year" />
+                                        <br />
+                                        <strong>Matricula:</strong>
+                                        <span t-field="doc.vehicle_id.license_plate" />
+                                        <br />
+
+
+                                    </t> -->
+                                </div>
+
+                            </div>
+                            <br />
+                            <div class="row">
+                                <div class="col-4">
+                                    <strong>Odómetro recogida(Kilometros):</strong>
+                                    <span t-field="doc.x_studio_integer_field_5YCVx" />
+                                    <br />
+                                    <strong>Estanque recogida:</strong>
+                                    <span t-field="doc.x_studio_estanque_salida" />
+                                    <br />
+                                </div>
+                                <div class="col-4" style="margin-left:200px;">
+                                    <strong>Fecha de entrega:</strong>
+
+                                    <span t-field="doc.create_date" />
+                                    <br />
+                                </div>
+                            </div>
+                            <br />
+                            <div class="row">
+                                <div class="col-4">
+                                    <strong>Equipamiento</strong>
+                                    <br />
+                                    <br />
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-4">
+                                    <strong>Documentos: </strong>
+                                    <t t-if="doc.x_studio_documentos">
+                                    Si
+                                </t>
+                                    <t t-else="">
+                                    No
+                                </t>
+                                    <br />
+                                    <strong>Rueda repuesto: </strong>
+                                    <t t-if="doc.x_studio_neumtico_de_repuesto">
+                                    Si
+                                </t>
+                                    <t t-else="">
+                                    No
+                                </t>
+                                </div>
+                                <div class="col-4" style="margin-left:200px;">
+
+                                    <strong>Gata y Barrote: </strong>
+                                    <t t-if="doc.x_studio_gata_y_barrote">
+                                        Si
+                                    </t>
+                                    <t t-else="">
+                                        No
+                                    </t>
+                                </div>
+                                <br />
+
+
+                            </div>
+                            <br />
+                            <div class="row">
+                                <div class="col-12">
+                                    <strong>Observaciones:</strong>
+                                    <span t-field="doc.x_studio_observaciones" />
+                                </div>
+                            </div>
+                            <br/>
+                            <br/>
+                            <div class="footer">
+                                <footer>
+                                <div class="firmas" style="margin-top:50px;">
+                                    
+                                        <div class="row">
+                                            <div class="firma" style="text-align:center; font-size:12px;margin-left:50px;">
+                                                <div class="texto_firma" style="border-bottom: 1px solid #000; width:300px;">
+                        
+                                                </div>
+                                                <br/>
+                                                <p style="font-weight: bold;">
+                                                    Marcelo Stade Toral<br/>
+                                                    KLUG SPA SPA
+                                                </p>
+                        
+                                            </div>
+                                            <div class="firmados" style="text-align:center; font-size:12px;margin-left:50px;">
+                                                
+                                                <div class="texto_firmados" style="border-bottom: 1px solid #000; width:300px;">
+                                                    
+                                                </div>
+                                                
+                                                <br/>
+                                                <p style="font-weight: bold;">
+                                                    <span t-esc="doc.partner_id.name" /><br/>
+                                                    
+                                                </p>
+                        
+                                            </div>
+                                        </div>
+                                    
+                                    </div>
+                                </footer>
+                                </div>
+                            
+                        </div>
+
+
+                    </t>
+                </t>
+            </t>
+        </t>
+
+    </template>
+
+</odoo>

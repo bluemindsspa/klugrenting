@@ -15,7 +15,7 @@
         # 'views/financial_view.xml',
          'views/sale_order_view.xml',
         # 'views/res_partner_view.xml',
-        # 'report/report_financial.xml',
+        'report/agreement_delivery.xml',
     ],
 
     'auto_install': False,
