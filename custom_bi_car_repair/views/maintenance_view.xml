@@ -35,7 +35,7 @@
                 <xpath expr="//field[@name='user_id']" position="attributes">
                     <attribute name="string">Técnico Responsable</attribute>
                 </xpath>
-                <xpath expr="//button[@name='archive_equipment_request']" position="after">
+                <xpath expr="//button[@name='archive_equipment_request']" position="after">   
                     <button string="Crear Factura" attrs="{'invisible': [('stage_id', '!=', 3)]}" name="create_account" type="object" class="btn-primary" />
                     <button name="consume_car_parts" attrs="{'invisible': [('stage_id', '!=', 3)]}" string="Rebajar Inventario" type="object" class="btn-primary" />
                 </xpath>
